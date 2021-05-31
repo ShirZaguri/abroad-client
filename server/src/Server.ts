@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import express, { NextFunction, Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
 import 'express-async-errors';
+import bodyparser from 'body-parser';
 
 import BaseRouter from './routes';
 import logger from '@shared/Logger';
@@ -13,14 +14,12 @@ import logger from '@shared/Logger';
 const app = express();
 const { BAD_REQUEST } = StatusCodes;
 
-
-
 /************************************************************************************
  *                              Set basic express settings
  ***********************************************************************************/
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Show routes called in console during development
@@ -45,7 +44,23 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     });
 });
 
+/************************************************************************************
+ *                              set CORS settings
+ ***********************************************************************************/
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
+    );
+    res.header(
+        'Access-Control-Allow-Methods',
+        'GET, POST, OPTIONS, PUT, DELETE'
+    );
+    next();
+});
 
+app.use(bodyparser.json());
 
 /************************************************************************************
  *                              Serve front-end content
@@ -56,7 +71,7 @@ app.set('views', viewsDir);
 const staticDir = path.join(__dirname, 'public');
 app.use(express.static(staticDir));
 app.get('*', (req: Request, res: Response) => {
-    res.sendFile('index.html', {root: viewsDir});
+    res.sendFile('index.html', { root: viewsDir });
 });
 
 // Export express instance

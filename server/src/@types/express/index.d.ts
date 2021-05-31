@@ -1,9 +1,10 @@
-import { IUser } from "@entities/User";
-
+import { IUser } from '@entities/Trip';
+// TODO: delete user not exist
 declare module 'express' {
-    export interface Request  {
+    export interface Request {
         body: {
-            user: IUser
+            user: IUser;
+            trip: any;
         };
     }
 }
