@@ -33,7 +33,7 @@ export async function addTrip(req: Request, res: Response) {
             error: paramMissingError,
         });
     }
-    await tripService.add();
+    await tripService.add(trip);
     return res.status(CREATED).end();
 }
 

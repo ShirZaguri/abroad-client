@@ -19,11 +19,8 @@ export default class Home extends Vue {
         // .then((data) => (this.totalVuePackages = data.total));
     }
     async getTrips() {
-        const data = await (
-            await fetch('http://localhost:3000/api/trips/')
-        ).json();
-        this.trips = data;
-        console.log(this.trips.trips);
+        const data = await fetch('http://localhost:3000/api/trips/');
+        this.trips = (await data.json()).trips;
     }
 }
 </script>

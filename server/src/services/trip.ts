@@ -1,3 +1,4 @@
+import Trip from '@entities/Trip';
 import { Types } from 'mongoose';
 import trips from '../models/trip';
 
@@ -6,13 +7,8 @@ export class tripService {
         return await trips.find({});
     };
 
-    static add = async () => {
-        const bla = {
-            destination: 'Amsterdam',
-            startDate: new Date(),
-            endDate: new Date(),
-        };
-        return await trips.create(bla, function (err, r) {
+    static add = async (trip: Trip) => {
+        return await trips.create({ ...trip }, function (err, r) {
             if (err) {
                 console.log('error inserting' + err);
             }
