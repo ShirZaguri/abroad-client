@@ -20,11 +20,7 @@ export default class Home extends Vue {
     }
     async getTrips() {
         const data = await fetch('http://localhost:3000/api/trips/');
-        // .then(
-        //     (res) => {}
-        // );
-        this.trips = data;
-        console.log(this.trips);
+        this.trips = (await data.json()).trips;
     }
 }
 </script>
