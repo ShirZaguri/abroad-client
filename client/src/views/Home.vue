@@ -22,5 +22,23 @@ export default class Home extends Vue {
         const data = await fetch('http://localhost:3000/api/trips/');
         this.trips = (await data.json()).trips;
     }
+
+    //TODO: get trip values from site inputs
+    async addTrip() {
+        await fetch('http://localhost:3000/api/trips/add', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                trip: {
+                    destination: 'Amsterdam',
+                    startDate: new Date(),
+                    endDate: new Date(),
+                },
+            }),
+        });
+    }
 }
 </script>

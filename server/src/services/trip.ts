@@ -6,13 +6,13 @@ export class tripService {
         return await trips.find({});
     };
 
-    static add = async () => {
-        const bla = {
+    static add = async (trip: any) => {
+        const newTrip = {
             destination: 'Amsterdam',
             startDate: new Date(),
             endDate: new Date(),
         };
-        return await trips.create(bla, function (err, r) {
+        return await trips.create(trip, function (err: Error) {
             if (err) {
                 console.log('error inserting' + err);
             }
