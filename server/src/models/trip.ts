@@ -7,11 +7,14 @@ export interface TripDocument extends Document {
     endDate: [Date];
 }
 
-const TripSchema: Schema = new Schema({
-    destination: { type: String, requiered: true },
-    attraction: [{ type: Schema.Types.ObjectId, ref: 'attraction' }],
-    startDate: { type: Date, requiered: true },
-    endDate: { type: Date, requiered: true },
-});
+const TripSchema: Schema = new Schema(
+    {
+        destination: { type: String, requiered: true },
+        attraction: [{ type: Schema.Types.ObjectId, ref: 'attraction' }],
+        startDate: { type: Date, requiered: true },
+        endDate: { type: Date, requiered: true },
+    },
+    { collection: 'trips' }
+);
 
-export default model<TripDocument>('trip', TripSchema);
+export default model<TripDocument>('trips', TripSchema);

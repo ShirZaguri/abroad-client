@@ -6,10 +6,13 @@ export interface AttractionDocument extends Document {
     description: string;
 }
 
-const AttractionSchema: Schema = new Schema({
-    name: { type: String, required: true, unique: true },
-    img: { type: String, required: true },
-    description: { type: String, required: false },
-});
+const AttractionSchema: Schema = new Schema(
+    {
+        name: { type: String, required: true, unique: true },
+        img: { type: String, required: true },
+        description: { type: String, required: false },
+    },
+    { collection: 'attractions' }
+);
 
-export default model<AttractionDocument>('attraction', AttractionSchema);
+export default model<AttractionDocument>('attractions', AttractionSchema);

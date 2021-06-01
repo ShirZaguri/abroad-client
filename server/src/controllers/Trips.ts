@@ -15,6 +15,7 @@ const { BAD_REQUEST, CREATED, OK } = StatusCodes;
  */
 export async function getAllTrips(req: Request, res: Response) {
     const trips = await tripService.getAll();
+    console.log(trips);
     return res.status(OK).json({ trips });
 }
 
@@ -32,7 +33,7 @@ export async function addTrip(req: Request, res: Response) {
             error: paramMissingError,
         });
     }
-    await tripService.add(trip);
+    await tripService.add();
     return res.status(CREATED).end();
 }
 

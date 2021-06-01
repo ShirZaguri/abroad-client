@@ -7,7 +7,7 @@ import {
 } from '../controllers/Trips';
 
 const tripRouter = Router();
-tripRouter.get('/all', getAllTrips);
+tripRouter.get('/', getAllTrips);
 tripRouter.post('/add', addTrip);
 tripRouter.put('/update', updateTrip);
 tripRouter.delete('/delete/:id', deleteTrip);

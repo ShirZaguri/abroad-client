@@ -1,18 +1,27 @@
 import { Types } from 'mongoose';
-import trip from '../models/trip';
+import trips from '../models/trip';
 
 export class tripService {
     static getAll = async () => {
-        return await trip.find({});
+        return await trips.find({});
     };
 
-    static add = async (trip: any) => {
-        return await trip.create({});
+    static add = async () => {
+        const bla = {
+            destination: 'Amsterdam',
+            startDate: new Date(),
+            endDate: new Date(),
+        };
+        return await trips.create(bla, function (err, r) {
+            if (err) {
+                console.log('error inserting' + err);
+            }
+        });
     };
 
     static update = async (trip: any) => {};
 
     static delete = async (id: number) => {
-        await trip.deleteOne({ _id: new Types.ObjectId(id) });
+        await trips.deleteOne({ _id: new Types.ObjectId(id) });
     };
 }

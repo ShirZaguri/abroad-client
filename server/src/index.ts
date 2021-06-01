@@ -9,7 +9,7 @@ const port = Number(process.env.PORT || 3000);
 
 mongoose
     .connect(
-        'mongodb+srv://shirza:Aa123456@abroad.ka6kd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+        'mongodb+srv://shirza:Aa123456@abroad.ka6kd.mongodb.net/abroad?retryWrites=true&w=majority',
         { useNewUrlParser: true, useUnifiedTopology: true }
     )
     .then(() => {
