@@ -1,7 +1,7 @@
 import { paramMissingError } from '@shared/constants';
 import { Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
-import { tripService } from '../services/trip';
+import { tripService } from '../services/tripService';
 
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
