@@ -33,8 +33,6 @@ import draggable from 'vuedraggable';
 export default class Trips extends Vue {
     created() {
         this.getTrips();
-        // .then((response) => response.json())
-        // .then((data) => (this.totalVuePackages = data.total));
     }
     data() {
         return {
