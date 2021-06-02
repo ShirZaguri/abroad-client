@@ -1,23 +1,39 @@
 <template>
     <div>
-        <v-btn @click="addAttractionToTrip">add attraction</v-btn>
+        <v-btn @click="openAddModal">Add</v-btn>
         <trip-plan />
+        <AddAttractionModal
+            :active.sync="showAddModal"
+            @add-attraction="addAttractionToTrip"
+        />
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import TripPlan from '@/components/TripPlan.vue';
+import AddAttractionModal from '@/components/AddAttractionModal.vue';
 
 @Component({
     components: {
         TripPlan,
+        AddAttractionModal,
     },
 })
 export default class Plan extends Vue {
     @Prop() private id!: any;
 
-    async addAttractionToTrip(): Promise<void> {
+    data() {
+        return {
+            showAddModal: false,
+        };
+    }
+
+    openAddModal() {
+        this.$data.showAddModal = true;
+    }
+
+    async addAttractionToTrip(newAttraction): Promise<void> {
         await fetch('http://localhost:3000/api/trips/addAttraction', {
             method: 'POST',
             headers: {
@@ -27,12 +43,12 @@ export default class Plan extends Vue {
             body: JSON.stringify({
                 _id: this.id,
                 attraction: {
-                    name: 'shirza killed it',
-                    img: 'nature',
-                    description: 'no ma',
+                    name: newAttraction.name,
+                    img: newAttraction.img,
+                    description: 'bubi killed it',
                 },
                 details: {
-                    date: new Date(),
+                    date: newAttraction.date,
                     price: 15,
                 },
             }),

@@ -21,6 +21,7 @@ export class tripService {
         attraction: Attraction,
         details: { date: Date; price: Number }
     ) => {
+        console.log(JSON.stringify(attraction));
         return await attractions.findOneAndUpdate(
             { name: attraction.name },
             { $setOnInsert: { ...attraction } },
