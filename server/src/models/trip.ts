@@ -3,7 +3,9 @@ import { Schema, Document, model } from 'mongoose';
 
 export interface TripDocument extends Document {
     destination: string;
-    attractions: [{ attraction: Attraction; date: Date }];
+    attractions: [
+        { attraction: String | Schema.Types.ObjectId | Attraction; date: Date }
+    ];
     startDate: [Date];
     endDate: [Date];
 }
