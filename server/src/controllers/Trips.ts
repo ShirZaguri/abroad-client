@@ -1,7 +1,6 @@
-import StatusCodes from 'http-status-codes';
-import { Request, Response } from 'express';
 import { paramMissingError } from '@shared/constants';
-
+import { Request, Response } from 'express';
+import StatusCodes from 'http-status-codes';
 import { tripService } from '../services/trip';
 
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
@@ -34,6 +33,18 @@ export async function addTrip(req: Request, res: Response) {
         });
     }
     await tripService.add(trip);
+    return res.status(CREATED).end();
+}
+
+export async function addAttraction(req: Request, res: Response) {
+    const { attraction, _id } = req.body;
+    if (!attraction) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+
+    await tripService.addAttraction(attraction, _id);
     return res.status(CREATED).end();
 }
 

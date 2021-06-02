@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+    addAttraction,
     addTrip,
     deleteTrip,
     getAllTrips,
@@ -9,6 +10,7 @@ import {
 const tripRouter = Router();
 tripRouter.get('/', getAllTrips);
 tripRouter.post('/add', addTrip);
+tripRouter.post('/addAttraction', addAttraction);
 tripRouter.put('/update', updateTrip);
 tripRouter.delete('/delete/:id', deleteTrip);
 
