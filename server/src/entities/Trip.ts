@@ -5,6 +5,7 @@ export interface ITrip {
     attractions: [Attraction];
     startDate: Date;
     endDate: Date;
+    src: string;
 }
 
 // TODO: update entity
@@ -14,19 +15,22 @@ class Trip implements ITrip {
     public attractions: [Attraction];
     public startDate: Date;
     public endDate: Date;
+    public src: string;
 
     constructor(
         id: number,
         destination: string,
         attractions: [Attraction],
         startDate: Date,
-        endtDate: Date
+        endtDate: Date,
+        src: string
     ) {
         this.id = id;
         this.destination = destination;
         this.attractions = attractions;
         this.startDate = startDate;
         this.endDate = endtDate;
+        this.src = src;
     }
 }
 
