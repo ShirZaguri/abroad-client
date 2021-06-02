@@ -7,6 +7,7 @@ import attractions from '../models/attraction';
 export class tripService {
     static getAll = async () => {
         return await trips.find({});
+        // .populate('attractions.attraction').exec();
     };
 
     static add = async (trip: Trip) => {
