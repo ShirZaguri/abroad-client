@@ -15,7 +15,8 @@
                 >
                     <Place
                         v-for="(attraction, index) in getDayPlaces(day)"
-                        :place="attraction.attraction"
+                        :name="attraction.attraction.name"
+                        :img="attraction.attraction.img"
                         :key="index"
                         :days="daysNames"
                         @moveTo="movePlace(attraction, $event)"

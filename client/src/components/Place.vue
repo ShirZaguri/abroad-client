@@ -2,24 +2,21 @@
     <vs-card type="3" class="ma-3" @click="selectTrip">
         <template #title>
             <v-row class="ma-0 pa-0" justify="space-between">
-                <h3>{{ place.name }}</h3>
+                <h3>{{ name }}</h3>
             </v-row>
         </template>
         <template #img class="am">
             <v-col
-                v-if="place.img"
-                @click="goToGoogleMaps"
+                v-if="img"
                 class="place"
                 :style="{
                     backgroundImage:
-                        'url(' +
-                        require(`@/assets/images/${place.img}.jpg`) +
-                        ')',
+                        'url(' + require(`@/assets/images/${img}.jpg`) + ')',
                 }"
             ></v-col>
         </template>
         <template #text>
-            <p v-if="place.desc">{{ place.desc }}</p>
+            <p v-if="desc">{{ desc }}</p>
             <p v-else>
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit.
             </p>
@@ -33,16 +30,19 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 @Component({})
 export default class Place extends Vue {
     // eslint-disable-next-line @typescript-eslint/ban-types
-    @Prop() private place!: any;
+    @Prop() private desc: string;
+    @Prop() private img!: string;
+    @Prop() private name!: string;
+
     get backgroundImage() {
-        return `../assets/images/${this.place.type}.jpg`;
+        return `../assets/images/${this.img}.jpg`;
     }
     selectTrip() {
         this.$emit('select-trip');
     }
-    goToGoogleMaps() {
-        window.location.href = this.place.link;
-    }
+    // goToGoogleMaps() {
+    //     window.location.href = this.place.link;
+    // }
 }
 </script>
 

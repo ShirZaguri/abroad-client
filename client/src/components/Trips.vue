@@ -1,12 +1,17 @@
 <template>
     <v-app>
-        <!-- <div v-for="trip in trips" :key="trip"> -->
+        <v-overlay :opacity="0.9" :value="loading">
+            <v-progress-circular indeterminate size="64">
+                Loading...
+            </v-progress-circular>
+        </v-overlay>
         <div class="ma-0 pa-0">
             <draggable group="places" v-bind="dragOptions" v-if="trips">
                 <Place
                     v-for="(place, index) in getTripPlace()"
                     @select-trip="selectTrip(place.id)"
-                    :place="place"
+                    :img="place.img"
+                    :name="place.name"
                     :key="index"
                 />
             </draggable>
@@ -40,18 +45,22 @@ export default class Trips extends Vue {
                 disabled: false,
                 ghostClass: 'ghost',
             },
+            loading: false,
         };
     }
 
     async getTrips() {
+        this.loading = true;
         const data = await fetch('http://localhost:3000/api/trips/');
         this.trips = (await data.json()).trips;
+        this.loading = false;
     }
 
     getTripPlace() {
         return this.trips.map((trip) => {
             return {
                 name: trip.destination,
+                img: trip.img,
                 type: trip.src,
                 id: trip._id,
                 link: '/trips/' + trip._id,
