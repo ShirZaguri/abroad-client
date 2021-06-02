@@ -1,7 +1,10 @@
 <template>
     <div>
         <v-btn @click="openAddModal">Add</v-btn>
-        <trip-plan />
+        <trip-plan
+            :attractions="trip.attractions"
+            :tripDays="getDatesRange(trip.startDate, trip.endDate)"
+        />
         <AddAttractionModal
             :active.sync="showAddModal"
             @add-attraction="addAttractionToTrip"
@@ -22,6 +25,7 @@ import AddAttractionModal from '@/components/AddAttractionModal.vue';
 })
 export default class Plan extends Vue {
     @Prop() private id!: any;
+    @Prop() private trip!: any;
 
     data() {
         return {
@@ -31,6 +35,20 @@ export default class Plan extends Vue {
 
     openAddModal() {
         this.$data.showAddModal = true;
+    }
+
+    getDatesRange(startDate, endDate) {
+        const listDate = [];
+        const dateMove = new Date(startDate);
+        let strDate = startDate;
+
+        while (strDate < endDate) {
+            strDate = dateMove.toISOString().slice(0, 10);
+            listDate.push(strDate);
+            dateMove.setDate(dateMove.getDate() + 1);
+        }
+
+        return listDate;
     }
 
     async addAttractionToTrip(newAttraction): Promise<void> {

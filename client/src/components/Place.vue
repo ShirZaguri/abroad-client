@@ -7,12 +7,13 @@
         </template>
         <template #img class="am">
             <v-col
+                v-if="place.img"
                 @click="goToGoogleMaps"
                 class="place"
                 :style="{
                     backgroundImage:
                         'url(' +
-                        require(`@/assets/images/${place.type}.jpg`) +
+                        require(`@/assets/images/${place.img}.jpg`) +
                         ')',
                 }"
             ></v-col>

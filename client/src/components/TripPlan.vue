@@ -3,7 +3,7 @@
         <div class="mt-4 mb-3">
             <p class="font-weight-bold text-h3 pa-0 ma-0 ml-4">Amsterdam</p>
         </div>
-        <div v-for="day in days" :key="day">
+        <div v-for="day in daysNames" :key="day">
             <p class="font-weight-bold text-h6 ml-4 mb-0">
                 {{ day }}
                 <v-chip color="#ee3155" class="white--text" v-if="isToday(day)"
@@ -13,11 +13,11 @@
             <div class="ma-0 pa-0" v-if="getDayPlaces(day).length > 0">
                 <draggable group="places" v-bind="dragOptions">
                     <Place
-                        v-for="(place, index) in getDayPlaces(day)"
-                        :place="place"
+                        v-for="(attraction, index) in getDayPlaces(day)"
+                        :place="attraction.attraction"
                         :key="index"
-                        :days="days"
-                        @moveTo="movePlace(place, $event)"
+                        :days="daysNames"
+                        @moveTo="movePlace(attraction, $event)"
                     />
                 </draggable>
             </div>
@@ -26,8 +26,8 @@
     </v-app>
 </template>
 
-<script>
-import { Component, Vue } from 'vue-property-decorator';
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import Place from './Place.vue';
 import draggable from 'vuedraggable';
 
@@ -38,9 +38,11 @@ import draggable from 'vuedraggable';
     },
 })
 export default class TripPlan extends Vue {
+    @Prop() private attractions!: Array<any>;
+    @Prop() private tripDays!: Array<any>;
+
     data() {
         return {
-            days: ['Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday'],
             trip: [
                 {
                     date: 'Thursday',
@@ -95,7 +97,8 @@ export default class TripPlan extends Vue {
                             name: 'Heineken',
                             price: 15,
                             type: 'beer',
-                            link: 'https://g.page/heineken-experience-amsterdam?share',
+                            link:
+                                'https://g.page/heineken-experience-amsterdam?share',
                         },
                         {
                             name: 'Holland Casino',
@@ -155,8 +158,45 @@ export default class TripPlan extends Vue {
         };
     }
 
+    get daysNames() {
+        return this.tripDays.map((day) => this.getDateDayName(day));
+    }
+
+    getDateDayName(date) {
+        const [dd, mm, yyyy] = date.split('-'),
+            convertedDate = new Date(yyyy, mm - 1, dd);
+        return convertedDate.toLocaleDateString('en-US', { weekday: 'long' });
+    }
+
+    get attractionsByDate() {
+        if (this.daysNames && this.attractions) {
+            console.log('In');
+            // return this.daysNames.map((day) => {
+            //     const dayPlaces = [];
+            //     dayPlaces.push(
+            //         this.attractions.filter(
+            //             (attraction) =>
+            //                 this.getDateDayName(attraction.date) === day
+            //         )
+            //     );
+            //     return dayPlaces;
+            // });
+            return this.daysNames.map((day) => ({
+                date: day,
+                places: this.attractions.filter((attraction) => {
+                    console.log(this.getDateDayName(attraction.date));
+                    return this.getDateDayName(attraction.date) === day;
+                }),
+            }));
+        } else {
+            return [];
+        }
+    }
+
     getDayPlaces(day) {
-        return this.trip.find((searchDay) => searchDay.date === day).places;
+        return this.attractionsByDate.find(
+            (searchDay) => searchDay.date === day
+        ).places;
     }
 
     isToday(dayName) {
@@ -166,12 +206,12 @@ export default class TripPlan extends Vue {
     }
 
     movePlace(place, newDate) {
-        const oldDay = this.trip.find((day) =>
+        const oldDay = this.$data.trip.find((day) =>
             day.places.find(
                 (searchedPlace) => searchedPlace.name === place.name
             )
         );
-        const newDay = this.trip.find((day) => day.date === newDate);
+        const newDay = this.$data.trip.find((day) => day.date === newDate);
         oldDay.places = oldDay.places.filter(
             (searchedPlace) => searchedPlace.name !== place.name
         );

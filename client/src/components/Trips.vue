@@ -47,6 +47,7 @@ export default class Trips extends Vue {
         const data = await fetch('http://localhost:3000/api/trips/');
         this.trips = (await data.json()).trips;
     }
+
     getTripPlace() {
         return this.trips.map((trip) => {
             return {
@@ -57,8 +58,16 @@ export default class Trips extends Vue {
             };
         });
     }
+
+    getTripById(id) {
+        return this.trips.find((trip) => trip._id === id);
+    }
+
     selectTrip(id) {
-        this.$router.push({ name: 'Plan', params: { id: id } });
+        this.$router.push({
+            name: 'Plan',
+            params: { id: id, trip: this.getTripById(id) },
+        });
     }
 }
 </script>
