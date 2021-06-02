@@ -21,7 +21,7 @@ export class tripService {
             { ...attraction },
             async (err, addedAttraction) => {
                 if (err) {
-                    console.log('error occurd while adding attractions');
+                    console.log('error occurd while adding attractions' + err);
                 }
                 const attractionId = addedAttraction._id;
                 return await trips.updateOne(

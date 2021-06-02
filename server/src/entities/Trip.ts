@@ -2,7 +2,7 @@ import Attraction from './Attraction';
 
 export interface ITrip {
     destination: string;
-    attractions: [Attraction];
+    attractions: [{ attraction: Attraction; date: Date }];
     startDate: Date;
     endDate: Date;
     src: string;
@@ -12,7 +12,7 @@ export interface ITrip {
 class Trip implements ITrip {
     public id: number;
     public destination: string;
-    public attractions: [Attraction];
+    public attractions: [{ attraction: Attraction; date: Date }];
     public startDate: Date;
     public endDate: Date;
     public src: string;
@@ -20,7 +20,7 @@ class Trip implements ITrip {
     constructor(
         id: number,
         destination: string,
-        attractions: [Attraction],
+        attractions: [{ attraction: Attraction; date: Date }],
         startDate: Date,
         endtDate: Date,
         src: string
