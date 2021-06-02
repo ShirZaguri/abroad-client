@@ -5,13 +5,12 @@
             <draggable group="places" v-bind="dragOptions">
                 <Place
                     v-for="(place, index) in getTripPlace()"
-                    @click="selectTrip(place.link)"
+                    @select-trip="selectTrip(place.link)"
                     :place="place"
                     :key="index"
                 />
             </draggable>
         </div>
-        <!-- </div> -->
     </v-app>
 </template>
 
@@ -59,6 +58,7 @@ export default class Trips extends Vue {
         });
     }
     selectTrip(id) {
+        console.log('SELECT TRIP');
         this.$router.push({ name: 'Plan', params: { id: id } });
     }
 }

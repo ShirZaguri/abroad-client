@@ -1,27 +1,8 @@
 <template>
-    <vs-card type="3" class="ma-3">
+    <vs-card type="3" class="ma-3" @click="selectTrip">
         <template #title>
             <v-row class="ma-0 pa-0" justify="space-between">
                 <h3>{{ place.name }}</h3>
-                <v-menu rounded offset-y>
-                    <template v-slot:activator="{ attrs, on }">
-                        <v-icon color="#f1eef0" left v-bind="attrs" v-on="on">
-                            mdi-dots-vertical
-                        </v-icon>
-                    </template>
-                    <v-list>
-                        <v-list-item
-                            v-for="(item, index) in days"
-                            :key="index"
-                            link
-                            @click="movePlace(item)"
-                        >
-                            <v-list-item-title
-                                v-text="item"
-                            ></v-list-item-title>
-                        </v-list-item>
-                    </v-list>
-                </v-menu>
             </v-row>
         </template>
         <template #img class="am">
@@ -55,11 +36,8 @@ export default class Place extends Vue {
     get backgroundImage() {
         return `../assets/images/${this.place.type}.jpg`;
     }
-    emitClicked() {
-        this.$emit('clicked');
-    }
-    movePlace(newDate) {
-        this.$emit('moveTo', newDate);
+    selectTrip() {
+        this.$emit('select-trip');
     }
     goToGoogleMaps() {
         window.location.href = this.place.link;
