@@ -2,7 +2,7 @@
     <v-app>
         <!-- <div v-for="trip in trips" :key="trip"> -->
         <div class="ma-0 pa-0">
-            <draggable group="places" v-bind="dragOptions">
+            <draggable group="places" v-bind="dragOptions" v-if="trips">
                 <Place
                     v-for="(place, index) in getTripPlace()"
                     @select-trip="selectTrip(place.id)"
@@ -33,7 +33,7 @@ export default class Trips extends Vue {
     }
     data() {
         return {
-            trips: undefined,
+            trips: null,
             dragOptions: {
                 animation: 200,
                 group: 'description',

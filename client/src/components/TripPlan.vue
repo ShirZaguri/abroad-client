@@ -1,8 +1,5 @@
 <template>
     <v-app>
-        <div class="mt-4 mb-3">
-            <p class="font-weight-bold text-h3 pa-0 ma-0 ml-4">Amsterdam</p>
-        </div>
         <div v-for="day in daysNames" :key="day">
             <p class="font-weight-bold text-h6 ml-4 mb-0">
                 {{ day }}
@@ -11,7 +8,11 @@
                 >
             </p>
             <div class="ma-0 pa-0" v-if="getDayPlaces(day).length > 0">
-                <draggable group="places" v-bind="dragOptions">
+                <draggable
+                    group="places"
+                    v-bind="dragOptions"
+                    @change="movePlace"
+                >
                     <Place
                         v-for="(attraction, index) in getDayPlaces(day)"
                         :place="attraction.attraction"
@@ -85,9 +86,9 @@ export default class TripPlan extends Vue {
         );
     }
 
-    movePlace(place, newDate) {
+    movePlace(place) {
         console.log(place);
-        this.attractions.find((attraction) => attraction.name === place.name);
+        // this.attractions.find((attraction) => attraction.name === place.name);
         // newDay.places.push(place);
     }
 }
