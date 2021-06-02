@@ -6,8 +6,7 @@ import attractions from '../models/attraction';
 
 export class tripService {
     static getAll = async () => {
-        return await trips.find({});
-        // .populate('attractions.attraction').exec();
+        return await trips.find({}).populate('attractions.attraction');
     };
 
     static add = async (trip: Trip) => {
@@ -17,21 +16,31 @@ export class tripService {
             }
         });
     };
-    static addAttraction = async (attraction: Attraction, _id: any) => {
-        return await attractions.create(
-            { ...attraction },
+    static addAttraction = async (
+        _id: string,
+        attraction: Attraction,
+        details: { date: Date; price: Number }
+    ) => {
+        return await attractions.findOneAndUpdate(
+            { name: attraction.name },
+            { $setOnInsert: { ...attraction } },
+            { upsert: true, new: true },
             async (err, addedAttraction) => {
                 if (err) {
                     console.log('error occurd while adding attractions' + err);
                 }
-                const attractionId = addedAttraction._id;
+
+                const { date, price } = details;
                 return await trips.updateOne(
                     { _id: _id },
                     {
                         $push: {
                             attractions: {
-                                attraction: attractionId,
-                                date: new Date(),
+                                attraction: addedAttraction?._id,
+                                details: {
+                                    date: details.date,
+                                    price: details.price,
+                                },
                             },
                         },
                     }

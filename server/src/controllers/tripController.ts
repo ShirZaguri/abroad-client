@@ -37,14 +37,14 @@ export async function addTrip(req: Request, res: Response) {
 }
 
 export async function addAttraction(req: Request, res: Response) {
-    const { attraction, _id } = req.body;
+    const { _id, attraction, details } = req.body;
     if (!attraction) {
         return res.status(BAD_REQUEST).json({
             error: paramMissingError,
         });
     }
 
-    await tripService.addAttraction(attraction, _id);
+    await tripService.addAttraction(_id, attraction, details);
     return res.status(CREATED).end();
 }
 

@@ -40,22 +40,5 @@ export default class Home extends Vue {
             }),
         });
     }
-    async addAttraction() {
-        await fetch('http://localhost:3000/api/trips/addAttraction', {
-            method: 'PUT',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                attraction: {
-                    destination: 'Amsterdam',
-                    startDate: new Date(),
-                    endDate: new Date(),
-                },
-                // _id: new Types.ObjectId(id),
-            }),
-        });
-    }
 }
 </script>

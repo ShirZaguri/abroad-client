@@ -27,9 +27,13 @@ export default class Plan extends Vue {
             body: JSON.stringify({
                 _id: this.id,
                 attraction: {
-                    name: 'New Event #2',
-                    img: 'amsterdam-flag',
+                    name: 'shirza killed it',
+                    img: 'nature',
+                    description: 'no ma',
+                },
+                details: {
                     date: new Date(),
+                    price: 15,
                 },
             }),
         });

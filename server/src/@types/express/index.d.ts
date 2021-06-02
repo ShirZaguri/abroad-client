@@ -7,6 +7,7 @@ declare module 'express' {
             _id: any;
             trip: any;
             attraction: any;
+            details: any;
         };
     }
 }

@@ -17,10 +17,13 @@ const TripSchema: Schema = new Schema(
             {
                 attraction: {
                     type: Schema.Types.ObjectId,
-                    ref: 'attraction',
+                    ref: 'attractions',
                     requiered: false,
                 },
-                date: { type: Date, requiered: false },
+                details: {
+                    date: { type: Date, requiered: false },
+                    price: { type: Number },
+                },
             },
         ],
         startDate: { type: Date, requiered: true },
