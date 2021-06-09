@@ -78,7 +78,7 @@ export default class TripPlan extends Vue {
     getDayPlaces(day) {
         return this.attractionsByDate.find(
             (searchDay) => searchDay.date === day
-        ).places;
+        )?.places;
     }
 
     isToday(dayName) {

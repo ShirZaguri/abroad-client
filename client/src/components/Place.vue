@@ -30,7 +30,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 @Component({})
 export default class Place extends Vue {
     // eslint-disable-next-line @typescript-eslint/ban-types
-    @Prop() private desc: string;
+    @Prop() private desc!: string;
     @Prop() private img!: string;
     @Prop() private name!: string;
 

@@ -29,9 +29,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import TripPlan from '@/components/TripPlan.vue';
 import AddAttractionModal from '@/components/AddAttractionModal.vue';
+import TripPlan from '@/components/TripPlan.vue';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({
     components: {
@@ -54,7 +54,7 @@ export default class Plan extends Vue {
     }
 
     getDatesRange(startDate, endDate) {
-        const listDate = [];
+        const listDate: any[] = [];
         const dateMove = new Date(startDate);
         let strDate = startDate;
 
