@@ -49,7 +49,9 @@ export default class Trips extends Vue {
 
     async getTrips() {
         this.loading = true;
-        const data = await fetch('http://localhost:3000/api/trips/');
+        const data = await fetch(
+            'https://abroad-server.herokuapp.com/api/trips/'
+        );
         this.trips = (await data.json()).trips;
         this.loading = false;
     }

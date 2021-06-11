@@ -81,14 +81,17 @@ export default class Plan extends Vue {
             },
         };
         this.trip.attractions.push(attraction);
-        await fetch('http://localhost:3000/api/trips/addAttraction', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(attraction),
-        });
+        await fetch(
+            'https://abroad-server.herokuapp.com/api/trips/addAttraction',
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(attraction),
+            }
+        );
     }
 }
 </script>

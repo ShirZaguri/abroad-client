@@ -81,7 +81,9 @@ export default class AddAttractionModal extends Vue {
 
     async created() {
         this.$data.loading = true;
-        const data = await fetch('http://localhost:3000/api/attractions/');
+        const data = await fetch(
+            'https://abroad-server.herokuapp.com/api/attractions/'
+        );
         this.$data.attractions = (await data.json()).attractions;
         this.$data.loading = false;
     }
@@ -97,7 +99,7 @@ export default class AddAttractionModal extends Vue {
     }
 }
 </script>
- <style>
+<style>
 .not-margin {
     margin: 0px;
     font-weight: normal;

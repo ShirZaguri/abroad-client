@@ -19,13 +19,15 @@ export default class Home extends Vue {
         // .then((data) => (this.totalVuePackages = data.total));
     }
     async getTrips() {
-        const data = await fetch('http://localhost:3000/api/trips/');
+        const data = await fetch(
+            'https://abroad-server.herokuapp.com/api/trips/'
+        );
         this.trips = (await data.json()).trips;
     }
 
     //TODO: get trip values from site inputs
     async addTrip() {
-        await fetch('http://localhost:3000/api/trips/add', {
+        await fetch('https://abroad-server.herokuapp.com/api/trips/add', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
