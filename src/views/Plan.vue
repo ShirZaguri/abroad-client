@@ -42,7 +42,7 @@ import { tripType } from '../models/trip-type';
     },
 })
 export default class Plan extends Vue {
-    @Prop() private id!: any;
+    @Prop() private id!: string;
     @Prop() private trip!: tripType;
 
     data(): { showAddModal: boolean } {

@@ -65,38 +65,50 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 })
 export default class AddAttractionModal extends Vue {
     @Prop() private active!: boolean;
-    private newAttraction!: tripAttractionType;
 
     set attractionDate(value: string) {
-        this.newAttraction.details.date = new Date(value);
+        this.$data.newAttraction.details.date = new Date(value);
     }
 
     get attractionDate(): string {
-        return this.newAttraction.details.date?.toISOString();
+        return this.$data.newAttraction.details.date?.toISOString();
     }
 
     data(): {
         isNew: boolean;
         loading: boolean;
         attractions: attractionType[];
+        newAttraction: tripAttractionType;
     } {
         return {
             isNew: true,
             loading: true,
             attractions: [],
+            newAttraction: {
+                _id: '',
+                attraction: {
+                    name: '',
+                    img: '',
+                    description: '',
+                },
+                details: {
+                    date: new Date(),
+                    price: 0,
+                },
+            },
         };
     }
 
     async created(): Promise<void> {
         this.$data.loading = true;
+        this.emptyNewAttraction();
         const data = await fetch(process.env.VUE_APP_GET_ALL_ATTRACTIONS);
         this.$data.attractions = (await data.json()).attractions;
-        this.emptyNewAttraction();
         this.$data.loading = false;
     }
 
     emptyNewAttraction(): void {
-        this.newAttraction = {
+        this.$data.newAttraction = {
             _id: '',
             attraction: {
                 name: '',
@@ -104,13 +116,14 @@ export default class AddAttractionModal extends Vue {
                 description: '',
             },
             details: {
-                date: new Date(0),
+                date: new Date(),
                 price: 0,
             },
         };
     }
 
     closeDialog(): void {
+        this.emptyNewAttraction();
         this.$emit('update:active', false);
     }
 

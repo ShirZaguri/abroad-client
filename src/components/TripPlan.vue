@@ -68,14 +68,13 @@ export default class TripPlan extends Vue {
     }
 
     get attractionsByDate(): {
-        date: string;
+        day: string;
         attractions: tripAttractionType[];
     }[] {
         if (this.daysNames && this.attractions) {
             return this.daysNames.map((day) => ({
-                date: day,
+                day: day,
                 attractions: this.attractions.filter((attraction) => {
-                    debugger;
                     return this.getDateDayName(attraction.details.date) === day;
                 }),
             }));
@@ -84,18 +83,18 @@ export default class TripPlan extends Vue {
         }
     }
 
-    getDayAttractions(day): tripAttractionType[] | undefined {
-        return this.attractionsByDate.find(
-            (searchDay) => searchDay.date === day,
-        )?.attractions;
+    getDayAttractions(day: string): tripAttractionType[] | undefined {
+        return this.attractionsByDate.find((searchDay) => searchDay.day === day)
+            ?.attractions;
     }
 
-    isToday(dayName): boolean {
+    isToday(dayName: string): boolean {
         return (
             new Date().toLocaleString('en-us', { weekday: 'long' }) === dayName
         );
     }
 
+    // TODO: make attractions move between days after drag
     moveAttraction(attraction, day) {
         // this.attractions.find(
         //     (attraction) => attraction.name === place.name

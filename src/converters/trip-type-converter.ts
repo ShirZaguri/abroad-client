@@ -4,7 +4,6 @@ export function convertTripTypeDatesToDateFormat(
     value: tripType[],
 ): tripType[] {
     return value.map((trip) => {
-        debugger;
         return {
             ...trip,
             startDate: new Date(trip.startDate),
