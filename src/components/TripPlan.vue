@@ -3,23 +3,25 @@
         <div v-for="day in daysNames" :key="day">
             <p class="font-weight-bold text-h6 ml-4 mb-0">
                 {{ day }}
-                <v-chip color="#ee3155" class="white--text" v-if="isToday(day)"
-                    >Today!</v-chip
-                >
+                <v-chip color="#ee3155" class="white--text" v-if="isToday(day)">
+                    Today!
+                </v-chip>
             </p>
-            <div class="ma-0 pa-0" v-if="getDayPlaces(day).length > 0">
+            <div class="ma-0 pa-0" v-if="getDayAttractions(day).length > 0">
                 <draggable
                     group="places"
                     v-bind="dragOptions"
-                    @change="movePlace"
+                    @change="moveAttraction"
                 >
                     <Place
-                        v-for="(attraction, index) in getDayPlaces(day)"
-                        :name="attraction.attraction.name"
-                        :img="attraction.attraction.img"
+                        v-for="(tripAttraction, index) in getDayAttractions(
+                            day,
+                        )"
+                        :name="tripAttraction.attraction.name"
+                        :img="tripAttraction.attraction.img"
                         :key="index"
                         :days="daysNames"
-                        @moveTo="movePlace(attraction, $event)"
+                        @moveTo="moveAttraction(tripAttraction, $event)"
                     />
                 </draggable>
             </div>
@@ -32,6 +34,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Place from './Place.vue';
 import draggable from 'vuedraggable';
+import { tripAttractionType } from '@/models/trip-attraction-type';
 
 @Component({
     components: {
@@ -40,10 +43,10 @@ import draggable from 'vuedraggable';
     },
 })
 export default class TripPlan extends Vue {
-    @Prop() private attractions!: Array<any>;
-    @Prop() private tripDays!: Array<any>;
+    @Prop() private attractions!: Array<tripAttractionType>;
+    @Prop() private tripDates!: Array<Date>;
 
-    data() {
+    data(): { dragOptions: any } {
         return {
             dragOptions: {
                 animation: 200,
@@ -54,19 +57,25 @@ export default class TripPlan extends Vue {
         };
     }
 
-    get daysNames() {
-        return this.tripDays.map((day) => this.getDateDayName(day));
+    get daysNames(): string[] {
+        return this.tripDates.map((date) => this.getDateDayName(date));
     }
 
-    getDateDayName(date) {
-        return new Date(date).toLocaleDateString('en-US', { weekday: 'long' });
+    getDateDayName(date: Date): string {
+        return date.toLocaleDateString('en-US', {
+            weekday: 'long',
+        });
     }
 
-    get attractionsByDate() {
+    get attractionsByDate(): {
+        date: string;
+        attractions: tripAttractionType[];
+    }[] {
         if (this.daysNames && this.attractions) {
             return this.daysNames.map((day) => ({
                 date: day,
-                places: this.attractions.filter((attraction) => {
+                attractions: this.attractions.filter((attraction) => {
+                    debugger;
                     return this.getDateDayName(attraction.details.date) === day;
                 }),
             }));
@@ -75,20 +84,23 @@ export default class TripPlan extends Vue {
         }
     }
 
-    getDayPlaces(day) {
+    getDayAttractions(day): tripAttractionType[] | undefined {
         return this.attractionsByDate.find(
-            (searchDay) => searchDay.date === day
-        )?.places;
+            (searchDay) => searchDay.date === day,
+        )?.attractions;
     }
 
-    isToday(dayName) {
+    isToday(dayName): boolean {
         return (
             new Date().toLocaleString('en-us', { weekday: 'long' }) === dayName
         );
     }
 
-    movePlace(place) {
-        console.log(place);
+    moveAttraction(attraction, day) {
+        // this.attractions.find(
+        //     (attraction) => attraction.name === place.name
+        // ).details.date = day;
+        console.log(attraction);
         // this.attractions.find((attraction) => attraction.name === place.name);
         // newDay.places.push(place);
     }

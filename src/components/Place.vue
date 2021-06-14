@@ -8,7 +8,7 @@
         <template #img class="am">
             <v-col
                 v-if="img"
-                class="place"
+                class="image"
                 :style="{
                     backgroundImage:
                         'url(' + require(`@/assets/images/${img}.jpg`) + ')',
@@ -29,17 +29,19 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({})
 export default class Place extends Vue {
-    // eslint-disable-next-line @typescript-eslint/ban-types
+    // TODO: send description from father component
     @Prop() private desc!: string;
     @Prop() private img!: string;
     @Prop() private name!: string;
 
-    get backgroundImage() {
+    get backgroundImage(): string {
         return `../assets/images/${this.img}.jpg`;
     }
-    selectTrip() {
+    selectTrip(): void {
         this.$emit('select-trip');
     }
+
+    // TODO: add google maps ref
     // goToGoogleMaps() {
     //     window.location.href = this.place.link;
     // }
@@ -47,7 +49,7 @@ export default class Place extends Vue {
 </script>
 
 <style scoped>
-.place {
+.image {
     background-repeat: no-repeat;
     background-size: cover;
     width: 50vw;

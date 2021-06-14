@@ -8,7 +8,7 @@
         <div class="ma-0 pa-0">
             <draggable group="places" v-bind="dragOptions" v-if="trips">
                 <Place
-                    v-for="(place, index) in getTripPlace()"
+                    v-for="(place, index) in getTripInfo()"
                     @select-trip="selectTrip(place.id)"
                     :img="place.img"
                     :name="place.name"
@@ -19,10 +19,12 @@
     </v-app>
 </template>
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Place from './Place.vue';
 import draggable from 'vuedraggable';
+import { tripType } from '../models/trip-type';
+import Place from './Place.vue';
+import { convertTripTypeDatesToDateFormat } from '../converters/trip-type-converter';
 
 @Component({
     components: {
@@ -31,51 +33,58 @@ import draggable from 'vuedraggable';
     },
 })
 export default class Trips extends Vue {
-    created() {
+    private convertedTrips: tripType[] = [];
+    private loading = false;
+
+    get trips(): tripType[] {
+        return this.convertedTrips;
+    }
+
+    set trips(value: tripType[]) {
+        this.convertedTrips = convertTripTypeDatesToDateFormat(value);
+    }
+
+    created(): void {
         this.getTrips();
     }
-    data() {
+
+    data(): { dragOptions: unknown } {
         return {
-            trips: null,
             dragOptions: {
                 animation: 200,
                 group: 'description',
                 disabled: false,
                 ghostClass: 'ghost',
             },
-            loading: false,
         };
     }
 
-    async getTrips() {
+    async getTrips(): Promise<void> {
         this.loading = true;
-        const data = await fetch(
-            'https://abroad-server.herokuapp.com/api/trips/'
-        );
-        this.trips = (await data.json()).trips;
+        const data = await fetch(process.env.VUE_APP_GET_ALL_TRIPS);
+        this.trips = (await data.json()).trips as tripType[];
         this.loading = false;
     }
 
-    getTripPlace() {
+    getTripInfo(): { name: string; img: string; id?: string; link: string }[] {
         return this.trips.map((trip) => {
             return {
                 name: trip.destination,
                 img: trip.img,
-                type: trip.src,
                 id: trip._id,
                 link: '/trips/' + trip._id,
             };
         });
     }
 
-    getTripById(id) {
+    getTripById(id: string): tripType | undefined {
         return this.trips.find((trip) => trip._id === id);
     }
 
-    selectTrip(id) {
+    selectTrip(id: string): void {
         this.$router.push({
             name: 'Plan',
-            params: { id: id, trip: this.getTripById(id) },
+            params: { id: id, trip: this.getTripById(id) as any },
         });
     }
 }

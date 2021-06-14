@@ -10,16 +10,16 @@
             </p>
             <v-row class="ma-0 pa-0" justify="end">
                 <vs-button circle icon floating @click="openAddModal">
-                    <v-icon size="15" color="white" class="pa-1"
-                        >fas fa-plus</v-icon
-                    >
+                    <v-icon size="15" color="white" class="pa-1">
+                        fas fa-plus
+                    </v-icon>
                 </vs-button>
             </v-row>
         </v-row>
 
         <trip-plan
             :attractions="trip.attractions"
-            :tripDays="getDatesRange(trip.startDate, trip.endDate)"
+            :tripDates="getDatesRange(trip.startDate, trip.endDate)"
         />
         <AddAttractionModal
             :active.sync="showAddModal"
@@ -31,7 +31,9 @@
 <script lang="ts">
 import AddAttractionModal from '@/components/AddAttractionModal.vue';
 import TripPlan from '@/components/TripPlan.vue';
+import { tripAttractionType } from '@/models/trip-attraction-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { tripType } from '../models/trip-type';
 
 @Component({
     components: {
@@ -41,57 +43,47 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 })
 export default class Plan extends Vue {
     @Prop() private id!: any;
-    @Prop() private trip!: any;
+    @Prop() private trip!: tripType;
 
-    data() {
+    data(): { showAddModal: boolean } {
         return {
             showAddModal: false,
         };
     }
 
-    openAddModal() {
+    openAddModal(): void {
         this.$data.showAddModal = true;
     }
 
-    getDatesRange(startDate, endDate) {
-        const listDate: any[] = [];
-        const dateMove = new Date(startDate);
-        let strDate = startDate;
+    getDatesRange(startDate: Date, endDate: Date): Date[] {
+        const dateRangeList: Date[] = [];
+        const currentDate: Date = new Date(startDate);
 
-        while (strDate < endDate) {
-            strDate = dateMove.toISOString().slice(0, 10);
-            listDate.push(strDate);
-            dateMove.setDate(dateMove.getDate() + 1);
+        while (currentDate < endDate) {
+            dateRangeList.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        return listDate;
+        return dateRangeList;
     }
 
-    async addAttractionToTrip(newAttraction): Promise<void> {
-        const attraction = {
+    async addAttractionToTrip(
+        newAttraction: tripAttractionType,
+    ): Promise<void> {
+        const tripAttraction: tripAttractionType = {
+            ...newAttraction,
             _id: this.id,
-            attraction: {
-                name: newAttraction.name,
-                img: newAttraction.img,
-                description: 'bubi killed it',
-            },
-            details: {
-                date: newAttraction.date,
-                price: 15,
-            },
         };
-        this.trip.attractions.push(attraction);
-        await fetch(
-            'https://abroad-server.herokuapp.com/api/trips/addAttraction',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(attraction),
-            }
-        );
+
+        this.trip.attractions.push(tripAttraction);
+        await fetch(process.env.VUE_APP_ADD_ATTRACTION, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(tripAttraction),
+        });
     }
 }
 </script>

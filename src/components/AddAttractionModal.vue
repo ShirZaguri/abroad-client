@@ -12,16 +12,16 @@
 
             <div class="con-form">
                 <div class="center con-selects">
-                    <vs-switch v-model="isNew">New Attraction </vs-switch>
+                    <vs-switch v-model="isNew">New Attraction</vs-switch>
                     <vs-input
                         v-if="isNew"
-                        v-model="newAttraction.name"
+                        v-model="newAttraction.attraction.name"
                         placeholder="Attraction Name"
                     />
                     <vs-select
                         v-else
                         placeholder="Attraction Name"
-                        v-model="newAttraction.name"
+                        v-model="newAttraction.attraction.name"
                     >
                         <vs-option
                             v-for="(attraction, index) in attractions"
@@ -33,12 +33,12 @@
                         </vs-option>
                     </vs-select>
                     <vs-input
-                        v-model="newAttraction.img"
+                        v-model="newAttraction.attraction.img"
                         placeholder="Image Source"
                     />
                     <v-date-picker
                         locale="en-in"
-                        v-model="newAttraction.date"
+                        v-model="attractionDate"
                         no-title
                     ></v-date-picker>
                 </div>
@@ -56,6 +56,8 @@
 </template>
 
 <script lang="ts">
+import { attractionType } from '@/models/attraction-type';
+import { tripAttractionType } from '@/models/trip-attraction-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({
@@ -63,37 +65,56 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 })
 export default class AddAttractionModal extends Vue {
     @Prop() private active!: boolean;
+    private newAttraction!: tripAttractionType;
 
-    data() {
+    set attractionDate(value: string) {
+        this.newAttraction.details.date = new Date(value);
+    }
+
+    get attractionDate(): string {
+        return this.newAttraction.details.date?.toISOString();
+    }
+
+    data(): {
+        isNew: boolean;
+        loading: boolean;
+        attractions: attractionType[];
+    } {
         return {
             isNew: true,
-            input1: '',
-            checkbox1: false,
             loading: true,
             attractions: [],
-            newAttraction: {
+        };
+    }
+
+    async created(): Promise<void> {
+        this.$data.loading = true;
+        const data = await fetch(process.env.VUE_APP_GET_ALL_ATTRACTIONS);
+        this.$data.attractions = (await data.json()).attractions;
+        this.emptyNewAttraction();
+        this.$data.loading = false;
+    }
+
+    emptyNewAttraction(): void {
+        this.newAttraction = {
+            _id: '',
+            attraction: {
                 name: '',
                 img: '',
-                date: null,
+                description: '',
+            },
+            details: {
+                date: new Date(0),
+                price: 0,
             },
         };
     }
 
-    async created() {
-        this.$data.loading = true;
-        const data = await fetch(
-            'https://abroad-server.herokuapp.com/api/attractions/'
-        );
-        this.$data.attractions = (await data.json()).attractions;
-        this.$data.loading = false;
-    }
-
-    closeDialog() {
+    closeDialog(): void {
         this.$emit('update:active', false);
     }
 
-    addAttraction() {
-        console.log('sdfsdfsdf');
+    addAttraction(): void {
         this.$emit('add-attraction', this.$data.newAttraction);
         this.closeDialog();
     }
