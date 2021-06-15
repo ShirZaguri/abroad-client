@@ -1,15 +1,20 @@
 <template>
-    <trips />
+    <v-app>
+        <ThemePicker></ThemePicker>
+        <trips></trips>
+    </v-app>
 </template>
 
 <script lang="ts">
 import Trips from '@/components/Trips.vue'; // @ is an alias to /src
 import { tripType } from '@/models/trip-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import ThemePicker from '@/components/ThemePicker.vue';
 
 @Component({
     components: {
         Trips,
+        ThemePicker,
     },
 })
 export default class Home extends Vue {

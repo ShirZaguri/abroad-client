@@ -1,12 +1,12 @@
 <template>
     <v-app>
-        <v-overlay :opacity="0.9" :value="loading">
-            <v-progress-circular indeterminate size="64">
-                Loading...
-            </v-progress-circular>
-        </v-overlay>
-        <div class="ma-0 pa-0">
-            <draggable group="places" v-bind="dragOptions" v-if="trips">
+        <div class="ma-0 pa-0" ref="target" id="target">
+            <placeHolder :loading="loading"></placeHolder>
+            <draggable
+                group="places"
+                v-bind="dragOptions"
+                v-if="trips && !loading"
+            >
                 <Place
                     v-for="(place, index) in getTripInfo()"
                     @select-trip="selectTrip(place.id)"
@@ -25,16 +25,17 @@ import draggable from 'vuedraggable';
 import { tripType } from '../models/trip-type';
 import Place from './Place.vue';
 import { convertTripTypeDatesToDateFormat } from '../converters/trip-type-converter';
+import placeHolder from './PlaceLoader.vue';
 
 @Component({
     components: {
+        placeHolder,
         Place,
         draggable,
     },
 })
 export default class Trips extends Vue {
     private convertedTrips: tripType[] = [];
-    private loading = false;
 
     get trips(): tripType[] {
         return this.convertedTrips;
@@ -48,7 +49,7 @@ export default class Trips extends Vue {
         this.getTrips();
     }
 
-    data(): { dragOptions: unknown } {
+    data(): { dragOptions: unknown; loading: boolean } {
         return {
             dragOptions: {
                 animation: 200,
@@ -56,14 +57,15 @@ export default class Trips extends Vue {
                 disabled: false,
                 ghostClass: 'ghost',
             },
+            loading: true,
         };
     }
 
     async getTrips(): Promise<void> {
-        this.loading = true;
+        this.$data.loading = true;
         const data = await fetch(process.env.VUE_APP_GET_ALL_TRIPS);
         this.trips = (await data.json()).trips as tripType[];
-        this.loading = false;
+        this.$data.loading = false;
     }
 
     getTripInfo(): { name: string; img: string; id?: string; link: string }[] {
