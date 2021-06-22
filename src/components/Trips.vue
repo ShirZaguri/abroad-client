@@ -6,6 +6,7 @@
                 group="places"
                 v-bind="dragOptions"
                 v-if="trips && !loading"
+                :options="{ delay: 200, animation: 300 }"
             >
                 <Place
                     v-for="(place, index) in getTripInfo()"
