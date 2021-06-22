@@ -15,9 +15,6 @@
                     :key="index"
                 />
             </draggable>
-            <div class="center con-pagination">
-                <vs-pagination buttons-dotted v-model="page" :length="10" />
-            </div>
         </div>
     </v-app>
 </template>
@@ -57,6 +54,7 @@ export default class Trips extends Vue {
             dragOptions: {
                 animation: 200,
                 delay: 200,
+                delayOnTouchOnly: true,
                 group: 'description',
                 disabled: false,
                 ghostClass: 'ghost',
