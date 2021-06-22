@@ -6,7 +6,6 @@
                 group="places"
                 v-bind="dragOptions"
                 v-if="trips && !loading"
-                :options="{ delay: 200 }"
             >
                 <Place
                     v-for="(place, index) in getTripInfo()"
@@ -57,6 +56,7 @@ export default class Trips extends Vue {
         return {
             dragOptions: {
                 animation: 200,
+                delay: 200,
                 group: 'description',
                 disabled: false,
                 ghostClass: 'ghost',
