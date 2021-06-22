@@ -22,9 +22,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import draggable from 'vuedraggable';
-import { tripType } from '../models/trip-type';
+import { tripType } from '@/utils/types/trip-type';
 import Place from './Place.vue';
-import { convertTripTypeDatesToDateFormat } from '../converters/trip-type-converter';
+import { convertTripTypeDatesToDateFormat } from '@/utils/converters/trip-type-converter';
 import placeHolder from './PlaceLoader.vue';
 
 @Component({

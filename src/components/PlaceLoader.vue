@@ -1,33 +1,33 @@
 <template display="flex">
     <div v-if="loading">
-        <v-row class="ml-4 mr-3" v-for="i in 4" :key="i">
-            <v-col cols="2" class="ma-0 pa-0">
+        <v-row
+            class="place-loader mt-1 mb-3 ml-4 mr-4 .d-flex"
+            v-for="i in 4"
+            :key="i"
+        >
+            <v-col :cols="screenAdjustments.imageCols" class="ma-0 pa-0">
                 <v-skeleton-loader
-                    ref="skeleton"
-                    :boilerplate="boilerplate"
-                    :type="type"
-                    :tile="tile"
-                    max-width="250"
-                    max-height="150"
-                    style="border-radius: 25px"
-                    class="mx-auto ma-3"
+                    :boilerplate="PLACE_LOADER.BOILERPLATE"
+                    :type="PLACE_LOADER.IMAGE_LOADER_TYPE"
+                    :tile="PLACE_LOADER.TILE_LOADER"
+                    :max-height="screenAdjustments.maxHeight"
+                    class="mx-auto ma-3 rounded-xl"
                 ></v-skeleton-loader>
             </v-col>
-            <v-col cols="1" style="padding: 0; margin: 15px">
+            <v-col
+                :cols="screenAdjustments.infoCols"
+                class="mt-4 mb-4 ml-2 pt-0 pl-0"
+            >
                 <v-skeleton-loader
-                    ref="skeleton"
-                    :boilerplate="boilerplate"
-                    :type="type2"
-                    :tile="tile"
-                    max-width="150"
+                    :boilerplate="PLACE_LOADER.BOILERPLATE"
+                    :type="PLACE_LOADER.TITLE_LOADER_TYPE"
+                    :tile="PLACE_LOADER.TILE_LOADER"
                     class="mx-auto ma-3"
                 ></v-skeleton-loader>
                 <v-skeleton-loader
-                    ref="skeleton"
-                    :boilerplate="boilerplate"
-                    :type="type3"
-                    :tile="tile"
-                    max-width="150"
+                    :boilerplate="PLACE_LOADER.BOILERPLATE"
+                    :type="PLACE_LOADER.TEXT_LOADER_TYPE"
+                    :tile="PLACE_LOADER.TILE_LOADER"
                     class="mx-auto ma-3"
                 ></v-skeleton-loader>
             </v-col>
@@ -36,19 +36,16 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import { PLACE_LOADER } from '@/utils/constants/place-loader-constants';
 
 @Component({})
 export default class placeHolder extends Vue {
     @Prop() private loading!: boolean;
+    private readonly PLACE_LOADER = PLACE_LOADER;
+
     // TODO: change type to somthing nornmal
-    data() {
+    data(): { dragOptions: any } {
         return {
-            boilerplate: false,
-            tile: false,
-            type: 'image',
-            type2: 'heading',
-            type3: 'paragraph',
-            types: [],
             dragOptions: {
                 animation: 200,
                 group: 'description',
@@ -57,5 +54,33 @@ export default class placeHolder extends Vue {
             },
         };
     }
+
+    get screenAdjustments(): {
+        imageCols: number;
+        infoCols: number;
+        maxHeight: number;
+    } {
+        return this.PLACE_LOADER.SCREEN_ADJUSTMENTS[
+            this.$vuetify.breakpoint.name
+        ];
+    }
 }
 </script>
+<style scoped>
+/* @media screen and (max-width: 600px) {
+    .place-loader {
+        height: 110px;
+    }
+    .v-skeleton-loader.image-loader {
+        max-height: 110px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .place-loader {
+        height: 110px;
+    }
+    .v-skeleton-loader.image-loader {
+        max-height: 110px;
+    }
+} */
+</style>

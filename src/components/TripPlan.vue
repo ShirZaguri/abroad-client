@@ -34,7 +34,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Place from './Place.vue';
 import draggable from 'vuedraggable';
-import { tripAttractionType } from '@/models/trip-attraction-type';
+import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 
 @Component({
     components: {

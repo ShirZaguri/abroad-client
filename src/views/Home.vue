@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Trips from '@/components/Trips.vue'; // @ is an alias to /src
-import { tripType } from '@/models/trip-type';
+import { tripType } from '@/utils/types/trip-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ThemePicker from '@/components/ThemePicker.vue';
 

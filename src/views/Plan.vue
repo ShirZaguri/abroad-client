@@ -31,9 +31,9 @@
 <script lang="ts">
 import AddAttractionModal from '@/components/AddAttractionModal.vue';
 import TripPlan from '@/components/TripPlan.vue';
-import { tripAttractionType } from '@/models/trip-attraction-type';
+import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { tripType } from '../models/trip-type';
+import { tripType } from '@/utils/types/trip-type';
 
 @Component({
     components: {

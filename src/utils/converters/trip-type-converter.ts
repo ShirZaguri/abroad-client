@@ -1,4 +1,4 @@
-import { tripType } from '@/models/trip-type';
+import { tripType } from '@/utils/types/trip-type';
 
 export function convertTripTypeDatesToDateFormat(
     value: tripType[],

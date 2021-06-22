@@ -56,8 +56,8 @@
 </template>
 
 <script lang="ts">
-import { attractionType } from '@/models/attraction-type';
-import { tripAttractionType } from '@/models/trip-attraction-type';
+import { attractionType } from '@/utils/types/attraction-type';
+import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({
