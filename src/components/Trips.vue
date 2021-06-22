@@ -6,7 +6,7 @@
                 group="places"
                 v-bind="dragOptions"
                 v-if="trips && !loading"
-                :options="{ delay: 200, animation: 300 }"
+                :options="{ delay: 200 }"
             >
                 <Place
                     v-for="(place, index) in getTripInfo()"
@@ -16,6 +16,9 @@
                     :key="index"
                 />
             </draggable>
+            <div class="center con-pagination">
+                <vs-pagination buttons-dotted v-model="page" :length="10" />
+            </div>
         </div>
     </v-app>
 </template>
@@ -50,7 +53,7 @@ export default class Trips extends Vue {
         this.getTrips();
     }
 
-    data(): { dragOptions: unknown; loading: boolean } {
+    data(): { dragOptions: unknown; loading: boolean; page: number } {
         return {
             dragOptions: {
                 animation: 200,
@@ -59,6 +62,7 @@ export default class Trips extends Vue {
                 ghostClass: 'ghost',
             },
             loading: true,
+            page: 1,
         };
     }
 
