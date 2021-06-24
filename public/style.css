@@ -19,7 +19,7 @@ html,
     background: #141417;
 }
 
-.vs-card {
+.theme--dark .vs-card {
     background-color: var(--card-dark-background) !important;
     border-radius: 40px !important;
 }
@@ -59,4 +59,14 @@ html,
     --vs-shadow-opacity: 0.3;
     --vs-dark: 0, 0, 0;
     --vs-background-opacity: 0.6;
+}
+/*TODO: DECIDE IF TO IMPORT FROM ANOTHER FILE*/
+.ol-viewport,
+.ol-unselectable,
+canvas {
+    border-radius: 50px !important;
+}
+
+.ol-attribution.ol-uncollapsible {
+    display: none;
 }

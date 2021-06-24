@@ -77,7 +77,7 @@ export default class Trips extends Vue {
         this.$data.loading = true;
         const data = await fetch(process.env.VUE_APP_GET_ALL_TRIPS);
         this.trips = (await data.json()).trips as tripType[];
-        this.$data.loading = false;
+        setInterval(() => (this.$data.loading = false), 5000);
     }
 
     getTripInfo(): { name: string; img: string; id?: string; link: string }[] {
@@ -115,11 +115,11 @@ export default class Trips extends Vue {
 }
 </script>
 <style scoped>
-.side {
+.theme--dark .side {
     background-color: var(--side-dark-background);
 }
 
-.main {
+.theme--dark .main {
     background-color: var(--main-dark-background);
 }
 </style>

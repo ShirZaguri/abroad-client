@@ -1,6 +1,5 @@
 <template>
     <v-app>
-        <ThemePicker></ThemePicker>
         <trips></trips>
     </v-app>
 </template>
@@ -9,12 +8,10 @@
 import Trips from '@/components/Trips.vue'; // @ is an alias to /src
 import { tripType } from '@/utils/types/trip-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import ThemePicker from '@/components/ThemePicker.vue';
 
 @Component({
     components: {
         Trips,
-        ThemePicker,
     },
 })
 export default class Home extends Vue {

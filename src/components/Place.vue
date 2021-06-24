@@ -60,7 +60,8 @@ export default class Place extends Vue {
     height: 100%;
     border-radius: 40px !important;
 }
-.vs-card {
+.theme--dark .vs-card {
+    border-radius: 40px !important;
     background-color: var(--card-dark-background) !important;
 }
 </style>

@@ -1,10 +1,11 @@
 <template>
-    <div>
+    <div class="d-flex justify-center">
         <vl-map
             :load-tiles-while-animating="true"
             :load-tiles-while-interacting="true"
             data-projection="EPSG:4326"
-            style="height: 400px"
+            style="height: 40vh"
+            class="map ma-6"
         >
             <vl-view
                 :zoom.sync="zoom"
@@ -56,3 +57,11 @@ export default class olMap extends Vue {
     }
 }
 </script>
+/**TODO: DELETE THIS IF MAP IS IN CENTER */
+<style scoped>
+/* .map {
+    width: 80%;
+    height: 40vh;
+    border-radius: 50px;
+} */
+</style>
