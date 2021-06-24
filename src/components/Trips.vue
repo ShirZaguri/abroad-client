@@ -1,21 +1,28 @@
 <template>
     <v-app>
-        <div class="ma-0 pa-0" ref="target" id="target">
-            <placeHolder :loading="loading"></placeHolder>
-            <draggable
-                group="places"
-                v-bind="dragOptions"
-                v-if="trips && !loading"
-            >
-                <Place
-                    v-for="(place, index) in getTripInfo()"
-                    @select-trip="selectTrip(place.id)"
-                    :img="place.img"
-                    :name="place.name"
-                    :key="index"
-                />
-            </draggable>
-        </div>
+        <v-row no-gutters>
+            <v-col cols="5" class="side">
+                <TripPreview :currentTrip="findClosestTrip()"></TripPreview>
+            </v-col>
+            <v-col cols="7" class="main">
+                <div class="ma-0 pa-0" ref="target" id="target">
+                    <placeHolder :loading="loading"></placeHolder>
+                    <draggable
+                        group="places"
+                        v-bind="dragOptions"
+                        v-if="trips && !loading"
+                    >
+                        <Place
+                            v-for="(place, index) in getTripInfo()"
+                            @select-trip="selectTrip(place.id)"
+                            :img="place.img"
+                            :name="place.name"
+                            :key="index"
+                        />
+                    </draggable>
+                </div>
+            </v-col>
+        </v-row>
     </v-app>
 </template>
 
@@ -26,12 +33,14 @@ import { tripType } from '@/utils/types/trip-type';
 import Place from './Place.vue';
 import { convertTripTypeDatesToDateFormat } from '@/utils/converters/trip-type-converter';
 import placeHolder from './PlaceLoader.vue';
+import TripPreview from './TripPreview.vue';
 
 @Component({
     components: {
         placeHolder,
         Place,
         draggable,
+        TripPreview,
     },
 })
 export default class Trips extends Vue {
@@ -92,5 +101,25 @@ export default class Trips extends Vue {
             params: { id: id, trip: this.getTripById(id) as any },
         });
     }
+
+    findClosestTrip(): tripType {
+        const today = new Date();
+        debugger;
+        return this.convertedTrips?.reduce((a, b) =>
+            a.startDate.getDate() - today.getDate() <
+            b.startDate.getDate() - today.getDate()
+                ? a
+                : b,
+        );
+    }
 }
 </script>
+<style scoped>
+.side {
+    background-color: var(--side-dark-background);
+}
+
+.main {
+    background-color: var(--main-dark-background);
+}
+</style>

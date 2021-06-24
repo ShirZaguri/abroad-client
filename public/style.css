@@ -1,3 +1,15 @@
+:root {
+    --main-dark-background: #272727;
+    --side-dark-background: #040404;
+    --card-dark-background: #1c1c1c;
+}
+
+body,
+html,
+#app {
+    font-family: 'Poppins' !important;
+}
+
 .lightTheme .vs-switch__circle {
     background: #1e2023 !important;
     box-shadow: none !important;
@@ -5,6 +17,11 @@
 .vs-switch {
     background-color: #141417;
     background: #141417;
+}
+
+.vs-card {
+    background-color: var(--card-dark-background) !important;
+    border-radius: 40px !important;
 }
 /*TODO: change theme colors as var*/
 
