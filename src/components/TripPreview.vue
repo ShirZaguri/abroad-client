@@ -1,11 +1,7 @@
 <template>
     <div class="preview">
         <div class="trip-info pt-5">
-            <vs-button
-                gradient
-                class="closest-trip ml-6 mb-0 mt-o"
-                style="height: 10vh"
-            >
+            <vs-button gradient class="closest-trip ml-6 mb-0">
                 Closest
             </vs-button>
             <v-row
@@ -23,29 +19,26 @@
             </v-row>
             <ThemePicker></ThemePicker>
         </div>
-        <div class="d-flex align-center" style="height: 50vh">
-            <ol-map class="map align-center" style="width: 100%"></ol-map>
-        </div>
-        <div class="d-flex align-end justify-end" style="height: 20vh">
+        <v-row no-gutters align="center" justify="center" style="height: 40vh">
+            <olMap class="align-center" :precentWidth="90"></olMap>
+        </v-row>
+        <v-row no-gutters align="end" justify="end" style="height: 30vh">
             <vs-button
-                flat
                 circle
                 gradient
-                :active="active == 0"
-                @click="active = 0"
                 class="plan align-end mb-5 font-weight-medium"
             >
                 Plan your trip
                 <span class="material-icons md-dark">beach_access</span>
             </vs-button>
-        </div>
+        </v-row>
     </div>
 </template>
 
 <script lang="ts">
 import { tripType } from '@/utils/types/trip-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import olMap from './ol-map.vue';
+import olMap from './OlMap.vue';
 import ThemePicker from './ThemePicker.vue';
 
 @Component({
@@ -59,14 +52,8 @@ export default class TripPreview extends Vue {
 }
 </script>
 <style scoped>
-.preview {
-    height: 100vh;
-    width: 100%;
-    font-family: 'Poppins' !important;
-}
 .closest-trip {
     pointer-events: none;
-    border-radius: 50px !important;
     height: 25px !important;
 }
 .destination {
@@ -75,7 +62,6 @@ export default class TripPreview extends Vue {
 }
 .dates {
     font-size: 3vh;
-    border-radius: 50px;
 }
 .plan {
     margin-right: -2vw;
@@ -83,10 +69,5 @@ export default class TripPreview extends Vue {
 .trip-info {
     height: 30vh;
     overflow: hidden;
-}
-.map {
-    /* width: 80%; */
-    height: 40vh;
-    border-radius: 50px;
 }
 </style>

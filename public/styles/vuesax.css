@@ -1,0 +1,16 @@
+.lightTheme .vs-switch__circle {
+    background: #1e2023 !important;
+    box-shadow: none !important;
+}
+.vs-switch {
+    background-color: #141417;
+    background: #141417;
+}
+
+.vs-card {
+    border-radius: var(--card-border-radius) !important;
+}
+
+.theme--dark .vs-card {
+    background-color: var(--card-dark-background) !important;
+}

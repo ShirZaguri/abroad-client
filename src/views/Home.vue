@@ -1,11 +1,9 @@
 <template>
-    <v-app>
-        <trips></trips>
-    </v-app>
+    <trips></trips>
 </template>
 
 <script lang="ts">
-import Trips from '@/components/Trips.vue'; // @ is an alias to /src
+import Trips from '@/views/Trips.vue'; // @ is an alias to /src
 import { tripType } from '@/utils/types/trip-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 

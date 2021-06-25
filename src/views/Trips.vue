@@ -30,10 +30,10 @@
 import { Component, Vue } from 'vue-property-decorator';
 import draggable from 'vuedraggable';
 import { tripType } from '@/utils/types/trip-type';
-import Place from './Place.vue';
+import Place from '../components/Place.vue';
 import { convertTripTypeDatesToDateFormat } from '@/utils/converters/trip-type-converter';
-import placeHolder from './PlaceLoader.vue';
-import TripPreview from './TripPreview.vue';
+import placeHolder from '../components/PlaceLoader.vue';
+import TripPreview from '../components/TripPreview.vue';
 
 @Component({
     components: {
@@ -104,7 +104,6 @@ export default class Trips extends Vue {
 
     findClosestTrip(): tripType {
         const today = new Date();
-        debugger;
         return this.convertedTrips?.reduce((a, b) =>
             a.startDate.getDate() - today.getDate() <
             b.startDate.getDate() - today.getDate()

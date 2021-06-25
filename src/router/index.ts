@@ -1,15 +1,15 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Home from '../views/Home.vue';
-import Plan from '../views/Plan.vue';
+import Plan from '@/views/Plan.vue';
+import Trips from '@/views/Trips.vue';
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
     {
         path: '/',
-        name: 'Home',
-        component: Home,
+        name: 'Trips',
+        component: Trips,
     },
     {
         path: '/trips/:id',

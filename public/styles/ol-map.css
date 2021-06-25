@@ -1,0 +1,9 @@
+.ol-viewport,
+.ol-unselectable,
+canvas {
+    border-radius: 50px !important;
+}
+
+.ol-attribution.ol-uncollapsible {
+    display: none;
+}

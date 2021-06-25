@@ -9,7 +9,7 @@
                 <h3>{{ name }}</h3>
             </v-row>
         </template>
-        <template #img class="am rounded-pill">
+        <template #img class="rounded-pill">
             <v-col
                 v-if="img"
                 class="image"
@@ -58,10 +58,6 @@ export default class Place extends Vue {
     background-size: 100% 100%;
     width: 30vw !important;
     height: 100%;
-    border-radius: 40px !important;
-}
-.theme--dark .vs-card {
-    border-radius: 40px !important;
-    background-color: var(--card-dark-background) !important;
+    border-radius: var(--card-border-radius) !important;
 }
 </style>
