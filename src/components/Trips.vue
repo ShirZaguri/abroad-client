@@ -1,10 +1,10 @@
 <template>
     <v-app>
-        <v-row no-gutters>
-            <v-col cols="5" class="side">
+        <v-row no-gutters class="d-block">
+            <v-col cols="5" class="side float-left" fixed>
                 <TripPreview :currentTrip="findClosestTrip()"></TripPreview>
             </v-col>
-            <v-col cols="7" class="main">
+            <v-col cols="7" class="main float-right">
                 <div class="ma-0 pa-0" ref="target" id="target">
                     <placeHolder :loading="loading"></placeHolder>
                     <draggable
@@ -121,5 +121,9 @@ export default class Trips extends Vue {
 
 .theme--dark .main {
     background-color: var(--main-dark-background);
+}
+
+.side {
+    position: fixed;
 }
 </style>
