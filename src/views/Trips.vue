@@ -1,21 +1,28 @@
 <template>
     <v-app>
-        <div class="ma-0 pa-0" ref="target" id="target">
-            <placeHolder :loading="loading"></placeHolder>
-            <draggable
-                group="places"
-                v-bind="dragOptions"
-                v-if="trips && !loading"
-            >
-                <Place
-                    v-for="(place, index) in getTripInfo()"
-                    @select-trip="selectTrip(place.id)"
-                    :img="place.img"
-                    :name="place.name"
-                    :key="index"
-                />
-            </draggable>
-        </div>
+        <v-row no-gutters class="d-block">
+            <v-col cols="5" class="side float-left" fixed>
+                <TripPreview :currentTrip="findClosestTrip()"></TripPreview>
+            </v-col>
+            <v-col cols="7" class="main float-right">
+                <div class="ma-0 pa-0" ref="target" id="target">
+                    <placeHolder :loading="loading"></placeHolder>
+                    <draggable
+                        group="places"
+                        v-bind="dragOptions"
+                        v-if="trips && !loading"
+                    >
+                        <Place
+                            v-for="(place, index) in getTripInfo()"
+                            @select-trip="selectTrip(place.id)"
+                            :img="place.img"
+                            :name="place.name"
+                            :key="index"
+                        />
+                    </draggable>
+                </div>
+            </v-col>
+        </v-row>
     </v-app>
 </template>
 
@@ -23,15 +30,17 @@
 import { Component, Vue } from 'vue-property-decorator';
 import draggable from 'vuedraggable';
 import { tripType } from '@/utils/types/trip-type';
-import Place from './Place.vue';
+import Place from '../components/Place.vue';
 import { convertTripTypeDatesToDateFormat } from '@/utils/converters/trip-type-converter';
-import placeHolder from './PlaceLoader.vue';
+import placeHolder from '../components/PlaceLoader.vue';
+import TripPreview from '../components/TripPreview.vue';
 
 @Component({
     components: {
         placeHolder,
         Place,
         draggable,
+        TripPreview,
     },
 })
 export default class Trips extends Vue {
@@ -68,7 +77,7 @@ export default class Trips extends Vue {
         this.$data.loading = true;
         const data = await fetch(process.env.VUE_APP_GET_ALL_TRIPS);
         this.trips = (await data.json()).trips as tripType[];
-        this.$data.loading = false;
+        setInterval(() => (this.$data.loading = false), 5000);
     }
 
     getTripInfo(): { name: string; img: string; id?: string; link: string }[] {
@@ -92,5 +101,28 @@ export default class Trips extends Vue {
             params: { id: id, trip: this.getTripById(id) as any },
         });
     }
+
+    findClosestTrip(): tripType {
+        const today = new Date();
+        return this.convertedTrips?.reduce((a, b) =>
+            a.startDate.getDate() - today.getDate() <
+            b.startDate.getDate() - today.getDate()
+                ? a
+                : b,
+        );
+    }
 }
 </script>
+<style scoped>
+.theme--dark .side {
+    background-color: var(--side-dark-background);
+}
+
+.theme--dark .main {
+    background-color: var(--main-dark-background);
+}
+
+.side {
+    position: fixed;
+}
+</style>

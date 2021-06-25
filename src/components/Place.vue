@@ -1,11 +1,15 @@
 <template>
-    <vs-card type="3" class="ma-3" @click="selectTrip">
+    <vs-card
+        type="3"
+        class="rounded-pill mt-6 mr-6 mr-l-6 ml-12"
+        @click="selectTrip"
+    >
         <template #title>
             <v-row class="ma-0 pa-0" justify="space-between">
                 <h3>{{ name }}</h3>
             </v-row>
         </template>
-        <template #img class="am">
+        <template #img class="rounded-pill">
             <v-col
                 v-if="img"
                 class="image"
@@ -51,11 +55,9 @@ export default class Place extends Vue {
 <style scoped>
 .image {
     background-repeat: no-repeat;
-    background-size: cover;
-    width: 50vw;
-    height: 100%;
-}
-.am {
+    background-size: 100% 100%;
     width: 30vw !important;
+    height: 100%;
+    border-radius: var(--card-border-radius) !important;
 }
 </style>
