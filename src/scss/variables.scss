@@ -1,0 +1,23 @@
+$body-font-family: 'Poppins' !important;
+$heading-font-family: $body-font-family;
+
+.v-application {
+    font-family: $body-font-family;
+}
+
+.v-application {
+    .display-4,
+    .display-3,
+    .display-2,
+    .display-1,
+    .headline,
+    .title,
+    .subtitle-1,
+    .subtitle-2,
+    .body-1,
+    .body-2,
+    .caption,
+    .overline {
+        font-family: $body-font-family;
+    }
+}

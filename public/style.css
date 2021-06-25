@@ -1,45 +1,19 @@
-.lightTheme .vs-switch__circle {
-    background: #1e2023 !important;
-    box-shadow: none !important;
-}
-.vs-switch {
-    background-color: #141417;
-    background: #141417;
-}
-/*TODO: change theme colors as var*/
+@import './styles/scroll.css';
+@import './styles/vuesax.css';
+@import './styles/ol-map.css';
 
-/* [vs-theme='dark'] {
-    --vs-background: 30, 32, 35;
-    --vs-text: 255, 255, 255;
-    --vs-gray-1: 24, 25, 28;
-    --vs-gray-2: 20, 20, 23;
-    --vs-gray-3: 15, 16, 19;
-    --vs-gray-4: 10, 11, 14;
-    --vs-shadow-opacity: 0.3;
-    --vs-dark: 0, 0, 0;
-    --vs-background-opacity: 0.6;
+:root {
+    --card-border-radius: 40px;
 }
-[vs-theme='dark'] {
-    background-color: rgba(var(--vs-background), 1);
-    color: rgba(var(--vs-text), 1);
-} */
+
+body,
+html,
+#app {
+    font-family: 'Poppins' !important;
+}
 
 [vs-theme='dark'] {
-    --vs-theme-bg: #18191c;
-    --vs-theme-color: #fff;
-    --vs-theme-layout: #1e2023;
-    --vs-theme-bg2: #141417;
-    --vs-theme-code: #141417;
-    --vs-theme-code2: #161619;
-}
-[vs-theme='dark'] {
-    --vs-background: 30, 32, 35;
-    --vs-text: 255, 255, 255;
-    --vs-gray-1: 24, 25, 28;
-    --vs-gray-2: 20, 20, 23;
-    --vs-gray-3: 15, 16, 19;
-    --vs-gray-4: 10, 11, 14;
-    --vs-shadow-opacity: 0.3;
-    --vs-dark: 0, 0, 0;
-    --vs-background-opacity: 0.6;
+    --main-dark-background: #272727;
+    --side-dark-background: #040404;
+    --card-dark-background: #1c1c1c;
 }
