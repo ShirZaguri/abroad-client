@@ -25,21 +25,6 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component({})
 export default class ThemePicker extends Vue {
     //TODO: move all page
-    created(): void {
-        let vsTheme = localStorage.getItem('vsTheme');
-
-        if (!vsTheme) {
-            localStorage.setItem('vsTheme', 'dark');
-        }
-
-        if (vsTheme == 'light') {
-            this.$vuetify.theme.dark = false;
-        } else {
-            this.$vuetify.theme.dark = true;
-        }
-
-        this.$vs.setTheme(vsTheme);
-    }
 
     toggleTheme(): void {
         if (this.$vuetify.theme.dark) {

@@ -39,20 +39,40 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class olMap extends Vue {
-    @Prop() private precentWidth!: number;
+    @Prop({ default: 100 }) private precentWidth!: number;
 
     data(): {
         zoom: number;
         center: number[];
         rotation: number;
-        geolocPosition: undefined;
+        geolocPosition: null;
     } {
         return {
             zoom: 2,
             center: [0, 0],
             rotation: 0,
-            geolocPosition: undefined,
+            geolocPosition: null,
         };
     }
+
+    created(): void {
+        // if (navigator.geolocation) {
+        //     navigator.geolocation.watchPosition(
+        //         this.setNewGeoLoc,
+        //         this.setNewGeoLoc,
+        //         {
+        //             enableHighAccuracy: true,
+        //         },
+        //     );
+        // }
+    }
+
+    // setNewGeoLoc(newGeoLoc: any): void {
+    //     console.log(newGeoLoc);
+    //     this.$data.geolocPosition = newGeoLoc;
+    // }
 }
 </script>
+
+<style scoped>
+</style>

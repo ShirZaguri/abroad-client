@@ -1,29 +1,27 @@
 <template>
-    <v-app>
-        <v-row no-gutters class="d-block">
-            <v-col cols="5" class="side float-left" fixed>
-                <TripPreview :currentTrip="findClosestTrip()"></TripPreview>
-            </v-col>
-            <v-col cols="7" class="main float-right">
-                <div class="ma-0 pa-0">
-                    <PlaceLoader :loading="loading"></PlaceLoader>
-                    <draggable
-                        group="places"
-                        v-bind="dragOptions"
-                        v-if="trips && !loading"
-                    >
-                        <Place
-                            v-for="(place, index) in getTripInfo()"
-                            @select-trip="selectTrip(place.id)"
-                            :img="place.img"
-                            :name="place.name"
-                            :key="index"
-                        />
-                    </draggable>
-                </div>
-            </v-col>
-        </v-row>
-    </v-app>
+    <DividedScreen>
+        <template v-slot:left>
+            <TripPreview :currentTrip="findClosestTrip()"></TripPreview>
+        </template>
+        <template v-slot:right>
+            <div class="ma-0 pa-0">
+                <PlaceLoader :loading="loading"></PlaceLoader>
+                <draggable
+                    group="places"
+                    v-bind="dragOptions"
+                    v-if="trips && !loading"
+                >
+                    <Place
+                        v-for="(place, index) in getTripInfo()"
+                        @select-trip="selectTrip(place.id)"
+                        :img="place.img"
+                        :name="place.name"
+                        :key="index"
+                    />
+                </draggable>
+            </div>
+        </template>
+    </DividedScreen>
 </template>
 
 <script lang="ts">
@@ -31,6 +29,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import draggable from 'vuedraggable';
 import { tripType } from '@/utils/types/trip-type';
 import Place from '../components/Place.vue';
+import DividedScreen from '@/components/DividedScreen.vue';
 import { convertTripTypeDatesToDateFormat } from '@/utils/converters/trip-type-converter';
 import PlaceLoader from '../components/PlaceLoader.vue';
 import TripPreview from '../components/TripPreview.vue';
@@ -41,6 +40,7 @@ import TripPreview from '../components/TripPreview.vue';
         Place,
         draggable,
         TripPreview,
+        DividedScreen,
     },
 })
 export default class Trips extends Vue {
@@ -86,7 +86,7 @@ export default class Trips extends Vue {
                 name: trip.destination,
                 img: trip.img,
                 id: trip._id,
-                link: '/trips/' + trip._id,
+                link: '/trip/' + trip._id,
             };
         });
     }
@@ -114,15 +114,4 @@ export default class Trips extends Vue {
 }
 </script>
 <style scoped>
-.theme--dark .side {
-    background-color: var(--side-dark-background);
-}
-
-.theme--dark .main {
-    background-color: var(--main-dark-background);
-}
-
-.side {
-    position: fixed;
-}
 </style>

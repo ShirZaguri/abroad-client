@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <div>
         <div v-for="day in daysNames" :key="day">
             <p class="font-weight-bold text-h6 ml-4 mb-0">
                 {{ day }}
@@ -27,7 +27,7 @@
             </div>
             <p v-else class="ml-4">No plans for this day</p>
         </div>
-    </v-app>
+    </div>
 </template>
 
 <script lang="ts">
