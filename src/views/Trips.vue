@@ -5,8 +5,8 @@
                 <TripPreview :currentTrip="findClosestTrip()"></TripPreview>
             </v-col>
             <v-col cols="7" class="main float-right">
-                <div class="ma-0 pa-0" ref="target" id="target">
-                    <placeHolder :loading="loading"></placeHolder>
+                <div class="ma-0 pa-0">
+                    <PlaceLoader :loading="loading"></PlaceLoader>
                     <draggable
                         group="places"
                         v-bind="dragOptions"
@@ -32,12 +32,12 @@ import draggable from 'vuedraggable';
 import { tripType } from '@/utils/types/trip-type';
 import Place from '../components/Place.vue';
 import { convertTripTypeDatesToDateFormat } from '@/utils/converters/trip-type-converter';
-import placeHolder from '../components/PlaceLoader.vue';
+import PlaceLoader from '../components/PlaceLoader.vue';
 import TripPreview from '../components/TripPreview.vue';
 
 @Component({
     components: {
-        placeHolder,
+        PlaceLoader,
         Place,
         draggable,
         TripPreview,
