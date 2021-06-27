@@ -4,6 +4,7 @@
 
 :root {
     --card-border-radius: 40px;
+    user-select: none;
 }
 
 body,
