@@ -1,0 +1,8 @@
+.ol-attribution.ol-uncollapsible {
+    display: none;
+}
+
+.rounded-map {
+    border-radius: 40px !important;
+    overflow: hidden;
+}
