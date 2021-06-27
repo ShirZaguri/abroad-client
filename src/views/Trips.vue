@@ -75,7 +75,7 @@ export default class Trips extends Vue {
 
     async getTrips(): Promise<void> {
         this.$data.loading = true;
-        const data = await fetch(process.env.VUE_APP_GET_ALL_TRIPS);
+        const data = await fetch(process.env.VUE_APP_GET_TRIPS);
         this.trips = (await data.json()).trips as tripType[];
         setInterval(() => (this.$data.loading = false), 5000);
     }
@@ -113,5 +113,4 @@ export default class Trips extends Vue {
     }
 }
 </script>
-<style scoped>
-</style>
+<style scoped></style>

@@ -63,7 +63,7 @@ export default class Plan extends Vue {
     async created(): Promise<void> {
         if (!this.trip) {
             const trip = await (
-                await fetch(`http://localhost:3000/api/trips/id/${this.id}`)
+                await fetch(`${process.env.VUE_APP_GET_TRIPS}${this.id}`)
             ).json();
             this.trip = convertTripTypeDatesToDateFormat([
                 trip.trip as tripType,
