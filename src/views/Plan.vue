@@ -65,9 +65,7 @@ export default class Plan extends Vue {
             const trip = await (
                 await fetch(`${process.env.VUE_APP_GET_TRIPS}${this.id}`)
             ).json();
-            this.trip = convertTripTypeDatesToDateFormat([
-                trip.trip as tripType,
-            ])[0];
+            this.trip = convertTripTypeDatesToDateFormat(trip as tripType[])[0];
         }
     }
 

@@ -86,7 +86,7 @@ export default class Trips extends Vue {
                 name: trip.destination,
                 img: trip.img,
                 id: trip._id,
-                link: '/trip/' + trip._id,
+                link: '/trips/' + trip._id,
             };
         });
     }
