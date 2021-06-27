@@ -1,9 +1,8 @@
-.ol-viewport,
-.ol-unselectable,
-canvas {
-    border-radius: 50px !important;
-}
-
 .ol-attribution.ol-uncollapsible {
     display: none;
+}
+
+.rounded-map {
+    border-radius: 40px !important;
+    overflow: hidden;
 }

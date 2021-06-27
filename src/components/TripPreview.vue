@@ -20,7 +20,7 @@
             <ThemePicker></ThemePicker>
         </div>
         <v-row no-gutters align="center" justify="center" style="height: 40vh">
-            <olMap class="align-center" :precentWidth="90"></olMap>
+            <olMap class="align-center rounded-map" :precentWidth="90"></olMap>
         </v-row>
         <v-row no-gutters align="end" justify="end" style="height: 30vh">
             <vs-button
