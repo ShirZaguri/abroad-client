@@ -27,6 +27,7 @@
                 circle
                 gradient
                 class="plan align-end mb-5 font-weight-medium"
+                @click="planTrip"
             >
                 Plan your trip
                 <span class="material-icons md-dark">beach_access</span>
@@ -49,6 +50,10 @@ import ThemePicker from './ThemePicker.vue';
 })
 export default class TripPreview extends Vue {
     @Prop() private currentTrip!: tripType;
+
+    planTrip(): void {
+        this.$emit('plan-trip');
+    }
 }
 </script>
 <style scoped>

@@ -1,7 +1,11 @@
 <template>
     <DividedScreen>
         <template v-slot:left>
-            <TripPreview :currentTrip="findClosestTrip()"></TripPreview>
+            <TripPreview
+                v-if="selectedTrip"
+                :currentTrip="selectedTrip"
+                @plan-trip="planTrip"
+            ></TripPreview>
         </template>
         <template v-slot:right>
             <div class="ma-0 pa-0">
@@ -54,11 +58,17 @@ export default class Trips extends Vue {
         this.convertedTrips = convertTripTypeDatesToDateFormat(value);
     }
 
-    created(): void {
-        this.getTrips();
+    async created(): Promise<void> {
+        await this.getTrips();
+        this.$data.selectedTrip = this.findClosestTrip();
     }
 
-    data(): { dragOptions: unknown; loading: boolean; page: number } {
+    data(): {
+        dragOptions: unknown;
+        loading: boolean;
+        page: number;
+        selectedTrip: tripType | undefined;
+    } {
         return {
             dragOptions: {
                 animation: 200,
@@ -70,6 +80,7 @@ export default class Trips extends Vue {
             },
             loading: true,
             page: 1,
+            selectedTrip: this.findClosestTrip(),
         };
     }
 
@@ -96,9 +107,16 @@ export default class Trips extends Vue {
     }
 
     selectTrip(id: string): void {
+        this.$data.selectedTrip = this.getTripById(id);
+    }
+
+    planTrip(): void {
         this.$router.push({
             name: 'Plan',
-            params: { id: id, trip: this.getTripById(id) as any },
+            params: {
+                id: this.$data.selectedTrip.id,
+                trip: this.$data.selectedTrip as any,
+            },
         });
     }
 
