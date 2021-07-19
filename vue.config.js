@@ -15,17 +15,4 @@ module.exports = {
                 return options;
             });
     },
-    // chainWebpack: (config) => {
-    //     config.module
-    //         .rule('vue')
-    //         .use('vue-loader')
-    //         .loader('vue-loader')
-    //         .tap((options) => {
-    //             return {
-    //                 transformAssetUrls: {
-    //                     'vl-style-icon': 'src',
-    //                 },
-    //             };
-    //         });
-    // },
 };
