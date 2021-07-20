@@ -1,45 +1,55 @@
 <template>
     <vl-map
+        ref="map"
         :load-tiles-while-animating="true"
         :load-tiles-while-interacting="true"
         data-projection="EPSG:4326"
         :style="{ width: `${precentWidth}%` }"
+        @click="triggerSelect"
     >
+        <!-- @pointermove="triggerSelect" -->
         <vl-view
+            ref="mapView"
+            ident="view"
             :zoom.sync="zoom"
             :center.sync="center"
             :rotation.sync="rotation"
         ></vl-view>
 
-        <vl-geoloc @update:position="geolocPosition = $event">
-            <template slot-scope="geoloc">
-                <vl-feature v-if="geoloc.position" id="position-feature">
-                    <vl-geom-point
-                        :coordinates="geoloc.position"
-                    ></vl-geom-point>
-                    <vl-style-box>
-                        <vl-style-icon
-                            src="_media/marker.png"
-                            :scale="0.4"
-                            :anchor="[0.5, 1]"
-                        ></vl-style-icon>
-                    </vl-style-box>
-                </vl-feature>
-            </template>
-        </vl-geoloc>
+        <MapLocation v-if="pinLocations"></MapLocation>
 
         <vl-layer-tile id="osm">
             <vl-source-osm></vl-source-osm>
         </vl-layer-tile>
+
+        <SelectedCountyTile ref="selected" :olMap="map"></SelectedCountyTile>
     </vl-map>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import SelectedCountyTile from './SelectedCountyTile.vue';
+import MapLocation from './MapLocation.vue';
+// import * as eventCondition from 'ol/events/condition';
 
-@Component({})
+@Component({
+    components: {
+        SelectedCountyTile,
+        MapLocation,
+    },
+})
 export default class olMap extends Vue {
     @Prop({ default: 100 }) private precentWidth!: number;
+    @Prop({ default: false }) private pinLocations!: boolean;
+
+    mounted(): void {
+        (this.$refs.map as any)?.$el.onmouseover((event: Event) => {
+            this.triggerSelect(event);
+        });
+    }
+    // get pointerMove() {
+    //     return eventCondition.pointerMove;
+    // }
 
     data(): {
         zoom: number;
@@ -55,24 +65,11 @@ export default class olMap extends Vue {
         };
     }
 
-    created(): void {
-        // if (navigator.geolocation) {
-        //     navigator.geolocation.watchPosition(
-        //         this.setNewGeoLoc,
-        //         this.setNewGeoLoc,
-        //         {
-        //             enableHighAccuracy: true,
-        //         },
-        //     );
-        // }
+    triggerSelect(event: any): void {
+        let features = (this.$refs.map as any)?.$map.getFeaturesAtPixel(
+            event.pixel,
+        );
+        (this.$refs.selected as SelectedCountyTile)?.onMapClick(features);
     }
-
-    // setNewGeoLoc(newGeoLoc: any): void {
-    //     console.log(newGeoLoc);
-    //     this.$data.geolocPosition = newGeoLoc;
-    // }
 }
 </script>
-
-<style scoped>
-</style>

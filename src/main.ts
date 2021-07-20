@@ -8,15 +8,12 @@ import vuetify from './plugins/vuetify';
 import Vuesax from 'vuesax';
 import 'vuesax/dist/vuesax.css';
 
-import { Map, TileLayer, OsmSource, Geoloc } from 'vuelayers';
+import VueLayers from 'vuelayers';
 import 'vuelayers/lib/style.css';
 
 Vue.use(Vuesax, {});
 
-Vue.use(Map);
-Vue.use(TileLayer);
-Vue.use(OsmSource);
-Vue.use(Geoloc);
+Vue.use(VueLayers);
 
 Vue.config.productionTip = false;
 

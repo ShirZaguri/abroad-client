@@ -1,7 +1,7 @@
 <template>
     <DividedScreen>
         <template v-slot:left>
-            <OLmap class="map"></OLmap>
+            <OLmap class="map" :pinLocations="true"></OLmap>
         </template>
         <template v-slot:right>
             <v-row
@@ -10,7 +10,7 @@
                 align="center"
             >
                 <p class="font-weight-bold text-h4 pa-0 ma-0 ml-4">
-                    {{ trip.destination }}
+                    {{ trip.destination.toUpperCase() }}
                 </p>
                 <v-row class="ma-0 pa-0" justify="end">
                     <vs-button circle icon floating @click="openAddModal">
