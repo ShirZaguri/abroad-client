@@ -102,14 +102,17 @@ export default class Trips extends Vue {
         });
     }
 
-    findClosestTrip(): tripType {
+    findClosestTrip(): tripType | undefined {
         const today = new Date();
-        return this.convertedTrips?.reduce((a, b) =>
-            a.startDate.getDate() - today.getDate() <
-            b.startDate.getDate() - today.getDate()
-                ? a
-                : b,
-        );
+
+        return this.convertedTrips?.length >= 1
+            ? this.convertedTrips?.reduce((a, b) =>
+                  a.startDate.getDate() - today.getDate() <
+                  b.startDate.getDate() - today.getDate()
+                      ? a
+                      : b,
+              )
+            : undefined;
     }
 }
 </script>
