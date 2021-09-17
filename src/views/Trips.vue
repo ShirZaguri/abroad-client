@@ -5,20 +5,13 @@
         </template>
         <template v-slot:right>
             <div class="ma-0 pa-0">
-                <PlaceLoader :loading="loading"></PlaceLoader>
-                <draggable
-                    group="places"
-                    v-bind="dragOptions"
-                    v-if="trips && !loading"
-                >
-                    <Place
-                        v-for="(place, index) in getTripInfo()"
-                        @select-trip="selectTrip(place.id)"
-                        :img="place.img"
-                        :name="place.name"
-                        :key="index"
-                    />
-                </draggable>
+                <Place
+                    v-for="(place, index) in getTripInfo()"
+                    @select-trip="selectTrip(place.id)"
+                    :img="place.img"
+                    :name="place.name"
+                    :key="index"
+                />
             </div>
         </template>
     </DividedScreen>
@@ -77,7 +70,8 @@ export default class Trips extends Vue {
         this.$data.loading = true;
         const data = await fetch(process.env.VUE_APP_GET_TRIPS);
         this.trips = (await data.json()).trips as tripType[];
-        setInterval(() => (this.$data.loading = false), 5000);
+        this.$data.loading = false;
+        // setInterval(() => (this.$data.loading = false), 5000);
     }
 
     getTripInfo(): { name: string; img: string; id?: string; link: string }[] {
