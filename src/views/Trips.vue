@@ -105,8 +105,8 @@ export default class Trips extends Vue {
     findClosestTrip(): tripType | undefined {
         const today = new Date();
 
-        return this.convertedTrips?.length >= 1
-            ? this.convertedTrips?.reduce((a, b) =>
+        return this.trips?.length >= 1
+            ? this.trips?.reduce((a, b) =>
                   a.startDate.getDate() - today.getDate() <
                   b.startDate.getDate() - today.getDate()
                       ? a

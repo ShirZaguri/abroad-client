@@ -22,7 +22,7 @@
             <vl-source-osm></vl-source-osm>
         </vl-layer-tile>
 
-        <SelectedCountyTile ref="selected" :olMap="map"></SelectedCountyTile>
+        <SelectedCountyTile ref="selected"></SelectedCountyTile>
     </vl-map>
 </template>
 
@@ -43,9 +43,9 @@ export default class olMap extends Vue {
     @Prop({ default: false }) private pinLocations!: boolean;
 
     mounted(): void {
-        (this.$refs.map as any)?.$el.onmouseover((event: Event) => {
-            this.triggerSelect(event);
-        });
+        // (this.$refs.map as any)?.$el.onmouseover((event: Event) => {
+        //     this.triggerSelect(event);
+        // });
     }
     // get pointerMove() {
     //     return eventCondition.pointerMove;
@@ -69,6 +69,7 @@ export default class olMap extends Vue {
         let features = (this.$refs.map as any)?.$map.getFeaturesAtPixel(
             event.pixel,
         );
+        debugger;
         (this.$refs.selected as SelectedCountyTile)?.onMapClick(features);
     }
 }

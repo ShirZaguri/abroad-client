@@ -3,6 +3,8 @@
         ref="vtLayer"
         :declutter="true"
         :format-factory="createMvtFormat"
+        :postrender="test"
+        @postrender="test"
     >
         <vl-source-vector-tile
             :url="vtUrl"
@@ -14,9 +16,8 @@
         ></vl-style-func>
     </vl-layer-vector-tile>
 </template>
-
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import ol from 'vuelayers';
 import { VectorSource, VectorTile } from 'ol/source/Vector';
 import { MVT } from 'ol/format';
@@ -25,38 +26,6 @@ import { createStyle } from 'vuelayers/lib/ol-ext';
 // TODO: remove unused code
 @Component({})
 export default class SelectedCountry extends Vue {
-    @Prop() private olMap: any;
-    // mounted() {
-    //     this.$nextTick(function () {
-    //         (this.$refs.vtLayer as any)
-    //             ?.getSource()
-    //             .on('tileloadend', function (evt) {
-    //                 debugger;
-    //                 var z = evt.tile.getTileCoord()[0];
-    //                 var features = evt.tile.getFeatures();
-    //             });
-    //     });
-    // }
-    created() {
-        // (this.$refs.vtLayer as any)
-        //     ?.getSource()
-        //     .on('tileloadend', function (evt) {
-        //         var z = evt.tile.getTileCoord()[0];
-        //         debugger;
-        //         var features = evt.tile.getFeatures();
-        // features.forEach(function (feature) {
-        //     // each vector tile has its own set of feature ids, but duplicates are not allowed in normal vector sources
-        //     feature.setId(undefined);
-        // });
-        // if (!Array.isArray(this.$data.featuresForZ[z])) {
-        //     this.$data.featuresForZ[z] = [];
-        // }
-        // this.$data.featuresForZ[z] = this.$data.featuresForZ[z].concat(features);
-        // if (z === viewZ) {
-        //     vsRefresh();
-        // }
-        // });
-    }
     data() {
         return {
             vtUrl:
@@ -66,7 +35,29 @@ export default class SelectedCountry extends Vue {
             vtSelection: {},
             vtSelectMode: 'single',
             featuresForZ: [],
+            amit: 'ä',
+            // features: this.getFeatures(),
         };
+    }
+
+    getFeatures() {
+        debugger;
+        (this.$refs.vtLayer as any)
+            ?.getSource()
+            .on('tileloadend', function (evt) {
+                var z = evt.tile.getTileCoord()[0];
+                debugger;
+                let features = evt.tile.getFeatures();
+                return features;
+            });
+    }
+
+    @Watch('$refs.source.$source') onPropertyChanged(
+        value: unknown,
+        oldValue: string,
+    ): void {
+        debugger;
+        console.log(`new vtLayer: ${value}`);
     }
 
     get vtLayer(): Vue & { refresh: () => boolean } {
@@ -102,15 +93,18 @@ export default class SelectedCountry extends Vue {
                   });
         };
     }
-    onMapClick(features: Feature): void {
-        // let features = this.olMap.$map.getFeaturesAtPixel(evt.pixel);
+    test(entv) {
         debugger;
-        // (this.$refs.vtLayer as any)
-        //     ?.getSource()
-        //     .on('tileloadend', function (evt) {
-        //         var z = evt.tile.getTileCoord()[0];
-        //         var features = evt.tile.getFeatures();
-        //     });
+    }
+    onMapClick(features: Feature): void {
+        debugger;
+        (this.$refs.vtLayer as any)
+            ?.getSource()
+            .on('tileloadend', function (evt) {
+                var z = evt.tile.getTileCoord()[0];
+                debugger;
+                var features = evt.tile.getFeatures();
+            });
 
         if (!features) {
             this.$data.vtSelection = {};

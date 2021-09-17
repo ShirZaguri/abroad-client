@@ -39,7 +39,7 @@ export default class ThemePicker extends Vue {
 </script>
 <style scoped>
 .material-icons.md-dark {
-    color: #ffff;
+    color: rgb(255, 255, 255);
     font-size: 18px !important;
 }
 .material-icons.md-dark.md-inactive {
