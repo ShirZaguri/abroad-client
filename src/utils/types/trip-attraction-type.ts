@@ -6,5 +6,6 @@ export type tripAttractionType = {
     details: {
         date: Date;
         price: Number;
+        done?: boolean;
     };
 };

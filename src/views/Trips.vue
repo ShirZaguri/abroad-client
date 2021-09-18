@@ -1,8 +1,8 @@
 <template>
-    <DividedScreen>
-        <template v-slot:left>
-            <TripPreview :currentTrip="findClosestTrip()"></TripPreview>
-        </template>
+    <!-- <DividedScreen> -->
+    <!-- <template v-slot:left> -->
+    <TripMobile :trip="trips[0]" />
+    <!-- </template>
         <template v-slot:right>
             <div class="ma-0 pa-0">
                 <Place
@@ -13,8 +13,8 @@
                     :key="index"
                 />
             </div>
-        </template>
-    </DividedScreen>
+        </template> -->
+    <!-- </DividedScreen> -->
 </template>
 
 <script lang="ts">
@@ -26,6 +26,7 @@ import DividedScreen from '@/components/DividedScreen.vue';
 import { convertTripTypeDatesToDateFormat } from '@/utils/converters/trip-type-converter';
 import PlaceLoader from '../components/PlaceLoader.vue';
 import TripPreview from '../components/TripPreview.vue';
+import TripMobile from '@/views/TripMobile.vue';
 
 @Component({
     components: {
@@ -34,6 +35,7 @@ import TripPreview from '../components/TripPreview.vue';
         draggable,
         TripPreview,
         DividedScreen,
+        TripMobile,
     },
 })
 export default class Trips extends Vue {
