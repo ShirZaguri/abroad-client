@@ -92,7 +92,7 @@ export default class TripMobile extends Vue {
                     this.trip ? this.trip.img : 'zans'
                 }.jpg`) +
                 ')',
-            backgroundSize: 'contain',
+            backgroundSize: 'cover',
         };
     }
 
@@ -107,6 +107,7 @@ export default class TripMobile extends Vue {
 <style scoped>
 #destination-bg {
     height: 25vh;
+    background-repeat: no-repeat;
 }
 
 #destination-title {
