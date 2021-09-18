@@ -1,7 +1,7 @@
 <template>
     <div class="ma-2">
         <v-row class="ma-0 pa-0" justify="center">
-            <span class="mb-1 font-weight-medium">{{ tag }}</span>
+            <span class="mb-1 font-weight-bold">{{ tag }}</span>
         </v-row>
         <v-row class="ma-0 pa-0">
             <v-icon
@@ -68,7 +68,7 @@ export default class Temperature extends Vue {
 
 <style scoped>
 .temperature-icon {
-    font-size: 11vw;
+    font-size: 10.5vw;
 }
 
 .gradient {

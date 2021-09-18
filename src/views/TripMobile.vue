@@ -12,43 +12,19 @@
                     {{ trip.destination }}
                 </h1>
                 <vs-button gradient class="date-chip mb-0 font-weight-bold">
-                    {{ trip.startDate.toLocaleDateString() }} -
-                    {{ trip.endDate.toLocaleDateString() }}
+                    {{ tripDates[0] }} -
+                    {{ tripDates.slice(-1)[0] }}
                 </vs-button>
             </div>
         </v-row>
-        <v-row class="ma-0 pa-0" justify="center">
-            <span
-                v-for="date in dates.slice(2)"
-                :key="date"
-                color="white"
-                class="ma-1 pa-2"
-            >
-                {{ date }}
-            </span>
-            <v-chip
-                color="white"
-                class="ma-2 font-weight-black"
-                text-color="#5c39d0"
-            >
-                {{ dates[0] }}
-            </v-chip>
-            <span
-                v-for="date in dates.slice(2)"
-                :key="date"
-                color="white"
-                class="ma-1 pa-2"
-            >
-                {{ date }}
-            </span>
-        </v-row>
+        <DateSwiper :dates="fixedTripDates" />
         <v-row id="temperature-holder" class="ma-0 mt-2 pa-0" justify="center">
             <v-col cols="5" class="ma-0 pa-0">
-                <Temperature :tag="'day'" :temperature="'5'" />
+                <Temperature tag="day" :temperature="20" />
             </v-col>
-            <v-divider class="my-6 mx-1" vertical color="white"></v-divider>
+            <v-divider class="my-6" vertical color="white"></v-divider>
             <v-col cols="5" class="ma-0 pa-0">
-                <Temperature :tag="'night'" :temperature="'-3'" />
+                <Temperature tag="night" :temperature="3" />
             </v-col>
         </v-row>
         <v-row class="ma-0 pa-0" justify="center" id="attractions-holder">
@@ -65,23 +41,49 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import Temperature from '../components/Temperature.vue';
-import AttractionItem from '../components/AttractionItem.vue';
-import { tripType } from '@/utils/types/trip-type';
 import { tripAttractionType } from '@/utils/types/trip-attraction-type';
-import { util } from 'vue/types/umd';
+import { tripType } from '@/utils/types/trip-type';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import AttractionItem from '../components/AttractionItem.vue';
+import DateSwiper from '../components/DateSwiper.vue';
+import Temperature from '../components/Temperature.vue';
 
 @Component({
     components: {
         Temperature,
         AttractionItem,
+        DateSwiper,
     },
 })
 export default class TripMobile extends Vue {
     @Prop() private trip!: tripType;
 
-    private dates = ['08/12', '09/12', '10/12', '11/12'];
+    get tripDates(): string[] {
+        return this.trip.startDate
+            ? this.getDatesBetween(this.trip.startDate, this.trip.endDate)
+            : [];
+    }
+
+    get fixedTripDates(): string[] {
+        return this.trip.startDate
+            ? this.tripDates.map((date: string) => date.slice(0, -5))
+            : [];
+    }
+
+    getDatesBetween(startDate, endDate): string[] {
+        const datesRange: string[] = [];
+        const currentDate = new Date(startDate);
+
+        while (currentDate <= endDate) {
+            let month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+            let day = ('0' + currentDate.getDate()).slice(-2);
+            let date = [day, month, currentDate.getFullYear()].join('/');
+            datesRange.push(date);
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return datesRange;
+    }
 
     get backgroundImageStyle(): any {
         //TODO: place default image
@@ -112,6 +114,7 @@ export default class TripMobile extends Vue {
 
 #destination-title {
     font-size: 13vw;
+    line-height: 1.2;
 }
 
 #attractions-holder {
