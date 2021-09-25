@@ -38,7 +38,7 @@ export default class AttractionItem extends Vue {
 
     get hour(): string {
         const hours = this.attraction.details.date.getHours();
-        const minutes = this.attraction.details.date.getHours();
+        const minutes = this.attraction.details.date.getMinutes();
         return `${hours < 10 ? '0' : ''}${hours}:${
             minutes < 10 ? '0' : ''
         }${minutes}`;

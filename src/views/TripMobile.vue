@@ -12,12 +12,12 @@
                     {{ trip.destination }}
                 </h1>
                 <vs-button gradient class="date-chip mb-0 font-weight-bold">
-                    {{ tripDates[0] }} -
-                    {{ tripDates.slice(-1)[0] }}
+                    {{ fixedTripDates[0] }} -
+                    {{ fixedTripDates.slice(-1)[0] }}
                 </vs-button>
             </div>
         </v-row>
-        <DateSwiper :dates="fixedTripDates" />
+        <DateSwiper :dates="tripDates" @changeDate="changeCurrentDate" />
         <v-row id="temperature-holder" class="ma-0 mt-2 pa-0" justify="center">
             <v-col cols="5" class="ma-0 pa-0">
                 <Temperature tag="day" :temperature="20" />
@@ -30,10 +30,10 @@
         <v-row class="ma-0 pa-0" justify="center" id="attractions-holder">
             <v-col cols="12">
                 <AttractionItem
-                    v-for="(attraction, index) in fixedAttractions"
+                    v-for="(attraction, index) in sortedAttractions"
                     :key="index"
                     :attraction="attraction"
-                    :now="attraction.attraction.name === 'Shirs Museum'"
+                    :now="attraction._id === closestAttractionId"
                 />
             </v-col>
         </v-row>
@@ -47,6 +47,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import AttractionItem from '../components/AttractionItem.vue';
 import DateSwiper from '../components/DateSwiper.vue';
 import Temperature from '../components/Temperature.vue';
+import DateService from '@/services/dateService';
 
 @Component({
     components: {
@@ -58,31 +59,44 @@ import Temperature from '../components/Temperature.vue';
 export default class TripMobile extends Vue {
     @Prop() private trip!: tripType;
 
-    get tripDates(): string[] {
+    private currentDay: Date = new Date();
+
+    get tripDates(): Date[] {
         return this.trip.startDate
-            ? this.getDatesBetween(this.trip.startDate, this.trip.endDate)
+            ? DateService.datesBetween(this.trip.startDate, this.trip.endDate)
             : [];
     }
 
     get fixedTripDates(): string[] {
         return this.trip.startDate
-            ? this.tripDates.map((date: string) => date.slice(0, -5))
+            ? DateService.datesConvert(this.tripDates, 'full')
             : [];
     }
 
-    getDatesBetween(startDate, endDate): string[] {
-        const datesRange: string[] = [];
-        const currentDate = new Date(startDate);
+    get todaysAttractions(): tripAttractionType[] {
+        return this.fixedAttractions.filter((attraction) =>
+            DateService.datesAreOnSameDay(
+                attraction.details.date,
+                this.currentDay,
+            ),
+        );
+    }
 
-        while (currentDate <= endDate) {
-            let month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
-            let day = ('0' + currentDate.getDate()).slice(-2);
-            let date = [day, month, currentDate.getFullYear()].join('/');
-            datesRange.push(date);
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
+    get sortedAttractions(): tripAttractionType[] {
+        return this.todaysAttractions.sort(
+            (a: tripAttractionType, b: tripAttractionType) => {
+                return Number(a.details.date) - Number(b.details.date);
+            },
+        );
+    }
 
-        return datesRange;
+    get closestAttractionId(): string {
+        const today = Number(new Date());
+        const previousAttractions: tripAttractionType[] =
+            this.sortedAttractions.filter(
+                (attraction) => Number(attraction.details.date) < today,
+            );
+        return previousAttractions[previousAttractions.length - 1]._id;
     }
 
     get backgroundImageStyle(): any {
@@ -103,6 +117,10 @@ export default class TripMobile extends Vue {
             atr.details.done = false;
             return atr;
         });
+    }
+
+    changeCurrentDate(newDate: Date): void {
+        this.currentDay = newDate;
     }
 }
 </script>
