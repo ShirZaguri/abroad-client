@@ -38,6 +38,14 @@ export default class DateService {
                     (month < 10 ? '0' : '') + month,
                 ].join('/');
             },
+            hour: (date: Date) => {
+                const hours = date.getHours();
+                const minutes = date.getMinutes();
+                return [
+                    (hours < 10 ? '0' : '') + hours,
+                    (minutes < 10 ? '0' : '') + minutes,
+                ].join(':');
+            },
         };
 
         return dates.map((date) => converts[format](date));

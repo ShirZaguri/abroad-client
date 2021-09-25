@@ -30,6 +30,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { tripAttractionType } from '@/utils/types/trip-attraction-type';
+import DateService from '@/services/dateService';
 
 @Component({})
 export default class AttractionItem extends Vue {
@@ -37,11 +38,10 @@ export default class AttractionItem extends Vue {
     @Prop() private now!: boolean;
 
     get hour(): string {
-        const hours = this.attraction.details.date.getHours();
-        const minutes = this.attraction.details.date.getMinutes();
-        return `${hours < 10 ? '0' : ''}${hours}:${
-            minutes < 10 ? '0' : ''
-        }${minutes}`;
+        return DateService.datesConvert(
+            [this.attraction.details.date],
+            'hour',
+        )[0];
     }
 
     get img(): string {

@@ -27,15 +27,11 @@
                 <Temperature tag="night" :temperature="3" />
             </v-col>
         </v-row>
-        <v-row class="ma-0 pa-0" justify="center" id="attractions-holder">
-            <v-col cols="12">
-                <AttractionItem
-                    v-for="(attraction, index) in sortedAttractions"
-                    :key="index"
-                    :attraction="attraction"
-                    :now="attraction._id === closestAttractionId"
-                />
-            </v-col>
+        <v-row class="ma-0 pa-0 pt-4" justify="center" id="attractions-holder">
+            <Attractions
+                :attractions="trip.attractions"
+                :currentDay="currentDay"
+            />
         </v-row>
     </div>
 </template>
@@ -47,6 +43,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import AttractionItem from '../components/AttractionItem.vue';
 import DateSwiper from '../components/DateSwiper.vue';
 import Temperature from '../components/Temperature.vue';
+import Attractions from '@/components/Attractions.vue';
 import DateService from '@/services/dateService';
 
 @Component({
@@ -54,6 +51,7 @@ import DateService from '@/services/dateService';
         Temperature,
         AttractionItem,
         DateSwiper,
+        Attractions,
     },
 })
 export default class TripMobile extends Vue {
@@ -73,32 +71,6 @@ export default class TripMobile extends Vue {
             : [];
     }
 
-    get todaysAttractions(): tripAttractionType[] {
-        return this.fixedAttractions.filter((attraction) =>
-            DateService.datesAreOnSameDay(
-                attraction.details.date,
-                this.currentDay,
-            ),
-        );
-    }
-
-    get sortedAttractions(): tripAttractionType[] {
-        return this.todaysAttractions.sort(
-            (a: tripAttractionType, b: tripAttractionType) => {
-                return Number(a.details.date) - Number(b.details.date);
-            },
-        );
-    }
-
-    get closestAttractionId(): string {
-        const today = Number(new Date());
-        const previousAttractions: tripAttractionType[] =
-            this.sortedAttractions.filter(
-                (attraction) => Number(attraction.details.date) < today,
-            );
-        return previousAttractions[previousAttractions.length - 1]._id;
-    }
-
     get backgroundImageStyle(): any {
         //TODO: place default image
         return {
@@ -110,13 +82,6 @@ export default class TripMobile extends Vue {
                 ')',
             backgroundSize: 'cover',
         };
-    }
-
-    get fixedAttractions(): tripAttractionType[] {
-        return this.trip.attractions.map((atr) => {
-            atr.details.done = false;
-            return atr;
-        });
     }
 
     changeCurrentDate(newDate: Date): void {
@@ -138,6 +103,7 @@ export default class TripMobile extends Vue {
 #attractions-holder {
     background-color: white;
     border-radius: 30px 30px 0px 0px;
+    height: 100%;
 }
 
 .date-chip {

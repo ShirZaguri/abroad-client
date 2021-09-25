@@ -13,12 +13,13 @@
             color="white"
             class="ma-2 font-weight-black"
             text-color="#5c39d0"
+            @click="selectDate(dates[2])"
         >
             {{ fixedTripDates[2] }}
         </v-chip>
         <span
             v-for="(date, index) in fixedTripDates.slice(3, dates.length)"
-            @click="selectDate(dates[index])"
+            @click="selectDate(dates[index + 3])"
             :key="date"
             color="white"
             class="ma-1 pa-2"
