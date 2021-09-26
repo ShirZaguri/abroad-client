@@ -1,8 +1,7 @@
+import TripsMobile from '@/views/TripsMobile.vue';
+import TripMobile from '@/views/TripMobile.vue';
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Plan from '@/views/Plan.vue';
-import Trips from '@/views/Trips.vue';
-import TripMobile from '@/views/TripMobile.vue';
 
 Vue.use(VueRouter);
 
@@ -10,12 +9,12 @@ const routes: Array<RouteConfig> = [
     {
         path: '/',
         name: 'Trips',
-        component: Trips,
+        component: TripsMobile,
     },
     {
         path: '/trips/:id',
         name: 'Plan',
-        component: Plan,
+        component: TripMobile,
         props: true,
     },
 ];

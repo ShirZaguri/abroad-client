@@ -26,7 +26,6 @@ import DividedScreen from '@/components/DividedScreen.vue';
 import { convertTripTypeDatesToDateFormat } from '@/utils/converters/trip-type-converter';
 import PlaceLoader from '../components/PlaceLoader.vue';
 import TripPreview from '../components/TripPreview.vue';
-import TripMobile from '@/views/TripMobile.vue';
 
 @Component({
     components: {
@@ -35,7 +34,6 @@ import TripMobile from '@/views/TripMobile.vue';
         draggable,
         TripPreview,
         DividedScreen,
-        TripMobile,
     },
 })
 export default class Trips extends Vue {
@@ -53,7 +51,11 @@ export default class Trips extends Vue {
         this.getTrips();
     }
 
-    data(): { dragOptions: unknown; loading: boolean; page: number } {
+    data(): {
+        dragOptions: unknown;
+        loading: boolean;
+        page: number;
+    } {
         return {
             dragOptions: {
                 animation: 200,
