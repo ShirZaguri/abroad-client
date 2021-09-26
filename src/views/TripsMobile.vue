@@ -11,7 +11,7 @@
             @clickSlide="handleClickSlide"
         >
             <swiper-slide v-for="trip in trips" :key="trip._id">
-                <trip-card :trip="trip" />
+                <trip-card :trip="trip" :closest="closestTripId === trip._id" />
             </swiper-slide>
         </swiper>
     </div>
@@ -24,6 +24,7 @@ import SwiperClass, { SwiperOptions } from 'swiper';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { Component, Vue } from 'vue-property-decorator';
 import TripCard from '../components/TripCard.vue';
+import _ from 'lodash';
 
 // import 'swiper/css/swiper.css';
 // import 'swiper/components/effect-coverflow/effect-coverflow.scss';
@@ -45,7 +46,7 @@ export default class Trips extends Vue {
     }
 
     get trips(): tripType[] {
-        return this.convertedTrips;
+        return _.orderBy(this.convertedTrips, 'startDate');
     }
 
     set trips(value: tripType[]) {
@@ -112,14 +113,14 @@ export default class Trips extends Vue {
         });
     }
 
-    findClosestTrip(): tripType {
-        const today = new Date();
-        return this.convertedTrips?.reduce((a, b) =>
-            a.startDate.getDate() - today.getDate() <
-            b.startDate.getDate() - today.getDate()
-                ? a
-                : b,
+    get closestTripId(): string | undefined {
+        const today = Number(new Date());
+        const nextTrips: tripType[] = this.trips.filter(
+            (trip) =>
+                Number(trip.startDate) >= today ||
+                Number(trip.endDate) >= today,
         );
+        return nextTrips[0]._id;
     }
 }
 </script>

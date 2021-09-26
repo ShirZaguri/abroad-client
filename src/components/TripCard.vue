@@ -6,7 +6,7 @@
         justify="start"
         :style="backgroundImageStyle"
     >
-        <v-row class="justify-end ma-0 pa-3">
+        <v-row v-if="closest" class="justify-end ma-0 pa-3">
             <vs-button
                 gradient
                 class="date-chip mb-0 font-weight-bold align-self-start"
@@ -37,6 +37,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component({})
 export default class TripCard extends Vue {
     @Prop() private trip!: tripType;
+    @Prop() private closest!: boolean;
 
     get tripDates(): string[] {
         return this.trip.startDate
