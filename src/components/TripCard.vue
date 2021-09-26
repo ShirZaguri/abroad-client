@@ -16,8 +16,7 @@
             </vs-button>
         </v-row>
         <v-row
-            class="flex-column ma-0 px-5 pt-10 pb-5"
-            align="self-end"
+            class="flex-column ma-0 px-5 pt-10 pb-5 align-self-end"
             justify="start"
         >
             <h1 id="destination">
