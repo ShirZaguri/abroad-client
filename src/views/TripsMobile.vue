@@ -26,9 +26,8 @@ import { Component, Vue } from 'vue-property-decorator';
 import TripCard from '../components/TripCard.vue';
 import _ from 'lodash';
 
-// import 'swiper/css/swiper.css';
-// import 'swiper/components/effect-coverflow/effect-coverflow.scss';
-// import 'swiper/src/components/effect-coverflow/effect-coverflow';
+import { namespace } from 'vuex-class';
+const loading = namespace('loading');
 
 @Component({
     components: {
@@ -39,6 +38,9 @@ import _ from 'lodash';
 })
 export default class Trips extends Vue {
     private convertedTrips: tripType[] = [];
+
+    @loading.Action
+    public toggleLoading!: () => void;
 
     get swiperComponentinstance(): SwiperClass {
         return (this.$refs.swiperComponentRef as HTMLFormElement)
@@ -54,7 +56,9 @@ export default class Trips extends Vue {
     }
 
     created(): void {
+        this.toggleLoading();
         this.getTrips();
+        setTimeout(this.toggleLoading, 5000);
     }
 
     data(): {
@@ -81,7 +85,6 @@ export default class Trips extends Vue {
     async getTrips(): Promise<void> {
         const data = await fetch(process.env.VUE_APP_GET_TRIPS);
         this.trips = (await data.json()).trips as tripType[];
-        // setInterval(() => (this.$data.loading = false), 5000);
     }
 
     handleClickSlide(): void {
