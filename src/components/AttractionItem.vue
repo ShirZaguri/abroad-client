@@ -15,7 +15,7 @@
                         : 'attraction-hour font-weight-medium ',
                 ]"
             >
-                {{ hour }}
+                {{ attraction.details.date | hourDate }}
             </span>
         </v-col>
         <vs-avatar>
@@ -30,19 +30,11 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { tripAttractionType } from '@/utils/types/trip-attraction-type';
-import DateService from '@/services/dateService';
 
 @Component({})
 export default class AttractionItem extends Vue {
     @Prop() private attraction!: tripAttractionType;
     @Prop() private now!: boolean;
-
-    get hour(): string {
-        return DateService.datesConvert(
-            [this.attraction.details.date],
-            'hour',
-        )[0];
-    }
 
     get img(): string {
         //TODO: place default image

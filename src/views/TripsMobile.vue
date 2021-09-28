@@ -69,7 +69,8 @@ export default class Trips extends Vue {
     async created(): Promise<void> {
         this.toggleLoading();
         this.trips = await TripService.getTrips();
-        setTimeout(this.toggleLoading, 5000);
+        this.toggleLoading();
+        // setTimeout(this.toggleLoading, 5000);
     }
 
     data(): {

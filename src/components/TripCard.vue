@@ -23,8 +23,8 @@
                 {{ trip.destination }}
             </h1>
             <h4 id="dates">
-                {{ tripDates[0] }} -
-                {{ tripDates.slice(-1)[0] }}
+                {{ trip.startDate | fullDate }} -
+                {{ trip.endDate | fullDate }}
             </h4>
         </v-row>
     </v-row>
@@ -38,12 +38,6 @@ export default class TripCard extends Vue {
     @Prop() private trip!: tripType;
     @Prop() private closest!: boolean;
 
-    get tripDates(): string[] {
-        return this.trip.startDate
-            ? this.getDatesBetween(this.trip.startDate, this.trip.endDate)
-            : [];
-    }
-
     get backgroundImageStyle(): any {
         //TODO: place default image
         return {
@@ -55,21 +49,6 @@ export default class TripCard extends Vue {
                 ')',
             backgroundSize: 'cover',
         };
-    }
-
-    getDatesBetween(startDate, endDate): string[] {
-        const datesRange: string[] = [];
-        const currentDate = new Date(startDate);
-
-        while (currentDate <= endDate) {
-            let month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
-            let day = ('0' + currentDate.getDate()).slice(-2);
-            let date = [day, month, currentDate.getFullYear()].join('/');
-            datesRange.push(date);
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-
-        return datesRange;
     }
 }
 </script>

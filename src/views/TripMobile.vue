@@ -12,8 +12,8 @@
                     {{ trip.destination }}
                 </h1>
                 <vs-button gradient class="date-chip mb-0 font-weight-bold">
-                    {{ fixedTripDates[0] }} -
-                    {{ fixedTripDates.slice(-1)[0] }}
+                    {{ trip.startDate | fullDate }} -
+                    {{ trip.endDate | fullDate }}
                 </vs-button>
             </div>
         </v-row>
@@ -61,12 +61,6 @@ export default class TripMobile extends Vue {
     get tripDates(): Date[] {
         return this.trip.startDate
             ? DateService.datesBetween(this.trip.startDate, this.trip.endDate)
-            : [];
-    }
-
-    get fixedTripDates(): string[] {
-        return this.trip.startDate
-            ? DateService.datesConvert(this.tripDates, 'full')
             : [];
     }
 

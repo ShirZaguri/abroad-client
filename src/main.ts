@@ -5,7 +5,7 @@ import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
 
-import VueTouch from 'vue-touch';
+import './plugins/filters/dates';
 
 import Vuesax from 'vuesax';
 import 'vuesax/dist/vuesax.css';
@@ -28,7 +28,6 @@ import 'swiper/css/swiper.css';
 // SwiperClass.use([EffectCoverflow]);
 
 Vue.use(Vuesax, {});
-Vue.use(VueTouch);
 
 Vue.use(Map);
 Vue.use(TileLayer);
