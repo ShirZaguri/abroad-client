@@ -1,92 +1,107 @@
 <template>
-    <!-- <DividedScreen> -->
-    <!-- <template v-slot:left> -->
-    <TripMobile :trip="trips[0]" />
-    <!-- </template>
-        <template v-slot:right>
-            <div class="ma-0 pa-0">
-                <Place
-                    v-for="(place, index) in getTripInfo()"
-                    @select-trip="selectTrip(place.id)"
-                    :img="place.img"
-                    :name="place.name"
-                    :key="index"
-                />
-            </div>
-        </template> -->
-    <!-- </DividedScreen> -->
+    <div>
+        <v-row class="flex-column pl-10 pt-16 pb-3">
+            <h1 id="explore-title">Explore</h1>
+            <p id="explore-subtitle" light>your trips</p>
+        </v-row>
+        <swiper
+            ref="swiperComponentRef"
+            :options="swiperOption"
+            class="swiper"
+            @clickSlide="handleClickSlide"
+        >
+            <swiper-slide v-for="trip in trips" :key="trip._id">
+                <trip-card :trip="trip" :closest="closestTripId === trip._id" />
+            </swiper-slide>
+        </swiper>
+    </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import draggable from 'vuedraggable';
-import { tripType } from '@/utils/types/trip-type';
-import Place from '../components/Place.vue';
-import DividedScreen from '@/components/DividedScreen.vue';
 import { convertTripTypeDatesToDateFormat } from '@/utils/converters/trip-type-converter';
-import PlaceLoader from '../components/PlaceLoader.vue';
-import TripPreview from '../components/TripPreview.vue';
+import { tripType } from '@/utils/types/trip-type';
+import SwiperClass, { SwiperOptions } from 'swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import { Component, Vue } from 'vue-property-decorator';
+import TripCard from '@/components/TripCard.vue';
+import TripService from '@/services/tripService';
+import _ from 'lodash';
+
+import { namespace } from 'vuex-class';
+import DateService, { DateObject } from '@/services/dateService';
+const loading = namespace('loading');
 
 @Component({
     components: {
-        PlaceLoader,
-        Place,
-        draggable,
-        TripPreview,
-        DividedScreen,
+        TripCard,
+        Swiper,
+        SwiperSlide,
     },
 })
 export default class Trips extends Vue {
     private convertedTrips: tripType[] = [];
 
+    @loading.Action
+    public toggleLoading!: () => void;
+
+    get swiperComponentinstance(): SwiperClass {
+        return (this.$refs.swiperComponentRef as HTMLFormElement)
+            ?.$swiper as SwiperClass;
+    }
+
     get trips(): tripType[] {
-        return this.convertedTrips;
+        return _.orderBy(this.convertedTrips, 'startDate');
     }
 
     set trips(value: tripType[]) {
         this.convertedTrips = convertTripTypeDatesToDateFormat(value);
     }
 
-    created(): void {
-        this.getTrips();
+    get closestTripId(): string | undefined {
+        return DateService.closestForward(
+            this.trips.map(
+                (trip) =>
+                    ({
+                        startDate: trip.startDate,
+                        endDate: trip.endDate,
+                        _id: trip._id,
+                    } as DateObject),
+            ),
+        );
+    }
+
+    async created(): Promise<void> {
+        this.toggleLoading();
+        this.trips = await TripService.getTrips();
+        this.toggleLoading();
+        // setTimeout(this.toggleLoading, 5000);
     }
 
     data(): {
-        dragOptions: unknown;
-        loading: boolean;
-        page: number;
+        swiperOption: SwiperOptions;
     } {
         return {
-            dragOptions: {
-                animation: 200,
-                delay: 200,
-                delayOnTouchOnly: true,
-                group: 'description',
-                disabled: false,
-                ghostClass: 'ghost',
+            swiperOption: {
+                effect: 'coverflow',
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: 'auto',
+                coverflowEffect: {
+                    rotate: 0,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: false,
+                },
+                freeMode: true,
             },
-            loading: true,
-            page: 1,
         };
     }
 
-    async getTrips(): Promise<void> {
-        this.$data.loading = true;
-        const data = await fetch(process.env.VUE_APP_GET_TRIPS);
-        this.trips = (await data.json()).trips as tripType[];
-        this.$data.loading = false;
-        // setInterval(() => (this.$data.loading = false), 5000);
-    }
-
-    getTripInfo(): { name: string; img: string; id?: string; link: string }[] {
-        return this.trips.map((trip) => {
-            return {
-                name: trip.destination,
-                img: trip.img,
-                id: trip._id,
-                link: '/trips/' + trip._id,
-            };
-        });
+    handleClickSlide(): void {
+        this.selectTrip(
+            this.trips[this.swiperComponentinstance.clickedIndex]._id as string,
+        );
     }
 
     getTripById(id: string): tripType | undefined {
@@ -95,20 +110,33 @@ export default class Trips extends Vue {
 
     selectTrip(id: string): void {
         this.$router.push({
-            name: 'Plan',
+            name: 'Overview',
             params: { id: id, trip: this.getTripById(id) as any },
         });
     }
-
-    findClosestTrip(): tripType {
-        const today = new Date();
-        return this.convertedTrips?.reduce((a, b) =>
-            a.startDate.getDate() - today.getDate() <
-            b.startDate.getDate() - today.getDate()
-                ? a
-                : b,
-        );
-    }
 }
 </script>
-<style scoped></style>
+<style scoped>
+.swiper {
+    height: 100%;
+    width: 100%;
+}
+
+.swiper-slide {
+    display: flex;
+    width: 75vw;
+    height: 70vh;
+    background-color: rgba(255, 255, 255, 0);
+    background-position: center;
+    background-size: cover;
+}
+
+#explore-title {
+    font-size: 10vw;
+    line-height: 1.2;
+}
+
+#explore-subtitle {
+    font-size: 5vw;
+}
+</style>

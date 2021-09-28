@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 Vue.filter('fullDate', (date: Date): string => {
     const day: number = date.getDate();
-    const month: number = date.getMonth();
+    const month: number = date.getMonth() + 1;
     const year: number = date.getFullYear();
     return [
         (day < 10 ? '0' : '') + day,
@@ -13,7 +13,7 @@ Vue.filter('fullDate', (date: Date): string => {
 
 Vue.filter('shortDate', (date: Date): string => {
     const day: number = date.getDate();
-    const month: number = date.getMonth();
+    const month: number = date.getMonth() + 1;
     return [(day < 10 ? '0' : '') + day, (month < 10 ? '0' : '') + month].join(
         '/',
     );

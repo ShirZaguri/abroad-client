@@ -1,5 +1,5 @@
-import TripsMobile from '@/views/TripsMobile.vue';
-import TripMobile from '@/views/TripMobile.vue';
+import Trips from '@/views/Trips.vue';
+import TripOverview from '@/views/TripOverview.vue';
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 
@@ -9,12 +9,12 @@ const routes: Array<RouteConfig> = [
     {
         path: '/',
         name: 'Trips',
-        component: TripsMobile,
+        component: Trips,
     },
     {
         path: '/trips/:id',
-        name: 'Plan',
-        component: TripMobile,
+        name: 'Overview',
+        component: TripOverview,
         props: true,
     },
 ];

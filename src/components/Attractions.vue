@@ -13,7 +13,8 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import AttractionItem from '@/components/AttractionItem.vue';
-import DateService from '@/services/dateService';
+import DateService, { DateObject } from '@/services/dateService';
+import _ from 'lodash';
 
 @Component({
     components: {
@@ -25,12 +26,15 @@ export default class Attractions extends Vue {
     @Prop() private currentDay!: Date;
 
     get closestAttractionId(): string {
-        const today = Number(new Date());
-        const previousAttractions: tripAttractionType[] =
-            this.sortedAttractions.filter(
-                (attraction) => Number(attraction.details.date) < today,
-            );
-        return previousAttractions[previousAttractions.length - 1]._id;
+        return DateService.closestHourBackwards(
+            this.sortedAttractions.map(
+                (attraction) =>
+                    ({
+                        endDate: attraction.details.date,
+                        _id: attraction._id,
+                    } as DateObject),
+            ),
+        );
     }
 
     get fixedAttractions(): tripAttractionType[] {
@@ -50,11 +54,8 @@ export default class Attractions extends Vue {
     }
 
     get sortedAttractions(): tripAttractionType[] {
-        return this.currentDayAttractions.sort(
-            (a: tripAttractionType, b: tripAttractionType) => {
-                return Number(a.details.date) - Number(b.details.date);
-            },
-        );
+        debugger;
+        return _.orderBy(this.currentDayAttractions, 'details.date');
     }
 }
 </script>
