@@ -41,11 +41,13 @@ export default class DateSwiper extends Vue {
         return this.dates ? DateService.datesConvert(this.dates, 'short') : [];
     }
 
-    selectDate(date) {
+    mounted(): void {
+        // TO DO: choose the right current day
+        this.selectDate(this.dates[2]);
+    }
+
+    selectDate(date: Date): void {
         this.$emit('changeDate', date);
     }
 }
 </script>
-
-<style>
-</style>

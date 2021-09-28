@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="main_holder">
         <v-row
             id="destination-bg"
             class="pt-6 ma-0"
@@ -37,7 +37,6 @@
 </template>
 
 <script lang="ts">
-import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import { tripType } from '@/utils/types/trip-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import AttractionItem from '../components/AttractionItem.vue';
@@ -71,7 +70,7 @@ export default class TripMobile extends Vue {
             : [];
     }
 
-    get backgroundImageStyle(): any {
+    get backgroundImageStyle(): { background: string; backgroundSize: string } {
         //TODO: place default image
         return {
             background:
@@ -90,6 +89,10 @@ export default class TripMobile extends Vue {
 }
 </script>
 <style scoped>
+#main_holder {
+    height: 100%;
+}
+
 #destination-bg {
     height: 25vh;
     background-repeat: no-repeat;
@@ -103,7 +106,6 @@ export default class TripMobile extends Vue {
 #attractions-holder {
     background-color: white;
     border-radius: 30px 30px 0px 0px;
-    height: 100%;
 }
 
 .date-chip {

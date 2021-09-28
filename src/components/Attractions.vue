@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="attractions">
         <AttractionItem
             v-for="(attraction, index) in sortedAttractions"
             :key="index"
@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import AttractionItem from '@/components/AttractionItem.vue';
 import DateService from '@/services/dateService';
@@ -60,5 +60,8 @@ export default class Attractions extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
+#attractions {
+    height: fit-content;
+}
 </style>
