@@ -30,7 +30,6 @@ export default class Attractions extends Vue {
             this.sortedAttractions.filter(
                 (attraction) => Number(attraction.details.date) < today,
             );
-        console.log(previousAttractions);
         return previousAttractions[previousAttractions.length - 1]._id;
     }
 
