@@ -2,7 +2,7 @@
     <div>
         <v-row class="flex-column pl-10 pt-16 pb-3">
             <h1 id="explore-title">Explore</h1>
-            <h4 id="explore-subtitle" class="font-weight-light">your trips</h4>
+            <p id="explore-subtitle" light>your trips</p>
         </v-row>
         <swiper
             ref="swiperComponentRef"
@@ -23,7 +23,8 @@ import { tripType } from '@/utils/types/trip-type';
 import SwiperClass, { SwiperOptions } from 'swiper';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { Component, Vue } from 'vue-property-decorator';
-import TripCard from '../components/TripCard.vue';
+import TripCard from '@/components/TripCard.vue';
+import TripService from '@/services/tripService';
 import _ from 'lodash';
 
 import { namespace } from 'vuex-class';
@@ -55,9 +56,19 @@ export default class Trips extends Vue {
         this.convertedTrips = convertTripTypeDatesToDateFormat(value);
     }
 
-    created(): void {
+    get closestTripId(): string | undefined {
+        const today = Number(new Date());
+        const nextTrips: tripType[] = this.trips.filter(
+            (trip) =>
+                Number(trip.startDate) >= today ||
+                Number(trip.endDate) >= today,
+        );
+        return nextTrips[0]._id;
+    }
+
+    async created(): Promise<void> {
         this.toggleLoading();
-        this.getTrips();
+        this.trips = await TripService.getTrips();
         setTimeout(this.toggleLoading, 5000);
     }
 
@@ -82,15 +93,9 @@ export default class Trips extends Vue {
         };
     }
 
-    async getTrips(): Promise<void> {
-        const data = await fetch(process.env.VUE_APP_GET_TRIPS);
-        this.trips = (await data.json()).trips as tripType[];
-    }
-
     handleClickSlide(): void {
-        debugger;
         this.selectTrip(
-            this.trips[this.swiperComponentinstance.clickedIndex]._id as any,
+            this.trips[this.swiperComponentinstance.clickedIndex]._id as string,
         );
     }
 
@@ -115,32 +120,23 @@ export default class Trips extends Vue {
             params: { id: id, trip: this.getTripById(id) as any },
         });
     }
-
-    get closestTripId(): string | undefined {
-        const today = Number(new Date());
-        const nextTrips: tripType[] = this.trips.filter(
-            (trip) =>
-                Number(trip.startDate) >= today ||
-                Number(trip.endDate) >= today,
-        );
-        return nextTrips[0]._id;
-    }
 }
 </script>
-<style lang="scss" scoped>
+<style scoped>
 .swiper {
     height: 100%;
     width: 100%;
-
-    .swiper-slide {
-        display: flex;
-        width: 75vw;
-        height: 70vh;
-        background-color: rgba(255, 255, 255, 0);
-        background-position: center;
-        background-size: cover;
-    }
 }
+
+.swiper-slide {
+    display: flex;
+    width: 75vw;
+    height: 70vh;
+    background-color: rgba(255, 255, 255, 0);
+    background-position: center;
+    background-size: cover;
+}
+
 #explore-title {
     font-size: 10vw;
     line-height: 1.2;
