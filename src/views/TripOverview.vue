@@ -1,32 +1,38 @@
 <template>
     <div id="main_holder">
-        <v-row
-            id="destination-bg"
-            class="pt-6 ma-0"
-            justify="center"
-            align="center"
-            :style="backgroundImageStyle"
-        >
-            <div class="d-flex flex-column text-center align-center">
-                <h1 id="destination-title">
-                    {{ trip.destination }}
-                </h1>
-                <vs-button gradient class="date-chip mb-0 font-weight-bold">
+        <div id="constant">
+            <v-row
+                id="destination-bg"
+                class="pt-6 ma-0"
+                justify="center"
+                align="center"
+            >
+                <!-- :style="backgroundImageStyle" -->
+                <div class="d-flex flex-column text-center align-center">
+                    <h1 id="destination-title">
+                        {{ trip.destination }}
+                    </h1>
+                    <!-- <vs-button gradient class="date-chip mb-0 font-weight-bold">
                     {{ trip.startDate | fullDate }} -
                     {{ trip.endDate | fullDate }}
-                </vs-button>
-            </div>
-        </v-row>
-        <DateSwiper :dates="tripDates" @changeDate="changeCurrentDate" />
-        <v-row id="temperature-holder" class="ma-0 mt-2 pa-0" justify="center">
-            <v-col cols="5" class="ma-0 pa-0">
-                <Temperature tag="day" :temperature="20" />
-            </v-col>
-            <v-divider class="my-6" vertical color="white"></v-divider>
-            <v-col cols="5" class="ma-0 pa-0">
-                <Temperature tag="night" :temperature="3" />
-            </v-col>
-        </v-row>
+                </vs-button> -->
+                </div>
+            </v-row>
+            <DateSwiper :dates="tripDates" @changeDate="changeCurrentDate" />
+            <v-row
+                id="temperature-holder"
+                class="ma-0 mt-2 pa-0"
+                justify="center"
+            >
+                <v-col cols="5" class="ma-0 pa-0">
+                    <Temperature tag="day" :temperature="20" />
+                </v-col>
+                <v-divider class="my-6" vertical color="white"></v-divider>
+                <v-col cols="5" class="ma-0 pa-0">
+                    <Temperature tag="night" :temperature="3" />
+                </v-col>
+            </v-row>
+        </div>
         <v-row class="ma-0 pa-0 pt-4" justify="center" id="attractions-holder">
             <Attractions
                 :attractions="trip.attractions"
@@ -98,8 +104,12 @@ export default class TripMobile extends Vue {
 }
 
 #attractions-holder {
-    background-color: white;
-    border-radius: 30px 30px 0px 0px;
+    height: 60vh;
+    overflow: scroll;
+}
+
+#constant {
+    height: 45vh;
 }
 
 .date-chip {

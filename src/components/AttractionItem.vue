@@ -1,28 +1,29 @@
 <template>
-    <v-row class="mx-2 my-1 pa-0" align="center" light @click="toggleDone">
-        <v-icon
+    <v-row
+        class="
+            attraction-card
+            mx-2
+            my-2
+            pa-3
+            rounded-lg
+            align-center
+            justify-space-between
+        "
+        :class="[now ? 'now font-weight-bold' : 'font-weight-medium ']"
+        light
+        @click="toggleDone"
+    >
+        <!-- <v-icon
             :color="attraction.details.done ? 'primary' : 'white'"
             size="15"
         >
             fas fa-check
-        </v-icon>
-        <v-col cols="3">
-            <span
-                class="text-subtitle-1 mx-2"
-                :class="[
-                    now
-                        ? 'font-weight-bold primary--text'
-                        : 'attraction-hour font-weight-medium ',
-                ]"
-            >
-                {{ attraction.details.date | hourDate }}
-            </span>
-        </v-col>
-        <vs-avatar>
-            <img class="attraction-img" :src="img" alt="" />
-        </vs-avatar>
-        <span class="font-weight-medium text-subtitle-1 ma-2 attraction-name">
+        </v-icon> -->
+        <span class="font-weight-medium text-subtitle-1 ma-2">
             {{ attraction.attraction.name }}
+        </span>
+        <span class="text-subtitle-1 mx-2 text--disabled">
+            {{ attraction.details.date | hourDate }}
         </span>
     </v-row>
 </template>
@@ -50,19 +51,15 @@ export default class AttractionItem extends Vue {
 }
 </script>
 <style scoped>
-.theme--dark .attraction-name {
-    color: var(--title-dark-color);
+.attraction-card {
+    width: 70vw;
+    background-color: rgba(48, 48, 48, 1);
+    overflow-y: auto;
 }
 
-.vs-avatar {
-    background-size: contain;
-}
-
-.attraction-img {
-    height: inherit;
-}
-
-.attraction-hour {
-    color: var(--title-disabled-color);
+.now {
+    position: relative;
+    right: 20px;
+    background-image: linear-gradient(to top right, #195bff, #6f42ff);
 }
 </style>

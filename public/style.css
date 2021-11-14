@@ -9,6 +9,7 @@
 body,
 html,
 #app {
+    overflow: hidden !important;
     font-family: 'Poppins' !important;
 }
 
