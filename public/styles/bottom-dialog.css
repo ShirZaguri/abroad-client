@@ -7,3 +7,7 @@
     left: 0px;
     width: 100vw !important;
 }
+
+.bottom-dialog .vs-dialog .notFooter {
+    height: calc(100% - 10px);
+}
