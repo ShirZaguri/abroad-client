@@ -1,6 +1,7 @@
 @import './styles/scroll.css';
 @import './styles/vuesax.css';
 @import './styles/ol-map.css';
+@import './styles/bottom-dialog.css';
 
 :root {
     --card-border-radius: 40px;
