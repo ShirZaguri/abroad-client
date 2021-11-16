@@ -1,15 +1,19 @@
 <template>
     <div id="attractions">
-        <v-btn dark @click="dialog = !dialog">create chat</v-btn>
+        <!-- <v-btn dark @click="dialog = !dialog">create chat</v-btn> -->
         <EditAttraction
             v-if="dialog"
-            :attraction="selectedAttraction"
+            :item="selectedAttraction"
         ></EditAttraction>
         <AttractionItem
             v-for="(attraction, index) in sortedAttractions"
             :key="index"
             :attraction="attraction"
             :now="attraction._id === closestAttractionId"
+            @click.native="
+                selectedAttraction = attraction;
+                dialog = true;
+            "
         />
     </div>
 </template>
@@ -75,6 +79,10 @@ export default class Attractions extends Vue {
 
     addAttraction(): void {
         console.log();
+    }
+
+    attractionClicked(): void {
+        this.$data.dialog = true;
     }
 }
 </script>

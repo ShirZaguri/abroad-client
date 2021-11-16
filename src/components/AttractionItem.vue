@@ -11,7 +11,6 @@
         "
         :class="[now ? 'now font-weight-bold' : 'font-weight-medium ']"
         light
-        @click="toggleDone"
     >
         <!-- <v-icon
             :color="attraction.details.done ? 'primary' : 'white'"
@@ -42,11 +41,6 @@ export default class AttractionItem extends Vue {
         return this.attraction.attraction.img
             ? require(`../assets/images/${this.attraction.attraction.img}.jpg`)
             : `../assets/images/zans.jpg`;
-    }
-
-    toggleDone(): void {
-        //TODO: change done state
-        this.attraction.details.done = true;
     }
 }
 </script>
