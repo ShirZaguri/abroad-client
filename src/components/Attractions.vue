@@ -1,9 +1,9 @@
 <template>
     <div id="attractions">
-        <!-- <v-btn dark @click="dialog = !dialog">create chat</v-btn> -->
         <EditAttraction
             v-if="dialog"
             :item="selectedAttraction"
+            @close-dialog="dialog = false"
         ></EditAttraction>
         <AttractionItem
             v-for="(attraction, index) in sortedAttractions"

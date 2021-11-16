@@ -2,6 +2,8 @@
 @import './styles/vuesax.css';
 @import './styles/ol-map.css';
 @import './styles/bottom-dialog.css';
+@import './styles/vs-avatar.css';
+@import './styles/vs-input.css';
 
 :root {
     --card-border-radius: 40px;

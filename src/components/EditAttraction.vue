@@ -7,6 +7,7 @@
         :value="true"
         class="bottom-dialog"
         :autoWidth="true"
+        @close="closeDialog"
     >
         <StepSwiper :items="tabs">
             <template v-slot:info>
@@ -39,6 +40,10 @@ export default class AddAttraction extends Vue {
             active: false,
             tabs: ['info', 'date'],
         };
+    }
+
+    closeDialog(): void {
+        this.$emit('close-dialog');
     }
 }
 </script>

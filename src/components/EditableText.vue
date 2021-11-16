@@ -18,7 +18,7 @@
 
         <!-- or not editable -->
         <template #default="v">
-            <span class="text-h5">
+            <span class="text-h5 font-weight-bold">
                 {{ v.value }}
             </span>
         </template>
@@ -44,13 +44,11 @@ export default class EditableText extends Vue {
     @Prop() attraction?: attractionType;
 
     blur(): void {
-        console.log('[app.vue] catch blur', ...arguments);
         (this.$refs['editable-text'] as any).editableOff();
     }
 
     editableOn(): void {
         this.$nextTick(() => {
-            console.log('inside ' + this.$refs['input']);
             (this.$refs['input'] as any).select();
         });
     }
