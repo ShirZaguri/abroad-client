@@ -2,8 +2,7 @@
     <v-row
         class="
             attraction-card
-            mx-2
-            my-2
+            ma-2
             pa-3
             rounded-lg
             align-center
@@ -46,9 +45,8 @@ export default class AttractionItem extends Vue {
 </script>
 <style scoped>
 .attraction-card {
-    width: 70vw;
+    width: 72vw;
     background-color: rgba(48, 48, 48, 1);
-    overflow-y: auto;
 }
 
 .now {

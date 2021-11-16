@@ -1,20 +1,39 @@
 <template>
-    <div id="attractions">
-        <!-- <v-btn dark @click="dialog = !dialog">create chat</v-btn> -->
+    <div>
         <EditAttraction
             v-if="dialog"
             :item="selectedAttraction"
         ></EditAttraction>
-        <AttractionItem
-            v-for="(attraction, index) in sortedAttractions"
-            :key="index"
-            :attraction="attraction"
-            :now="attraction._id === closestAttractionId"
-            @click.native="
-                selectedAttraction = attraction;
-                dialog = true;
-            "
-        />
+        <v-virtual-scroll
+            v-if="sortedAttractions.length > 0"
+            :items="sortedAttractions"
+            :item-height="80"
+            height="400"
+        >
+            <template v-slot:default="{ item }">
+                <v-row class="ma-0 pa-0" justify="center">
+                    <v-col cols="10">
+                        <AttractionItem
+                            :key="index"
+                            :attraction="item"
+                            :now="item._id === closestAttractionId"
+                            @click.native="
+                                selectedAttraction = item;
+                                dialog = true;
+                            "
+                        />
+                    </v-col>
+                </v-row>
+            </template>
+        </v-virtual-scroll>
+        <v-row v-else class="pa-0 ma-0 mt-6" align="center" justify="center">
+            <v-img
+                contain
+                src="../assets/images/sleep.png"
+                max-height="150"
+            ></v-img>
+            <span class="font-weight-bold">No plans for today yet</span>
+        </v-row>
     </div>
 </template>
 
@@ -73,7 +92,6 @@ export default class Attractions extends Vue {
     }
 
     get sortedAttractions(): tripAttractionType[] {
-        debugger;
         return _.orderBy(this.currentDayAttractions, 'details.date');
     }
 
