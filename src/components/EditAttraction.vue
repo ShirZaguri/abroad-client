@@ -4,6 +4,7 @@
         full-screen
         not-close
         blur
+        overflow-hidden
         :value="true"
         class="bottom-dialog"
         :autoWidth="true"

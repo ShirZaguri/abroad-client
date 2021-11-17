@@ -1,7 +1,6 @@
 <template>
     <input
         class="editable-text text-h5 font-weight-bold"
-        v-model="text"
         placeholder="Attraction Name"
         ref="text"
     />
