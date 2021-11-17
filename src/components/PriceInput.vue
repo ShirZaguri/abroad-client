@@ -5,7 +5,11 @@
         </vs-avatar>
 
         <div class="center content-inputs price">
-            <vs-input v-model="price" placeholder="Price" class="pl-4" />
+            <vs-input
+                v-model="price"
+                placeholder="Price"
+                class="pl-4 price-input"
+            />
         </div>
     </v-row>
 </template>

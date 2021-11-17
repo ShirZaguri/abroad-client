@@ -1,7 +1,16 @@
-.vs-input {
+.price-input .vs-input {
     padding-left: 30px !important;
     width: 35vw !important;
 }
-.vs-input__label {
+.price-input .vs-input__label {
     padding-left: 30px !important;
+}
+
+.editable-text .vs-input {
+    background-color: transparent !important;
+    width: 100% !important;
+}
+
+.editable-text ::-webkit-input-placeholder {
+    font-size: 1.5rem !important;
 }

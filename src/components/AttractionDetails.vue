@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- <EditableText :attraction="attraction"></EditableText> -->
+        <EditableText :text="attraction.name"></EditableText>
         <v-textarea
             solo
             background-color="#141417"
@@ -25,8 +25,8 @@
 import { attractionType } from '@/utils/types/attraction-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import EditableText from './EditableText.vue';
-import PriceInput from './PriceInput.vue';
 import NavigateBotton from './NavigateBotton.vue';
+import PriceInput from './PriceInput.vue';
 
 @Component({
     components: {
