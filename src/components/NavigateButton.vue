@@ -13,7 +13,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class AttractionDetails extends Vue {
+export default class NavigateButton extends Vue {
     @Prop() place?: string;
 }
 </script>

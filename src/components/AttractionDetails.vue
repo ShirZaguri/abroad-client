@@ -6,20 +6,19 @@
         ></EditableText>
         <v-textarea
             solo
-            background-color="#141417"
             label="description"
-            class="mt-4"
+            class="mt-4 description"
             hide-details
         ></v-textarea>
         <v-row no-gutters>
             <PriceInput
+                class="price-input"
                 :price="attraction.price"
-                style="width: 35vw"
             ></PriceInput>
-            <NavigateBotton
-                style="width: 35vw"
+            <NavigateButton
+                class="navigate-button"
                 :place="attraction.name"
-            ></NavigateBotton>
+            ></NavigateButton>
         </v-row>
     </div>
 </template>
@@ -28,17 +27,30 @@
 import { attractionType } from '@/utils/types/attraction-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import EditableText from './EditableText.vue';
-import NavigateBotton from './NavigateBotton.vue';
+import NavigateButton from './NavigateButton.vue';
 import PriceInput from './PriceInput.vue';
 
 @Component({
     components: {
         EditableText,
         PriceInput,
-        NavigateBotton,
+        NavigateButton,
     },
 })
 export default class AttractionDetails extends Vue {
     @Prop() attraction?: attractionType;
 }
 </script>
+<style scoped>
+.price-input {
+    width: 35vw;
+}
+
+.navigate-button {
+    width: 35vw;
+}
+
+.description {
+    background-color: #141417;
+}
+</style>
