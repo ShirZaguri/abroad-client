@@ -6,6 +6,7 @@
         ></EditableText>
         <v-textarea
             solo
+            background-color="#141417"
             label="description"
             class="mt-4 description"
             hide-details
@@ -48,9 +49,5 @@ export default class AttractionDetails extends Vue {
 
 .navigate-button {
     width: 35vw;
-}
-
-.description {
-    background-color: #141417;
 }
 </style>
