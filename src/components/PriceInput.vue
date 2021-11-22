@@ -1,16 +1,14 @@
 <template>
     <v-row no-gutters class="mt-4">
         <vs-avatar circle size="40" class="coin" @click="nextCoin">
-            <i :class="coins[currentCoinIndex]" class="bla"></i>
+            <i :class="coins[currentCoinIndex]"></i>
         </vs-avatar>
 
-        <div class="center content-inputs price">
-            <vs-input
-                v-model="price"
-                placeholder="Price"
-                class="pl-4 price-input"
-            />
-        </div>
+        <vs-input
+            v-model="price"
+            placeholder="Price"
+            class="pl-4 price-input"
+        />
     </v-row>
 </template>
 
