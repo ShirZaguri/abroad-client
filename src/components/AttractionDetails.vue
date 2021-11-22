@@ -1,6 +1,9 @@
 <template>
     <div>
-        <EditableText :text="attraction.name"></EditableText>
+        <EditableText
+            :text="attraction.name"
+            placeholder="Attraction Name"
+        ></EditableText>
         <v-textarea
             solo
             background-color="#141417"

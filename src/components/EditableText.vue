@@ -1,7 +1,7 @@
 <template>
     <input
         class="editable-text text-h5 font-weight-bold"
-        placeholder="Attraction Name"
+        :placeholder="placeholder"
         ref="text"
     />
 </template>
@@ -13,6 +13,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class EditableText extends Vue {
     @Prop() text?: string;
     @Prop({ default: false }) focus?: boolean;
+    @Prop() placeholder?: string;
 
     mounted(): void {
         if (this.focus) {
