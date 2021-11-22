@@ -12,12 +12,9 @@
             hide-details
         ></v-textarea>
         <v-row no-gutters>
-            <PriceInput
-                class="price-input"
-                :price="attraction.price"
-            ></PriceInput>
+            <PriceInput class="price" :price="attraction.price"></PriceInput>
             <NavigateButton
-                class="navigate-button"
+                class="navigate"
                 :place="attraction.name"
             ></NavigateButton>
         </v-row>
@@ -43,11 +40,11 @@ export default class AttractionDetails extends Vue {
 }
 </script>
 <style scoped>
-.price-input {
+.price {
     width: 35vw;
 }
 
-.navigate-button {
+.navigate {
     width: 35vw;
 }
 </style>

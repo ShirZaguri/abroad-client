@@ -7,7 +7,7 @@
         <vs-input
             v-model="price"
             placeholder="Price"
-            class="pl-4 price-input"
+            class="pl-6 price-input"
         />
     </v-row>
 </template>
