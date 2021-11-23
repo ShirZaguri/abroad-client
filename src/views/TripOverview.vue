@@ -18,7 +18,10 @@
                 </vs-button> -->
                 </div>
             </v-row>
-            <DateSwiper :dates="tripDates" @changeDate="changeCurrentDate" />
+            <DateSwiper
+                :dates="tripDates"
+                @date-changed="dateChanged"
+            ></DateSwiper>
             <v-row
                 id="temperature-holder"
                 class="ma-0 mt-2 pa-0"
@@ -46,7 +49,7 @@
 import { tripType } from '@/utils/types/trip-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import AttractionItem from '../components/AttractionItem.vue';
-import DateSwiper from '../components/DateSwiper.vue';
+import DateSwiper from '@/components/DateSwiper.vue';
 import Temperature from '../components/Temperature.vue';
 import Attractions from '@/components/Attractions.vue';
 import DateService from '@/services/dateService';
@@ -83,8 +86,8 @@ export default class TripMobile extends Vue {
         };
     }
 
-    changeCurrentDate(newDate: Date): void {
-        this.currentDay = newDate;
+    dateChanged(index: number): void {
+        this.currentDay = this.tripDates[index];
     }
 }
 </script>

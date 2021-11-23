@@ -27,3 +27,11 @@ Vue.filter('hourDate', (date: Date): string => {
         (minutes < 10 ? '0' : '') + minutes,
     ].join(':');
 });
+
+Vue.filter('day', (date: Date): number => {
+    return date.getDate();
+});
+
+Vue.filter('shortMonth', (date: Date): string => {
+    return date.toLocaleDateString('default', { month: 'short' }).toUpperCase();
+});
