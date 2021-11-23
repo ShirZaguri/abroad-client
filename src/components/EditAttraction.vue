@@ -14,7 +14,12 @@
             <template v-slot:info>
                 <AttractionDetails />
             </template>
-            <template v-slot:date>za</template>
+            <template v-slot:date>
+                <DatePicker></DatePicker>
+            </template>
+            <template v-slot:time>
+                <TimePicker></TimePicker>
+            </template>
         </StepSwiper>
     </vs-dialog>
 </template>
@@ -25,21 +30,24 @@ import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import AttractionService from '@/services/attractionService';
 import StepSwiper from '../components/StepSwiper.vue';
 import AttractionDetails from '../components/AttractionDetails.vue';
+import DatePicker from './DatePicker.vue';
+import TimePicker from './TimePicker.vue';
 
 @Component({
     components: {
         StepSwiper,
         AttractionDetails,
+        DatePicker,
+        TimePicker,
     },
 })
 export default class AddAttraction extends Vue {
     @InjectReactive('tripAttraction')
     private tripAttraction!: tripAttractionType;
 
-    data(): { active: boolean; tabs: string[] } {
+    data(): { tabs: string[] } {
         return {
-            active: false,
-            tabs: ['info', 'date'],
+            tabs: ['info', 'date', 'time'],
         };
     }
 
