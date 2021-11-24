@@ -2,6 +2,7 @@ export type DateObject = {
     _id: string;
     startDate?: Date;
     endDate: Date;
+    index: number;
 };
 
 export default class DateService {
@@ -62,14 +63,22 @@ export default class DateService {
         return previous.length > 0 ? previous[previous.length - 1]._id : '';
     }
 
-    static closestForward(dateObjets: DateObject[]): string | undefined {
+    static closestForward(
+        dateObjets: DateObject[],
+        index = false,
+    ): string | undefined | number {
         const today = Number(new Date());
         const next: DateObject[] = dateObjets.filter(
             (value) =>
                 Number(value.startDate) >= today ||
                 Number(value.endDate) >= today,
         );
+        console.log(next[0]);
 
-        return next[0]._id;
+        return index ? next[0].index : next[0]._id;
+    }
+
+    static isToday(date: Date): boolean {
+        return date.toLocaleDateString() == new Date().toLocaleDateString();
     }
 }

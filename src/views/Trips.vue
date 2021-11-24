@@ -57,22 +57,18 @@ export default class Trips extends Vue {
         this.convertedTrips = convertTripTypeDatesToDateFormat(value);
     }
 
-    get closestTripId(): string | undefined {
-        return DateService.closestForward(
-            this.trips.map(
-                (trip) =>
-                    ({
-                        startDate: trip.startDate,
-                        endDate: trip.endDate,
-                        _id: trip._id,
-                    } as DateObject),
-            ),
-        );
+    get closestTripId(): string | undefined | number {
+        return this.closestTrip(false);
     }
 
     async created(): Promise<void> {
         this.toggleLoading();
         this.trips = await TripService.getTrips();
+        this.$nextTick(() => {
+            (this.$refs.swiperComponentRef as HTMLFormElement)?.$swiper.slideTo(
+                this.closestTrip(true),
+            );
+        });
         this.toggleLoading();
         // setTimeout(this.toggleLoading, 5000);
     }
@@ -96,6 +92,21 @@ export default class Trips extends Vue {
                 freeMode: true,
             },
         };
+    }
+
+    private closestTrip(index: boolean): string | undefined | number {
+        return DateService.closestForward(
+            this.trips.map(
+                (trip, i) =>
+                    ({
+                        startDate: trip.startDate,
+                        endDate: trip.endDate,
+                        _id: trip._id,
+                        index: i,
+                    } as DateObject),
+            ),
+            index,
+        );
     }
 
     handleClickSlide(): void {
