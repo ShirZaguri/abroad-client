@@ -12,16 +12,9 @@
                 </h1>
             </div>
         </v-row>
-        <DateSwiper :dates="tripDates" @changeDate="changeCurrentDate" />
+        <DateSwiper :dates="tripDates" @date-changed="dateChanged"></DateSwiper>
         <TemperatureDayOverview class="px-1" />
-
-        <!-- <v-row
-            class="ma-0 pa-0 pt-4 scrollable"
-            justify="center"
-            id="attractions-holder"
-        > -->
         <Attractions :attractions="trip.attractions" :currentDay="currentDay" />
-        <!-- </v-row> -->
     </div>
 </template>
 
@@ -29,7 +22,7 @@
 import { tripType } from '@/utils/types/trip-type';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import AttractionItem from '../components/AttractionItem.vue';
-import DateSwiper from '../components/DateSwiper.vue';
+import DateSwiper from '@/components/DateSwiper.vue';
 import Temperature from '../components/Temperature.vue';
 import Attractions from '@/components/Attractions.vue';
 import TemperatureDayOverview from '@/components/TemperatureDayOverview.vue';
@@ -56,8 +49,20 @@ export default class TripMobile extends Vue {
             : [];
     }
 
-    changeCurrentDate(newDate: Date): void {
-        this.currentDay = newDate;
+    dateChanged(index: number): void {
+        this.currentDay = this.tripDates[index];
+    }
+    get backgroundImageStyle(): { background: string; backgroundSize: string } {
+        //TODO: place default image
+        return {
+            background:
+                'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 100)), url(' +
+                require(`../assets/images/${
+                    this.trip ? this.trip.img : 'zans'
+                }.jpg`) +
+                ')',
+            backgroundSize: 'cover',
+        };
     }
 }
 </script>

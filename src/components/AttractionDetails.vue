@@ -1,23 +1,50 @@
 <template>
     <div>
-        <EditableText :attraction="attraction"></EditableText>
-        <vs-button gradient>Navigate</vs-button>
+        <EditableText
+            :text="attraction.name"
+            placeholder="Attraction Name"
+        ></EditableText>
+        <v-textarea
+            solo
+            background-color="#141417"
+            label="description"
+            class="mt-4 description"
+            hide-details
+        ></v-textarea>
+        <v-row no-gutters>
+            <PriceInput class="price" :price="attraction.price"></PriceInput>
+            <NavigateButton
+                class="navigate"
+                :place="attraction.name"
+            ></NavigateButton>
+        </v-row>
     </div>
 </template>
 
 <script lang="ts">
 import { attractionType } from '@/utils/types/attraction-type';
-import VueCustomizableEditableText from 'vue-customizable-editable-text';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import EditableText from './EditableText.vue';
+import NavigateButton from './NavigateButton.vue';
+import PriceInput from './PriceInput.vue';
 
 @Component({
     components: {
-        VueCustomizableEditableText,
         EditableText,
+        PriceInput,
+        NavigateButton,
     },
 })
 export default class AttractionDetails extends Vue {
     @Prop() attraction?: attractionType;
 }
 </script>
+<style scoped>
+.price {
+    width: 35vw;
+}
+
+.navigate {
+    width: 35vw;
+}
+</style>

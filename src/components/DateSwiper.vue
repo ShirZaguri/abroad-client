@@ -1,39 +1,108 @@
 <template>
-    <v-row class="ma-0 pa-0" justify="center" v-if="dates.length > 0">
-        <span
-            v-for="(date, index) in dates"
-            @click="selectDate(date)"
-            :key="index"
-            color="white"
-            class="ma-1 pa-2"
+    <div style="position: relative">
+        <swiper
+            ref="dateSwiper"
+            :options="swiperOption"
+            class="swiper-units front-units"
         >
-            {{ date | shortDate }}
-        </span>
-        <!-- <v-chip
-            color="white"
-            class="ma-2 font-weight-black"
-            text-color="#5c39d0"
-            @click="selectDate(dates[0])"
-        >
-            {{ dates[0] | shortDate }}
-        </v-chip> -->
-    </v-row>
+            <swiper-slide v-for="(date, i) in dates" :key="i">
+                <div
+                    class="
+                        d-flex
+                        flex-column
+                        align-center
+                        font-weight-bold
+                        justify-center
+                    "
+                >
+                    <div class="text-h5 font-weight-bold">{{ date | day }}</div>
+                    <div class="small-line-height">{{ date | shortMonth }}</div>
+                </div>
+            </swiper-slide>
+        </swiper>
+        <div class="swiper-units d-flex justify-center">
+            <div class="centered-active"></div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import SwiperClass, { SwiperOptions } from 'swiper';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component({})
+@Component({
+    components: {
+        Swiper,
+        SwiperSlide,
+    },
+})
 export default class DateSwiper extends Vue {
-    @Prop() private dates!: Date[];
+    @Prop() dates?: Date[];
 
     mounted(): void {
-        // TO DO: choose the right current day
-        this.selectDate(this.dates[0]);
+        this.$nextTick(() => {
+            const emit = (index: number) => this.$emit('date-changed', index);
+
+            (this.$refs.dateSwiper as HTMLFormElement)?.$swiper.on(
+                'activeIndexChange',
+                function (this: SwiperClass) {
+                    emit(this.activeIndex);
+                },
+            );
+        });
     }
 
-    selectDate(date: Date): void {
-        this.$emit('changeDate', date);
+    data(): {
+        activeIndex: number;
+        swiperOption: SwiperOptions;
+    } {
+        return {
+            activeIndex: 0,
+            swiperOption: {
+                grabCursor: true,
+                spaceBetween: 30,
+                centeredSlides: true,
+                slidesPerView: 5,
+                slideToClickedSlide: true,
+            },
+        };
     }
 }
 </script>
+<style scoped>
+.swiper-units {
+    height: 7vh;
+    color: rgb(62, 62, 62);
+    width: 100%;
+}
+
+.front-units {
+    position: absolute !important;
+    left: 0px;
+    top: 0px;
+}
+
+.small-line-height {
+    line-height: 0.3;
+}
+
+.centered-active {
+    background-color: white;
+    border-radius: 20px;
+    width: 14vw;
+    height: 100%;
+}
+
+.swiper-slide {
+    width: 25vw;
+    height: 7vh;
+    background-color: rgba(255, 255, 255, 0);
+    background-position: center;
+    background-size: cover;
+}
+
+.swiper-slide-active {
+    color: #6f42ff !important;
+}
+</style>

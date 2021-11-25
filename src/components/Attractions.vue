@@ -3,6 +3,7 @@
         <EditAttraction
             v-if="dialog"
             :item="selectedAttraction"
+            @close-dialog="dialog = false"
         ></EditAttraction>
         <v-virtual-scroll
             v-if="sortedAttractions.length > 0"
@@ -106,7 +107,4 @@ export default class Attractions extends Vue {
 </script>
 
 <style scoped>
-#attractions {
-    height: fit-content;
-}
 </style>
