@@ -1,6 +1,9 @@
 @import './styles/scroll.css';
 @import './styles/vuesax.css';
 @import './styles/ol-map.css';
+@import './styles/bottom-dialog.css';
+@import './styles/vs-avatar.css';
+@import './styles/vs-input.css';
 
 :root {
     --card-border-radius: 40px;
@@ -9,6 +12,7 @@
 body,
 html,
 #app {
+    overflow: hidden !important;
     font-family: 'Poppins' !important;
 }
 
@@ -16,4 +20,6 @@ html,
     --main-dark-background: #272727;
     --side-dark-background: #040404;
     --card-dark-background: #1c1c1c;
+    --title-dark-color: #272727;
+    --title-disabled-color: #969696;
 }
