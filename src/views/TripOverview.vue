@@ -1,5 +1,6 @@
 <template>
     <div id="main_holder">
+        <TopBar />
         <v-row
             id="destination-bg"
             class="ma-0 pa-5"
@@ -26,6 +27,7 @@ import DateSwiper from '@/components/DateSwiper.vue';
 import Temperature from '../components/Temperature.vue';
 import Attractions from '@/components/Attractions.vue';
 import TemperatureDayOverview from '@/components/TemperatureDayOverview.vue';
+import TopBar from '@/components/TopBar.vue';
 import DateService from '@/services/dateService';
 
 @Component({
@@ -35,6 +37,7 @@ import DateService from '@/services/dateService';
         DateSwiper,
         TemperatureDayOverview,
         Attractions,
+        TopBar,
     },
 })
 export default class TripMobile extends Vue {
@@ -72,7 +75,7 @@ export default class TripMobile extends Vue {
 }
 
 #destination-bg {
-    height: 20vh;
+    height: 15vh;
     background-repeat: no-repeat;
 }
 
