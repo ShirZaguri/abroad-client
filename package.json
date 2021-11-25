@@ -25,13 +25,13 @@
         "vuelayers": "^0.11.36",
         "vuesax": "^4.0.1-alpha.25",
         "vuetify": "^2.4.0",
-        "vuex": "^3.4.0",
-        "@vue/cli-plugin-babel": "~4.5.0"
+        "vuex": "^3.4.0"
     },
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@typescript-eslint/eslint-plugin": "^4.18.0",
         "@typescript-eslint/parser": "^4.18.0",
+        "@vue/cli-plugin-babel": "~4.5.0",
         "@vue/cli-plugin-eslint": "~4.5.0",
         "@vue/cli-plugin-pwa": "~4.5.0",
         "@vue/cli-plugin-router": "~4.5.0",
