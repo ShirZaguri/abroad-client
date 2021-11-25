@@ -80,10 +80,6 @@ export default class TripMobile extends Vue {
     height: 60vh;
 }
 
-.scrollable {
-    overflow: scroll;
-}
-
 .date-chip {
     width: fit-content;
 }

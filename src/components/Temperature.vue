@@ -40,6 +40,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import { tempIcon } from '@/utils/types/temp-icon';
 import icons from '@/assets/icons/icons.json';
 
 @Component({})
@@ -48,7 +49,14 @@ export default class Temperature extends Vue {
     @Prop() private temperature!: number;
     @Prop() private mode!: string;
 
-    data() {
+    data(): {
+        iconsMap: {
+            cold: tempIcon;
+            storm: tempIcon;
+            snow: tempIcon;
+            sunny: tempIcon;
+        };
+    } {
         return { iconsMap: icons };
     }
 }
@@ -68,16 +76,5 @@ svg {
     -moz-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: rgba(255, 255, 255, 0);
-}
-
-.icon {
-    width: 1em;
-    height: 1em;
-    /* fill: red; */
-    background-image: linear-gradient(
-        -90deg,
-        rgb(252, 179, 164) 0%,
-        rgb(218, 88, 153) 100%
-    );
 }
 </style>

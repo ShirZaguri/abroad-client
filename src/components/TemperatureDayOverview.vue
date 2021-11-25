@@ -17,5 +17,3 @@ import Temperature from '@/components/Temperature.vue';
 @Component({ components: { Temperature } })
 export default class TemperatureDayOverview extends Vue {}
 </script>
-<style scoped>
-</style>
