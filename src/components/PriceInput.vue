@@ -24,6 +24,7 @@ export default class PriceInput extends Vue {
     data(): {
         coins: string[];
         currentCoinIndex: number;
+        // TODO: change vs-input to input and than use $refs to get input value
         value: number | undefined;
     } {
         return {

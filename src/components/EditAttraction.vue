@@ -12,7 +12,7 @@
     >
         <StepSwiper :items="tabs">
             <template v-slot:info>
-                <AttractionDetails></AttractionDetails>
+                <AttractionDetails />
             </template>
             <template v-slot:date>za</template>
         </StepSwiper>
