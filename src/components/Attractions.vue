@@ -74,7 +74,6 @@ export default class Attractions extends Vue {
     }
 
     get sortedAttractions(): tripAttractionType[] {
-        debugger;
         return _.orderBy(this.currentDayAttractions, 'details.date');
     }
 

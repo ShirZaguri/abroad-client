@@ -15,6 +15,7 @@
                 <AttractionDetails />
             </template>
             <template v-slot:date>za</template>
+            <template v-slot:time><AttractionTime /></template>
         </StepSwiper>
     </vs-dialog>
 </template>
@@ -25,11 +26,13 @@ import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import AttractionService from '@/services/attractionService';
 import StepSwiper from '../components/StepSwiper.vue';
 import AttractionDetails from '../components/AttractionDetails.vue';
+import AttractionTime from '../components/AttractionTime.vue';
 
 @Component({
     components: {
         StepSwiper,
         AttractionDetails,
+        AttractionTime,
     },
 })
 export default class AddAttraction extends Vue {
@@ -39,7 +42,7 @@ export default class AddAttraction extends Vue {
     data(): { active: boolean; tabs: string[] } {
         return {
             active: false,
-            tabs: ['info', 'date'],
+            tabs: ['info', 'date', 'time'],
         };
     }
 
