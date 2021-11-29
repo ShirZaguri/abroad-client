@@ -2,13 +2,12 @@
     <div id="attractions">
         <EditAttraction
             v-if="dialog"
-            :item="selectedAttraction"
             @close-dialog="dialog = false"
         ></EditAttraction>
         <AttractionItem
             v-for="(attraction, index) in sortedAttractions"
             :key="index"
-            :attraction="attraction"
+            :tripAttraction="attraction"
             :now="attraction._id === closestAttractionId"
             @click.native="
                 selectedAttraction = attraction;
@@ -19,13 +18,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop, ProvideReactive } from 'vue-property-decorator';
 import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import AttractionItem from '@/components/AttractionItem.vue';
 import EditAttraction from '@/components/EditAttraction.vue';
 import DateService, { DateObject } from '@/services/dateService';
 import _ from 'lodash';
-import { attractionType } from '@/utils/types/attraction-type';
 
 @Component({
     components: {
@@ -36,12 +34,15 @@ import { attractionType } from '@/utils/types/attraction-type';
 export default class Attractions extends Vue {
     @Prop() private attractions!: tripAttractionType[];
     @Prop() private currentDay!: Date;
+    @ProvideReactive('tripAttraction')
+    private selectedAttraction!: tripAttractionType;
 
     data(): {
         dialog: boolean;
-        selectedAttraction: attractionType | undefined;
     } {
-        return { dialog: false, selectedAttraction: undefined };
+        return {
+            dialog: false,
+        };
     }
 
     get closestAttractionId(): string {
