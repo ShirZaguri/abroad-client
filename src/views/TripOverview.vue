@@ -1,6 +1,12 @@
 <template>
     <div id="main_holder">
         <div id="trip-info-holder">
+            <vs-button id="add-attraction-btn" gradient circle icon>
+                <v-icon size="15" color="white" class="pa-1">
+                    fas fa-plus
+                </v-icon>
+            </vs-button>
+
             <v-row
                 id="destination-bg"
                 class="ma-0 pa-5"
@@ -17,7 +23,7 @@
                 :dates="tripDates"
                 @date-changed="dateChanged"
             ></DateSwiper>
-            <TemperatureDayOverview class="px-1" />
+            <TemperatureDayOverview class="px-1 pt-2" />
         </div>
         <Attractions :attractions="trip.attractions" :currentDay="currentDay" />
     </div>
@@ -44,7 +50,6 @@ import DateService from '@/services/dateService';
 })
 export default class TripMobile extends Vue {
     @Prop() private trip!: tripType;
-    private showExpand = false;
 
     private currentDay: Date = new Date();
 
@@ -81,13 +86,25 @@ export default class TripMobile extends Vue {
 }
 
 #destination-bg {
-    height: 20vh;
+    height: 18vh;
     background-repeat: no-repeat;
 }
 
 #destination-title {
     font-size: 13vw;
     line-height: 1.2;
+}
+
+#add-attraction-btn {
+    position: absolute;
+    height: 6.5vh;
+    width: 6.5vh;
+    bottom: 7vh;
+    right: 5vh;
+}
+
+#plus {
+    font-size: 3vh;
 }
 
 #attractions-holder {

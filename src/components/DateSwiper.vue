@@ -8,6 +8,7 @@
             <swiper-slide v-for="(date, i) in dates" :key="i">
                 <div
                     class="
+                        date-holder
                         d-flex
                         flex-column
                         align-center
@@ -15,7 +16,9 @@
                         justify-center
                     "
                 >
-                    <div class="text-h5 font-weight-bold">{{ date | day }}</div>
+                    <div class="text-h5 font-weight-bold">
+                        {{ date | day }}
+                    </div>
                     <div class="small-line-height">{{ date | shortMonth }}</div>
                 </div>
             </swiper-slide>
@@ -100,6 +103,12 @@ export default class DateSwiper extends Vue {
     background-color: rgba(255, 255, 255, 0);
     background-position: center;
     background-size: cover;
+    display: flex;
+    justify-content: center;
+}
+
+.date-holder {
+    padding-bottom: 1vh;
 }
 
 .swiper-slide-active {

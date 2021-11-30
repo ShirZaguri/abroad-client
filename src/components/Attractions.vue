@@ -112,11 +112,11 @@ export default class Attractions extends Vue {
     flex-direction: column;
     align-items: center;
     overflow: auto;
-    height: 55vh;
+    height: 60vh;
 }
 
 #no-plans-holder {
-    height: 55vh;
+    height: 50vh;
 }
 
 #no-plans-img {
