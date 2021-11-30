@@ -4,6 +4,7 @@
 @import './styles/bottom-dialog.css';
 @import './styles/vs-avatar.css';
 @import './styles/vs-input.css';
+@import './styles/date-picker.css';
 
 :root {
     --card-border-radius: 40px;

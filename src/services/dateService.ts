@@ -17,6 +17,12 @@ export default class DateService {
         return between;
     }
 
+    static dateInRange(date: string, dates: Date[]): boolean {
+        return dates.some((tripDate) =>
+            DateService.datesAreOnSameDay(tripDate, new Date(date)),
+        );
+    }
+
     static datesAreOnSameDay(first: Date, second: Date): boolean {
         return (
             first.getFullYear() === second.getFullYear() &&

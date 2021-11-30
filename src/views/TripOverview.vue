@@ -1,57 +1,42 @@
 <template>
     <div id="main_holder">
-        <div id="constant">
+        <div id="trip-info-holder">
+            <vs-button id="add-attraction-btn" gradient circle icon>
+                <v-icon size="15" color="white" class="pa-1">
+                    fas fa-plus
+                </v-icon>
+            </vs-button>
+
             <v-row
                 id="destination-bg"
-                class="pt-6 ma-0"
+                class="ma-0 pa-5"
                 justify="center"
                 align="center"
             >
-                <!-- :style="backgroundImageStyle" -->
                 <div class="d-flex flex-column text-center align-center">
                     <h1 id="destination-title">
                         {{ trip.destination }}
                     </h1>
-                    <!-- <vs-button gradient class="date-chip mb-0 font-weight-bold">
-                    {{ trip.startDate | fullDate }} -
-                    {{ trip.endDate | fullDate }}
-                </vs-button> -->
                 </div>
             </v-row>
             <DateSwiper
                 :dates="tripDates"
                 @date-changed="dateChanged"
             ></DateSwiper>
-            <v-row
-                id="temperature-holder"
-                class="ma-0 mt-2 pa-0"
-                justify="center"
-            >
-                <v-col cols="5" class="ma-0 pa-0">
-                    <Temperature tag="day" :temperature="20" />
-                </v-col>
-                <v-divider class="my-6" vertical color="white"></v-divider>
-                <v-col cols="5" class="ma-0 pa-0">
-                    <Temperature tag="night" :temperature="3" />
-                </v-col>
-            </v-row>
+            <TemperatureDayOverview class="px-1 pt-2" />
         </div>
-        <v-row class="ma-0 pa-0 pt-4" justify="center" id="attractions-holder">
-            <Attractions
-                :attractions="trip.attractions"
-                :currentDay="currentDay"
-            />
-        </v-row>
+        <Attractions :attractions="trip.attractions" :currentDay="currentDay" />
     </div>
 </template>
 
 <script lang="ts">
+import { Component, Prop, Provide, Vue } from 'vue-property-decorator';
 import { tripType } from '@/utils/types/trip-type';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import AttractionItem from '../components/AttractionItem.vue';
 import DateSwiper from '@/components/DateSwiper.vue';
 import Temperature from '../components/Temperature.vue';
 import Attractions from '@/components/Attractions.vue';
+import TemperatureDayOverview from '@/components/TemperatureDayOverview.vue';
 import DateService from '@/services/dateService';
 
 @Component({
@@ -59,6 +44,7 @@ import DateService from '@/services/dateService';
         Temperature,
         AttractionItem,
         DateSwiper,
+        TemperatureDayOverview,
         Attractions,
     },
 })
@@ -67,12 +53,16 @@ export default class TripMobile extends Vue {
 
     private currentDay: Date = new Date();
 
+    @Provide('tripDates')
     get tripDates(): Date[] {
         return this.trip.startDate
             ? DateService.datesBetween(this.trip.startDate, this.trip.endDate)
             : [];
     }
 
+    dateChanged(index: number): void {
+        this.currentDay = this.tripDates[index];
+    }
     get backgroundImageStyle(): { background: string; backgroundSize: string } {
         //TODO: place default image
         return {
@@ -85,10 +75,6 @@ export default class TripMobile extends Vue {
             backgroundSize: 'cover',
         };
     }
-
-    dateChanged(index: number): void {
-        this.currentDay = this.tripDates[index];
-    }
 }
 </script>
 <style scoped>
@@ -96,8 +82,12 @@ export default class TripMobile extends Vue {
     height: 100%;
 }
 
+#trip-info-holder {
+    height: 40vh;
+}
+
 #destination-bg {
-    height: 25vh;
+    height: 18vh;
     background-repeat: no-repeat;
 }
 
@@ -106,13 +96,20 @@ export default class TripMobile extends Vue {
     line-height: 1.2;
 }
 
-#attractions-holder {
-    height: 60vh;
-    overflow: scroll;
+#add-attraction-btn {
+    position: absolute;
+    height: 6.5vh;
+    width: 6.5vh;
+    bottom: 7vh;
+    right: 5vh;
 }
 
-#constant {
-    height: 45vh;
+#plus {
+    font-size: 3vh;
+}
+
+#attractions-holder {
+    height: 60vh;
 }
 
 .date-chip {

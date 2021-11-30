@@ -1,19 +1,38 @@
 <template>
-    <div id="attractions">
+    <div>
         <EditAttraction
             v-if="dialog"
             @close-dialog="dialog = false"
         ></EditAttraction>
-        <AttractionItem
-            v-for="(attraction, index) in sortedAttractions"
-            :key="index"
-            :tripAttraction="attraction"
-            :now="attraction._id === closestAttractionId"
-            @click.native="
-                selectedAttraction = attraction;
-                dialog = true;
-            "
-        />
+        <div
+            v-if="sortedAttractions.length > 0"
+            class="pb-4"
+            id="attractions-holder"
+        >
+            <AttractionItem
+                v-for="(attraction, i) in sortedAttractions"
+                :key="i"
+                :tripAttraction="attraction"
+                :now="attraction._id === closestAttractionId"
+                @click.native="
+                    selectedAttraction = attraction;
+                    dialog = true;
+                "
+            />
+        </div>
+
+        <v-row
+            v-else
+            id="no-plans-holder"
+            class="pa-0 ma-0"
+            align="center"
+            justify="center"
+        >
+            <div class="d-flex flex-column align-center">
+                <img id="no-plans-img" src="../assets/images/sleep.png" />
+                <span class="font-weight-bold">No plans for today yet</span>
+            </div>
+        </v-row>
     </div>
 </template>
 
@@ -88,7 +107,19 @@ export default class Attractions extends Vue {
 </script>
 
 <style scoped>
-#attractions {
-    height: fit-content;
+#attractions-holder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    height: 60vh;
+}
+
+#no-plans-holder {
+    height: 50vh;
+}
+
+#no-plans-img {
+    height: 20vh;
 }
 </style>
