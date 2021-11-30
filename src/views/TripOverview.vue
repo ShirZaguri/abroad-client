@@ -60,9 +60,12 @@ export default class TripMobile extends Vue {
             : [];
     }
 
+    @Provide('tripId') private tripId: string | undefined = this.trip._id;
+
     dateChanged(index: number): void {
         this.currentDay = this.tripDates[index];
     }
+
     get backgroundImageStyle(): { background: string; backgroundSize: string } {
         //TODO: place default image
         return {
