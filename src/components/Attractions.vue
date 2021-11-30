@@ -2,14 +2,17 @@
     <div>
         <EditAttraction
             v-if="dialog"
-            :item="selectedAttraction"
             @close-dialog="dialog = false"
         ></EditAttraction>
-        <div v-if="sortedAttractions.length > 0" id="attractions-holder">
+        <div
+            v-if="sortedAttractions.length > 0"
+            class="pb-4"
+            id="attractions-holder"
+        >
             <AttractionItem
                 v-for="(attraction, i) in sortedAttractions"
                 :key="i"
-                :attraction="attraction"
+                :tripAttraction="attraction"
                 :now="attraction._id === closestAttractionId"
                 @click.native="
                     selectedAttraction = attraction;
@@ -34,13 +37,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop, ProvideReactive } from 'vue-property-decorator';
 import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import AttractionItem from '@/components/AttractionItem.vue';
 import EditAttraction from '@/components/EditAttraction.vue';
 import DateService, { DateObject } from '@/services/dateService';
 import _ from 'lodash';
-import { attractionType } from '@/utils/types/attraction-type';
 
 @Component({
     components: {
@@ -51,12 +53,15 @@ import { attractionType } from '@/utils/types/attraction-type';
 export default class Attractions extends Vue {
     @Prop() private attractions!: tripAttractionType[];
     @Prop() private currentDay!: Date;
+    @ProvideReactive('tripAttraction')
+    private selectedAttraction!: tripAttractionType;
 
     data(): {
         dialog: boolean;
-        selectedAttraction: attractionType | undefined;
     } {
-        return { dialog: false, selectedAttraction: undefined };
+        return {
+            dialog: false,
+        };
     }
 
     get closestAttractionId(): string {
@@ -107,7 +112,7 @@ export default class Attractions extends Vue {
     flex-direction: column;
     align-items: center;
     overflow: auto;
-    height: 60vh;
+    height: 55vh;
 }
 
 #no-plans-holder {

@@ -3,6 +3,8 @@
         class="editable-text text-h5 font-weight-bold"
         :placeholder="placeholder"
         ref="text"
+        :value="text"
+        @change="textChanged"
     />
 </template>
 
@@ -11,9 +13,9 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class EditableText extends Vue {
-    @Prop() text?: string;
     @Prop({ default: false }) focus?: boolean;
     @Prop() placeholder?: string;
+    @Prop() text?: string;
 
     mounted(): void {
         if (this.focus) {
@@ -21,6 +23,10 @@ export default class EditableText extends Vue {
                 (this.$refs.text as HTMLElement).focus();
             });
         }
+    }
+
+    textChanged(): void {
+        this.$emit('update:text', (this.$refs.text as any).value);
     }
 }
 </script>

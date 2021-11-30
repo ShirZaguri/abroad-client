@@ -5,7 +5,7 @@ export type tripAttractionType = {
     attraction: attractionType;
     details: {
         date: Date;
-        price: Number;
+        price: number;
         done?: boolean;
     };
 };

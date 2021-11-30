@@ -5,10 +5,9 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
-        "build-dev": "vue-cli-service build --mode development",
         "lint": "vue-cli-service lint",
-        "heroku-postbuild": "npm install --only=dev && npm install && npm run build",
-        "deploy": "git add . && git commit -m Heroku && git push heroku main"
+        "deploy": "git add . && git commit -m Heroku && git push heroku main",
+        "build-dev": "vue-cli-service build --mode development"
     },
     "dependencies": {
         "@vue/cli-service": "~4.5.0",
