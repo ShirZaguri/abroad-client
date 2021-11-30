@@ -70,7 +70,6 @@ export default class Trips extends Vue {
             );
         });
         this.toggleLoading();
-        // setTimeout(this.toggleLoading, 5000);
     }
 
     data(): {
@@ -94,7 +93,7 @@ export default class Trips extends Vue {
         };
     }
 
-    private closestTrip(index: boolean): string | undefined | number {
+    private closestTrip(returnIndex: boolean): string | undefined | number {
         return DateService.closestForward(
             this.trips.map(
                 (trip, i) =>
@@ -105,7 +104,7 @@ export default class Trips extends Vue {
                         index: i,
                     } as DateObject),
             ),
-            index,
+            returnIndex,
         );
     }
 
@@ -124,6 +123,12 @@ export default class Trips extends Vue {
             name: 'Overview',
             params: { id: id, trip: this.getTripById(id) as any },
         });
+    }
+
+    slideToTrip(index: number): void {
+        (this.$refs.swiperComponentRef as HTMLFormElement)?.$swiper.slideTo(
+            index,
+        );
     }
 }
 </script>
