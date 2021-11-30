@@ -21,7 +21,6 @@ import { Component, Inject, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class DatePicker extends Vue {
-    // @Prop({ default: () => true }) allowedDates?: (val) => boolean;
     @Prop({ default: false }) range?: boolean;
     @Prop() value?: Date[] | Date;
     @Inject('tripDates') private tripDates!: Date[];
