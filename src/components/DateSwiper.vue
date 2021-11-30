@@ -65,6 +65,14 @@ export default class DateSwiper extends Vue {
                 centeredSlides: true,
                 slidesPerView: 5,
                 slideToClickedSlide: true,
+                effect: 'coverflow',
+                coverflowEffect: {
+                    rotate: 0,
+                    stretch: 0,
+                    depth: 60,
+                    modifier: 1,
+                    slideShadows: false,
+                },
             },
         };
     }

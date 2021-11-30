@@ -81,8 +81,8 @@ export default class AttractionTime extends Vue {
         swiperOption: SwiperOptions;
     } {
         return {
-            activeHour: '06',
-            activeMinute: '00',
+            activeHour: '08',
+            activeMinute: '15',
             swiperOption: {
                 direction: 'vertical',
                 effect: 'coverflow',
@@ -100,28 +100,55 @@ export default class AttractionTime extends Vue {
         };
     }
 
-    get currentHour(): string {
-        return this.$data.activeHour + ' : ' + this.$data.activeMinute;
+    created(): void {
+        this.$data.activeHour = this.$props.currentDate.getHours().toString();
+        this.$data.activeMinute = this.$props.currentDate
+            .getMinutes()
+            .toString();
+    }
+
+    updateCurrentTime(): void {
+        const newDate = new Date(this.$props.currentDate);
+        newDate.setHours(Number(this.$data.activeHour));
+        newDate.setMinutes(Number(this.$data.activeMinute));
+        this.$emit('update:currentDate', newDate);
+    }
+
+    get currentHourIndex(): number {
+        return this.hours.findIndex((hour) => +hour == +this.$data.activeHour);
+    }
+
+    get currentMinuteIndex(): number {
+        return this.minutes.findIndex(
+            (minute) => +minute == +this.$data.activeMinute,
+        );
     }
 
     mounted(): void {
         this.$nextTick(() => {
+            (this.$refs.hourSwiper as HTMLFormElement)?.$swiper.slideTo(
+                this.currentHourIndex,
+            );
+
+            (this.$refs.minuteSwiper as HTMLFormElement)?.$swiper.slideTo(
+                this.currentMinuteIndex,
+            );
+
             const updateActiveHour = (hourIndex: number) => {
                 this.$data.activeHour = this.$data.hours[hourIndex];
+                this.updateCurrentTime();
             };
 
             (this.$refs.hourSwiper as HTMLFormElement)?.$swiper.on(
                 'activeIndexChange',
                 function (this: SwiperClass) {
                     updateActiveHour(this.activeIndex);
-
-                    // console.log(this.activeIndex);
                 },
             );
-        });
-        this.$nextTick(() => {
+
             const updateActiveMinute = (minuteIndex: number) => {
                 this.$data.activeMinute = this.$data.minutes[minuteIndex];
+                this.updateCurrentTime();
             };
             (this.$refs.minuteSwiper as HTMLFormElement)?.$swiper.on(
                 'activeIndexChange',

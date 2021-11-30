@@ -15,7 +15,11 @@
                 <AttractionDetails />
             </template>
             <template v-slot:date>za</template>
-            <template v-slot:time><AttractionTime /></template>
+            <template v-slot:time>
+                <AttractionTime
+                    :currentDate.sync="tripAttraction.details.date"
+                />
+            </template>
         </StepSwiper>
     </vs-dialog>
 </template>
@@ -26,7 +30,7 @@ import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import AttractionService from '@/services/attractionService';
 import StepSwiper from '../components/StepSwiper.vue';
 import AttractionDetails from '../components/AttractionDetails.vue';
-import AttractionTime from '../components/AttractionTime.vue';
+import AttractionTime from './TimePicker.vue';
 
 @Component({
     components: {
