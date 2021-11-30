@@ -24,8 +24,8 @@
 </template>
 
 <script lang="ts">
+import { Component, Prop, Provide, Vue } from 'vue-property-decorator';
 import { tripType } from '@/utils/types/trip-type';
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import AttractionItem from '../components/AttractionItem.vue';
 import DateSwiper from '@/components/DateSwiper.vue';
 import Temperature from '../components/Temperature.vue';
@@ -48,6 +48,7 @@ export default class TripMobile extends Vue {
 
     private currentDay: Date = new Date();
 
+    @Provide('tripDates')
     get tripDates(): Date[] {
         return this.trip.startDate
             ? DateService.datesBetween(this.trip.startDate, this.trip.endDate)

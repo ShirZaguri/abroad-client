@@ -5,24 +5,31 @@
             no-title
             :range="range"
             :reactive="true"
+            :allowed-dates="allowedDates"
             color="#6f42ff"
             class="date-picker"
             @change="dateChanged"
         >
-            <!-- :allowed-dates="allowedDates" -->
             <template #default></template>
         </v-date-picker>
     </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import DateService from '@/services/dateService';
+import { Component, Inject, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class DatePicker extends Vue {
     // @Prop({ default: () => true }) allowedDates?: (val) => boolean;
     @Prop({ default: false }) range?: boolean;
     @Prop() value?: Date[] | Date;
+    @Inject('tripDates') private tripDates!: Date[];
+
+    get allowedDates() {
+        return (date: string): boolean =>
+            DateService.dateInRange(date, this.tripDates);
+    }
 
     data(): { selected: string[] | string | undefined } {
         return { selected: '' };
