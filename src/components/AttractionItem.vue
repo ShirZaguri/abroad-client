@@ -2,9 +2,9 @@
     <v-row
         class="
             attraction-card
-            mx-2
             my-2
-            pa-3
+            px-2
+            py-3
             rounded-lg
             align-center
             justify-space-between
@@ -12,17 +12,11 @@
         :class="[now ? 'now font-weight-bold' : 'font-weight-medium ']"
         light
     >
-        <!-- <v-icon
-            :color="attraction.details.done ? 'primary' : 'white'"
-            size="15"
-        >
-            fas fa-check
-        </v-icon> -->
         <span class="font-weight-medium text-subtitle-1 ma-2">
-            {{ attraction.attraction.name }}
+            {{ tripAttraction.attraction.name }}
         </span>
         <span class="text-subtitle-1 mx-2 text--disabled">
-            {{ attraction.details.date | hourDate }}
+            {{ tripAttraction.details.date | hourDate }}
         </span>
     </v-row>
 </template>
@@ -33,22 +27,15 @@ import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 
 @Component({})
 export default class AttractionItem extends Vue {
-    @Prop() private attraction!: tripAttractionType;
+    @Prop() private tripAttraction!: tripAttractionType;
     @Prop() private now!: boolean;
-
-    get img(): string {
-        //TODO: place default image
-        return this.attraction.attraction.img
-            ? require(`../assets/images/${this.attraction.attraction.img}.jpg`)
-            : `../assets/images/zans.jpg`;
-    }
 }
 </script>
 <style scoped>
 .attraction-card {
-    width: 70vw;
+    width: 72vw;
     background-color: rgba(48, 48, 48, 1);
-    overflow-y: auto;
+    max-height: 8vh;
 }
 
 .now {
