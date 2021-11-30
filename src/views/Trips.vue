@@ -64,11 +64,27 @@ export default class Trips extends Vue {
     async created(): Promise<void> {
         this.toggleLoading();
         this.trips = await TripService.getTrips();
-        this.$nextTick(() => {
-            (this.$refs.swiperComponentRef as HTMLFormElement)?.$swiper.slideTo(
-                this.closestTrip(true),
-            );
-        });
+
+        const closestTripId = this.closestTripId;
+        const closestTrip = this.getTripById(closestTripId as string);
+        if (closestTrip) {
+            if (
+                DateService.dateInRange(
+                    new Date(),
+                    DateService.datesBetween(
+                        closestTrip.startDate,
+                        closestTrip.endDate,
+                    ),
+                )
+            ) {
+                this.selectTrip(closestTripId as string);
+            } else {
+                this.$nextTick(() => {
+                    this.slideToTrip(this.closestTrip(true) as number);
+                });
+            }
+        }
+
         this.toggleLoading();
     }
 

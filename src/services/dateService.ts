@@ -18,9 +18,10 @@ export default class DateService {
         return between;
     }
 
-    static dateInRange(date: string, dates: Date[]): boolean {
+    static dateInRange(date: string | Date, dates: Date[]): boolean {
+        const checkedDate = date instanceof Date ? date : new Date(date);
         return dates.some((tripDate) =>
-            DateService.datesAreOnSameDay(tripDate, new Date(date)),
+            DateService.datesAreOnSameDay(tripDate, checkedDate),
         );
     }
 
