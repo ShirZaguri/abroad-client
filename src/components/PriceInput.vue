@@ -20,7 +20,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class PriceInput extends Vue {
     @Prop() private price?: number;
-
     data(): {
         coins: string[];
         currentCoinIndex: number;

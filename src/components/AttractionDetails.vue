@@ -19,6 +19,12 @@
             ></PriceInput>
             <NavigateButton class="navigate"></NavigateButton>
         </v-row>
+        <v-row no-gutters>
+            <DocumentsLinkInput
+                class="price"
+                :documentsLink.sync="tripAttraction.attraction.price"
+            ></DocumentsLinkInput>
+        </v-row>
     </div>
 </template>
 
@@ -28,11 +34,13 @@ import { Component, InjectReactive, Vue } from 'vue-property-decorator';
 import EditableText from './EditableText.vue';
 import NavigateButton from './NavigateButton.vue';
 import PriceInput from './PriceInput.vue';
+import DocumentsLinkInput from './DocumentsLinkInput.vue';
 
 @Component({
     components: {
         EditableText,
         PriceInput,
+        DocumentsLinkInput,
         NavigateButton,
     },
 })
