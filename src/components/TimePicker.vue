@@ -1,6 +1,6 @@
 <template>
     <v-row justify="center" align="center" class="ma-0 pa-0">
-        <div class="amit" />
+        <div class="centered" />
         <v-col cols="5" class="swiperHolder pa-0 d-flex">
             <swiper ref="hourSwiper" :options="swiperOption">
                 <swiper-slide v-for="(hour, i) in hours" :key="i">
@@ -15,7 +15,6 @@
                 </swiper-slide>
             </swiper>
         </v-col>
-        <!-- <div class="centered-active"></div> -->
     </v-row>
 </template>
 
@@ -169,7 +168,7 @@ export default class AttractionTime extends Vue {
     height: 40vh;
 }
 
-.amit {
+.centered {
     position: absolute;
     width: 100%;
     height: 6vh;
