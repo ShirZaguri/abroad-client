@@ -2,8 +2,9 @@
     <v-row
         class="
             attraction-card
-            ma-2
-            pa-3
+            my-2
+            px-2
+            py-3
             rounded-lg
             align-center
             justify-space-between
@@ -11,12 +12,6 @@
         :class="[now ? 'now font-weight-bold' : 'font-weight-medium ']"
         light
     >
-        <!-- <v-icon
-            :color="attraction.details.done ? 'primary' : 'white'"
-            size="15"
-        >
-            fas fa-check
-        </v-icon> -->
         <span class="font-weight-medium text-subtitle-1 ma-2">
             {{ attraction.attraction.name }}
         </span>
@@ -47,6 +42,7 @@ export default class AttractionItem extends Vue {
 .attraction-card {
     width: 72vw;
     background-color: rgba(48, 48, 48, 1);
+    max-height: 8vh;
 }
 
 .now {

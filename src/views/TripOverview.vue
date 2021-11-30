@@ -1,19 +1,24 @@
 <template>
     <div id="main_holder">
-        <v-row
-            id="destination-bg"
-            class="ma-0 pa-5"
-            justify="center"
-            align="center"
-        >
-            <div class="d-flex flex-column text-center align-center">
-                <h1 id="destination-title">
-                    {{ trip.destination }}
-                </h1>
-            </div>
-        </v-row>
-        <DateSwiper :dates="tripDates" @date-changed="dateChanged"></DateSwiper>
-        <TemperatureDayOverview class="px-1" />
+        <div id="trip-info-holder">
+            <v-row
+                id="destination-bg"
+                class="ma-0 pa-5"
+                justify="center"
+                align="center"
+            >
+                <div class="d-flex flex-column text-center align-center">
+                    <h1 id="destination-title">
+                        {{ trip.destination }}
+                    </h1>
+                </div>
+            </v-row>
+            <DateSwiper
+                :dates="tripDates"
+                @date-changed="dateChanged"
+            ></DateSwiper>
+            <TemperatureDayOverview class="px-1" />
+        </div>
         <Attractions :attractions="trip.attractions" :currentDay="currentDay" />
     </div>
 </template>
@@ -69,6 +74,10 @@ export default class TripMobile extends Vue {
 <style scoped>
 #main_holder {
     height: 100%;
+}
+
+#trip-info-holder {
+    height: 40vh;
 }
 
 #destination-bg {

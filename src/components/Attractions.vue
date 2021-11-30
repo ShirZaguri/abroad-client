@@ -5,35 +5,30 @@
             :item="selectedAttraction"
             @close-dialog="dialog = false"
         ></EditAttraction>
-        <v-virtual-scroll
-            v-if="sortedAttractions.length > 0"
-            :items="sortedAttractions"
-            :item-height="80"
-            height="400"
+        <div v-if="sortedAttractions.length > 0" id="attractions-holder">
+            <AttractionItem
+                v-for="(attraction, i) in sortedAttractions"
+                :key="i"
+                :attraction="attraction"
+                :now="attraction._id === closestAttractionId"
+                @click.native="
+                    selectedAttraction = attraction;
+                    dialog = true;
+                "
+            />
+        </div>
+
+        <v-row
+            v-else
+            id="no-plans-holder"
+            class="pa-0 ma-0"
+            align="center"
+            justify="center"
         >
-            <template v-slot:default="{ item }">
-                <v-row class="ma-0 pa-0" justify="center">
-                    <v-col cols="10">
-                        <AttractionItem
-                            :key="index"
-                            :attraction="item"
-                            :now="item._id === closestAttractionId"
-                            @click.native="
-                                selectedAttraction = item;
-                                dialog = true;
-                            "
-                        />
-                    </v-col>
-                </v-row>
-            </template>
-        </v-virtual-scroll>
-        <v-row v-else class="pa-0 ma-0 mt-6" align="center" justify="center">
-            <v-img
-                contain
-                src="../assets/images/sleep.png"
-                max-height="150"
-            ></v-img>
-            <span class="font-weight-bold">No plans for today yet</span>
+            <div class="d-flex flex-column align-center">
+                <img id="no-plans-img" src="../assets/images/sleep.png" />
+                <span class="font-weight-bold">No plans for today yet</span>
+            </div>
         </v-row>
     </div>
 </template>
@@ -107,4 +102,19 @@ export default class Attractions extends Vue {
 </script>
 
 <style scoped>
+#attractions-holder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    height: 60vh;
+}
+
+#no-plans-holder {
+    height: 55vh;
+}
+
+#no-plans-img {
+    height: 20vh;
+}
 </style>
