@@ -2,35 +2,38 @@
     <v-row justify="center" align="center" class="ma-0 pa-0">
         <div class="centered" />
         <v-col cols="5" class="swiperHolder pa-0 d-flex">
-            <swiper ref="hourSwiper" :options="swiperOption">
-                <swiper-slide v-for="(hour, i) in hours" :key="i">
-                    <span class="hour">{{ hour }}</span>
-                </swiper-slide>
-            </swiper>
+            <VerticalSwiper
+                :name="'hour'"
+                :items="hours"
+                :current.sync="activeHour"
+                @current-changed="updateCurrentTime"
+            />
         </v-col>
         <v-col cols="5" class="swiperHolder pa-0 d-flex">
-            <swiper ref="minuteSwiper" :options="swiperOption">
-                <swiper-slide v-for="(minute, i) in minutes" :key="i">
-                    <span class="hour">{{ minute }}</span>
-                </swiper-slide>
-            </swiper>
+            <VerticalSwiper
+                :name="'minute'"
+                :items="minutes"
+                :current.sync="activeMinute"
+                @current-changed="updateCurrentTime"
+            />
         </v-col>
     </v-row>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import SwiperClass, { SwiperOptions } from 'swiper';
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import { SwiperOptions } from 'swiper';
+import { Swiper } from 'vue-awesome-swiper';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import VerticalSwiper from '@/components/VerticalSwiper.vue';
 
 @Component({
     components: {
         Swiper,
-        SwiperSlide,
+        VerticalSwiper,
     },
 })
 export default class AttractionTime extends Vue {
-    @Prop() currentDate?: Date;
+    @Prop() private currentDate?: Date;
 
     private hours = [
         '01',
@@ -100,70 +103,23 @@ export default class AttractionTime extends Vue {
     }
 
     created(): void {
-        this.$data.activeHour = this.$props.currentDate.getHours().toString();
-        this.$data.activeMinute = this.$props.currentDate
+        this.$data.activeHour = (this.currentDate as Date)
+            .getHours()
+            .toString();
+        this.$data.activeMinute = (this.currentDate as Date)
             .getMinutes()
             .toString();
     }
 
     updateCurrentTime(): void {
-        const newDate = new Date(this.$props.currentDate);
+        const newDate = new Date(this.currentDate as Date);
         newDate.setHours(Number(this.$data.activeHour));
         newDate.setMinutes(Number(this.$data.activeMinute));
         this.$emit('update:currentDate', newDate);
     }
-
-    get currentHourIndex(): number {
-        return this.hours.findIndex((hour) => +hour == +this.$data.activeHour);
-    }
-
-    get currentMinuteIndex(): number {
-        return this.minutes.findIndex(
-            (minute) => +minute == +this.$data.activeMinute,
-        );
-    }
-
-    mounted(): void {
-        this.$nextTick(() => {
-            (this.$refs.hourSwiper as HTMLFormElement)?.$swiper.slideTo(
-                this.currentHourIndex,
-            );
-
-            (this.$refs.minuteSwiper as HTMLFormElement)?.$swiper.slideTo(
-                this.currentMinuteIndex,
-            );
-
-            const updateActiveHour = (hourIndex: number) => {
-                this.$data.activeHour = this.$data.hours[hourIndex];
-                this.updateCurrentTime();
-            };
-
-            (this.$refs.hourSwiper as HTMLFormElement)?.$swiper.on(
-                'activeIndexChange',
-                function (this: SwiperClass) {
-                    updateActiveHour(this.activeIndex);
-                },
-            );
-
-            const updateActiveMinute = (minuteIndex: number) => {
-                this.$data.activeMinute = this.$data.minutes[minuteIndex];
-                this.updateCurrentTime();
-            };
-            (this.$refs.minuteSwiper as HTMLFormElement)?.$swiper.on(
-                'activeIndexChange',
-                function (this: SwiperClass) {
-                    updateActiveMinute(this.activeIndex);
-                },
-            );
-        });
-    }
 }
 </script>
 <style scoped>
-.hour {
-    font-size: 2.2em;
-}
-
 .swiper-container {
     height: 40vh;
 }
@@ -176,22 +132,5 @@ export default class AttractionTime extends Vue {
     border-radius: 5px;
     align-self: center;
     justify-self: center;
-}
-
-.swiper-slide {
-    background-color: rgba(255, 255, 255, 0);
-    background-position: center;
-    background-size: cover;
-    font-weight: 300;
-    letter-spacing: 0.5em;
-    color: rgb(122, 122, 122);
-    display: flex;
-    align-items: center;
-    justify-items: center;
-}
-
-.swiper-slide-active {
-    color: #6f42ff !important;
-    font-weight: 700;
 }
 </style>
