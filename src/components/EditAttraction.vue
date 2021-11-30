@@ -15,7 +15,9 @@
                 <AttractionDetails />
             </template>
             <template v-slot:date>
-                <DatePicker></DatePicker>
+                <DatePicker
+                    :dates.sync="tripAttraction.details.date"
+                ></DatePicker>
             </template>
             <template v-slot:time>
                 <TimePicker></TimePicker>
