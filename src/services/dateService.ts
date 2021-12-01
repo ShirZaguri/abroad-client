@@ -2,6 +2,7 @@ export type DateObject = {
     _id: string;
     startDate?: Date;
     endDate: Date;
+    index: number;
 };
 
 export default class DateService {
@@ -17,9 +18,10 @@ export default class DateService {
         return between;
     }
 
-    static dateInRange(date: string, dates: Date[]): boolean {
+    static dateInRange(date: string | Date, dates: Date[]): boolean {
+        const checkedDate = date instanceof Date ? date : new Date(date);
         return dates.some((tripDate) =>
-            DateService.datesAreOnSameDay(tripDate, new Date(date)),
+            DateService.datesAreOnSameDay(tripDate, checkedDate),
         );
     }
 
@@ -68,14 +70,22 @@ export default class DateService {
         return previous.length > 0 ? previous[previous.length - 1]._id : '';
     }
 
-    static closestForward(dateObjets: DateObject[]): string | undefined {
+    static closestForward(
+        dateObjets: DateObject[],
+        returnIndex = false,
+    ): string | undefined | number {
         const today = Number(new Date());
         const next: DateObject[] = dateObjets.filter(
             (value) =>
                 Number(value.startDate) >= today ||
                 Number(value.endDate) >= today,
         );
+        console.log(next[0]);
 
-        return next[0]._id;
+        return returnIndex ? next[0].index : next[0]._id;
+    }
+
+    static isToday(date: Date): boolean {
+        return date.toLocaleDateString() == new Date().toLocaleDateString();
     }
 }

@@ -30,6 +30,7 @@
 </template>
 
 <script lang="ts">
+import DateService from '@/services/dateService';
 import SwiperClass, { SwiperOptions } from 'swiper';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import { Component, Prop, Vue } from 'vue-property-decorator';
@@ -46,13 +47,12 @@ export default class DateSwiper extends Vue {
     mounted(): void {
         this.$nextTick(() => {
             const emit = (index: number) => this.$emit('date-changed', index);
+            const swiper = (this.$refs.dateSwiper as HTMLFormElement)?.$swiper;
+            swiper.on('activeIndexChange', function (this: SwiperClass) {
+                emit(this.activeIndex);
+            });
 
-            (this.$refs.dateSwiper as HTMLFormElement)?.$swiper.on(
-                'activeIndexChange',
-                function (this: SwiperClass) {
-                    emit(this.activeIndex);
-                },
-            );
+            swiper.slideTo(this.currentDateIndex());
         });
     }
 
@@ -68,8 +68,26 @@ export default class DateSwiper extends Vue {
                 centeredSlides: true,
                 slidesPerView: 5,
                 slideToClickedSlide: true,
+                effect: 'coverflow',
+                coverflowEffect: {
+                    rotate: 0,
+                    stretch: 0,
+                    depth: 60,
+                    modifier: 1,
+                    slideShadows: false,
+                },
             },
         };
+    }
+
+    currentDateIndex(): number {
+        let todayIndex = 0;
+
+        this.dates?.forEach((date, i) => {
+            todayIndex = DateService.isToday(date) ? i : todayIndex;
+        });
+
+        return todayIndex;
     }
 }
 </script>

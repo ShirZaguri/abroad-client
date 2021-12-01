@@ -57,24 +57,35 @@ export default class Trips extends Vue {
         this.convertedTrips = convertTripTypeDatesToDateFormat(value);
     }
 
-    get closestTripId(): string | undefined {
-        return DateService.closestForward(
-            this.trips.map(
-                (trip) =>
-                    ({
-                        startDate: trip.startDate,
-                        endDate: trip.endDate,
-                        _id: trip._id,
-                    } as DateObject),
-            ),
-        );
+    get closestTripId(): string | undefined | number {
+        return this.closestTrip(false);
     }
 
     async created(): Promise<void> {
         this.toggleLoading();
         this.trips = await TripService.getTrips();
+
+        const closestTripId = this.closestTripId;
+        const closestTrip = this.getTripById(closestTripId as string);
+        if (closestTrip) {
+            if (
+                DateService.dateInRange(
+                    new Date(),
+                    DateService.datesBetween(
+                        closestTrip.startDate,
+                        closestTrip.endDate,
+                    ),
+                )
+            ) {
+                this.selectTrip(closestTripId as string);
+            } else {
+                this.$nextTick(() => {
+                    this.slideToTrip(this.closestTrip(true) as number);
+                });
+            }
+        }
+
         this.toggleLoading();
-        // setTimeout(this.toggleLoading, 5000);
     }
 
     data(): {
@@ -98,6 +109,21 @@ export default class Trips extends Vue {
         };
     }
 
+    private closestTrip(returnIndex: boolean): string | undefined | number {
+        return DateService.closestForward(
+            this.trips.map(
+                (trip, i) =>
+                    ({
+                        startDate: trip.startDate,
+                        endDate: trip.endDate,
+                        _id: trip._id,
+                        index: i,
+                    } as DateObject),
+            ),
+            returnIndex,
+        );
+    }
+
     handleClickSlide(): void {
         this.selectTrip(
             this.trips[this.swiperComponentinstance.clickedIndex]._id as string,
@@ -113,6 +139,12 @@ export default class Trips extends Vue {
             name: 'Overview',
             params: { id: id, trip: this.getTripById(id) as any },
         });
+    }
+
+    slideToTrip(index: number): void {
+        (this.$refs.swiperComponentRef as HTMLFormElement)?.$swiper.slideTo(
+            index,
+        );
     }
 }
 </script>
