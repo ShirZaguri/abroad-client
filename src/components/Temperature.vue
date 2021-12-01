@@ -51,10 +51,11 @@ export default class Temperature extends Vue {
 
     data(): {
         iconsMap: {
-            cold: tempIcon;
             storm: tempIcon;
             snow: tempIcon;
-            sunny: tempIcon;
+            sun: tempIcon;
+            rain: tempIcon;
+            cloudSun: tempIcon;
         };
     } {
         return { iconsMap: icons };

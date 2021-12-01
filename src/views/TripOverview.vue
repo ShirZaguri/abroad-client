@@ -23,7 +23,11 @@
                 :dates="tripDates"
                 @date-changed="dateChanged"
             ></DateSwiper>
-            <TemperatureDayOverview class="px-1 pt-2" />
+            <TemperatureDayOverview
+                class="px-1 pt-2"
+                :location="trip.destination"
+                :date="currentDay"
+            />
         </div>
         <Attractions :attractions="trip.attractions" :currentDay="currentDay" />
     </div>
@@ -38,6 +42,7 @@ import Temperature from '../components/Temperature.vue';
 import Attractions from '@/components/Attractions.vue';
 import TemperatureDayOverview from '@/components/TemperatureDayOverview.vue';
 import DateService from '@/services/dateService';
+import WeatherService from '@/services/weatherService';
 
 @Component({
     components: {
@@ -60,7 +65,7 @@ export default class TripMobile extends Vue {
             : [];
     }
 
-    dateChanged(index: number): void {
+    async dateChanged(index: number): Promise<void> {
         this.currentDay = this.tripDates[index];
     }
     get backgroundImageStyle(): { background: string; backgroundSize: string } {
