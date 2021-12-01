@@ -54,6 +54,9 @@ export default class TripMobile extends Vue {
             : [];
     }
 
+    @Provide('tripId')
+    private tripId = this.trip._id;
+
     dateChanged(index: number): void {
         this.currentDay = this.tripDates[index];
     }

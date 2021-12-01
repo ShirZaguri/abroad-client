@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Component, InjectReactive, Vue } from 'vue-property-decorator';
+import { Component, Inject, InjectReactive, Vue } from 'vue-property-decorator';
 import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import AttractionService from '@/services/attractionService';
 import StepSwiper from '../components/StepSwiper.vue';
@@ -42,6 +42,9 @@ export default class AddAttraction extends Vue {
     @InjectReactive('tripAttraction')
     private tripAttraction!: tripAttractionType;
 
+    @Inject('tripId')
+    private tripId!: string;
+
     data(): { tabs: string[] } {
         return {
             tabs: ['info', 'date', 'time'],
@@ -49,7 +52,14 @@ export default class AddAttraction extends Vue {
     }
 
     closeDialog(): void {
-        AttractionService.updateAttraction(this.tripAttraction);
+        console.log({
+            ...this.tripAttraction,
+            _id: this.tripId,
+        });
+        AttractionService.updateAttraction({
+            ...this.tripAttraction,
+            _id: this.tripId,
+        });
         this.$emit('close-dialog');
     }
 }
