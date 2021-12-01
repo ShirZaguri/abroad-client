@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { Component, InjectReactive, Vue } from 'vue-property-decorator';
+import { Component, Inject, InjectReactive, Vue } from 'vue-property-decorator';
 import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import AttractionService from '@/services/attractionService';
 import StepSwiper from '../components/StepSwiper.vue';
@@ -45,9 +45,12 @@ import DatePicker from './DatePicker.vue';
         DatePicker,
     },
 })
-export default class AddAttraction extends Vue {
+export default class EditAttraction extends Vue {
     @InjectReactive('tripAttraction')
     private tripAttraction!: tripAttractionType;
+
+    @Inject('tripId')
+    private tripId!: string;
 
     data(): { tabs: string[] } {
         return {
@@ -56,7 +59,9 @@ export default class AddAttraction extends Vue {
     }
 
     closeDialog(): void {
-        AttractionService.updateAttraction(this.tripAttraction);
+        AttractionService.updateAttraction(this.tripId, {
+            ...this.tripAttraction,
+        });
         this.$emit('close-dialog');
     }
 }

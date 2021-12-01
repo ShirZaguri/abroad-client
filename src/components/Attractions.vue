@@ -1,5 +1,20 @@
 <template>
     <div>
+        <vs-button
+            id="add-attraction-btn"
+            gradient
+            circle
+            icon
+            @click="
+                selectedAttraction = {
+                    details: { date: currentDay },
+                    attraction: { name: '' },
+                };
+                dialog = true;
+            "
+        >
+            <v-icon size="15" color="white" class="pa-1">fas fa-plus</v-icon>
+        </vs-button>
         <EditAttraction
             v-if="dialog"
             @close-dialog="dialog = false"
@@ -37,7 +52,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, ProvideReactive } from 'vue-property-decorator';
+import {
+    Component,
+    Vue,
+    Prop,
+    ProvideReactive,
+    Inject,
+} from 'vue-property-decorator';
 import { tripAttractionType } from '@/utils/types/trip-attraction-type';
 import AttractionItem from '@/components/AttractionItem.vue';
 import EditAttraction from '@/components/EditAttraction.vue';
@@ -53,8 +74,11 @@ import _ from 'lodash';
 export default class Attractions extends Vue {
     @Prop() private attractions!: tripAttractionType[];
     @Prop() private currentDay!: Date;
+
     @ProvideReactive('tripAttraction')
     private selectedAttraction!: tripAttractionType;
+
+    @Inject('tripDates') private tripDates?: Date[];
 
     data(): {
         dialog: boolean;
@@ -121,5 +145,17 @@ export default class Attractions extends Vue {
 
 #no-plans-img {
     height: 20vh;
+}
+
+#add-attraction-btn {
+    position: absolute;
+    height: 6.5vh;
+    width: 6.5vh;
+    bottom: 7vh;
+    right: 5vh;
+}
+
+#plus {
+    font-size: 3vh;
 }
 </style>

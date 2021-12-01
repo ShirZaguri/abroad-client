@@ -1,12 +1,6 @@
 <template>
     <div id="main_holder">
         <div id="trip-info-holder">
-            <vs-button id="add-attraction-btn" gradient circle icon>
-                <v-icon size="15" color="white" class="pa-1">
-                    fas fa-plus
-                </v-icon>
-            </vs-button>
-
             <v-row
                 id="destination-bg"
                 class="ma-0 pa-5"
@@ -60,6 +54,9 @@ export default class TripMobile extends Vue {
             : [];
     }
 
+    @Provide('tripId')
+    private tripId = this.trip._id;
+
     dateChanged(index: number): void {
         this.currentDay = this.tripDates[index];
     }
@@ -94,25 +91,5 @@ export default class TripMobile extends Vue {
 #destination-title {
     font-size: 13vw;
     line-height: 1.2;
-}
-
-#add-attraction-btn {
-    position: absolute;
-    height: 6.5vh;
-    width: 6.5vh;
-    bottom: 7vh;
-    right: 5vh;
-}
-
-#plus {
-    font-size: 3vh;
-}
-
-#attractions-holder {
-    height: 60vh;
-}
-
-.date-chip {
-    width: fit-content;
 }
 </style>
