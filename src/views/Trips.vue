@@ -65,25 +65,25 @@ export default class Trips extends Vue {
         this.toggleLoading();
         this.trips = await TripService.getTrips();
 
-        const closestTripId = this.closestTripId;
-        const closestTrip = this.getTripById(closestTripId as string);
-        if (closestTrip) {
-            if (
-                DateService.dateInRange(
-                    new Date(),
-                    DateService.datesBetween(
-                        closestTrip.startDate,
-                        closestTrip.endDate,
-                    ),
-                )
-            ) {
-                this.selectTrip(closestTripId as string);
-            } else {
-                this.$nextTick(() => {
-                    this.slideToTrip(this.closestTrip(true) as number);
-                });
-            }
-        }
+        // const closestTripId = this.closestTripId;
+        // const closestTrip = this.getTripById(closestTripId as string);
+        // if (closestTrip) {
+        //     if (
+        //         DateService.dateInRange(
+        //             new Date(),
+        //             DateService.datesBetween(
+        //                 closestTrip.startDate,
+        //                 closestTrip.endDate,
+        //             ),
+        //         )
+        //     ) {
+        //         this.selectTrip(closestTripId as string);
+        //     } else {
+        this.$nextTick(() => {
+            this.slideToTrip(this.closestTrip(true) as number);
+        });
+        // }
+        // }
 
         this.toggleLoading();
     }
