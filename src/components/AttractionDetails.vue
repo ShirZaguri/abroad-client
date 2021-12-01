@@ -1,29 +1,30 @@
 <template>
     <div>
         <EditableText
-            :text="attraction.name"
             placeholder="Attraction Name"
+            :text.sync="tripAttraction.attraction.name"
         ></EditableText>
         <v-textarea
             solo
             background-color="#141417"
             label="description"
             class="mt-4 description"
+            v-model="tripAttraction.attraction.description"
             hide-details
         ></v-textarea>
         <v-row no-gutters>
-            <PriceInput class="price" :price="attraction.price"></PriceInput>
-            <NavigateButton
-                class="navigate"
-                :place="attraction.name"
-            ></NavigateButton>
+            <PriceInput
+                class="price"
+                :price.sync="tripAttraction.details.price"
+            ></PriceInput>
+            <NavigateButton class="navigate"></NavigateButton>
         </v-row>
     </div>
 </template>
 
 <script lang="ts">
-import { attractionType } from '@/utils/types/attraction-type';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { tripAttractionType } from '@/utils/types/trip-attraction-type';
+import { Component, InjectReactive, Vue } from 'vue-property-decorator';
 import EditableText from './EditableText.vue';
 import NavigateButton from './NavigateButton.vue';
 import PriceInput from './PriceInput.vue';
@@ -36,7 +37,8 @@ import PriceInput from './PriceInput.vue';
     },
 })
 export default class AttractionDetails extends Vue {
-    @Prop() attraction?: attractionType;
+    @InjectReactive('tripAttraction')
+    private tripAttraction?: tripAttractionType;
 }
 </script>
 <style scoped>

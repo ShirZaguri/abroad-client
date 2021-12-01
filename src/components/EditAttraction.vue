@@ -12,38 +12,56 @@
     >
         <StepSwiper :items="tabs">
             <template v-slot:info>
-                <AttractionDetails
-                    :attraction="item.attraction"
-                ></AttractionDetails>
+                <AttractionDetails />
             </template>
-            <template v-slot:date>za</template>
+            <template v-slot:date>
+                <DatePicker
+                    :value.sync="tripAttraction.details.date"
+                ></DatePicker>
+            </template>
+            <template v-slot:time>
+                <AttractionTime
+                    :currentDate.sync="tripAttraction.details.date"
+                />
+            </template>
         </StepSwiper>
     </vs-dialog>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { attractionType } from '../utils/types/attraction-type';
+import { Component, Inject, InjectReactive, Vue } from 'vue-property-decorator';
+import { tripAttractionType } from '@/utils/types/trip-attraction-type';
+import AttractionService from '@/services/attractionService';
 import StepSwiper from '../components/StepSwiper.vue';
 import AttractionDetails from '../components/AttractionDetails.vue';
+import AttractionTime from './TimePicker.vue';
+import DatePicker from './DatePicker.vue';
 
 @Component({
     components: {
         StepSwiper,
         AttractionDetails,
+        AttractionTime,
+        DatePicker,
     },
 })
-export default class AddAttraction extends Vue {
-    @Prop() item?: attractionType;
+export default class EditAttraction extends Vue {
+    @InjectReactive('tripAttraction')
+    private tripAttraction!: tripAttractionType;
 
-    data(): { active: boolean; tabs: string[] } {
+    @Inject('tripId')
+    private tripId!: string;
+
+    data(): { tabs: string[] } {
         return {
-            active: false,
-            tabs: ['info', 'date'],
+            tabs: ['info', 'date', 'time'],
         };
     }
 
     closeDialog(): void {
+        AttractionService.updateAttraction(this.tripId, {
+            ...this.tripAttraction,
+        });
         this.$emit('close-dialog');
     }
 }
