@@ -38,7 +38,7 @@ import DatePicker from './DatePicker.vue';
         DatePicker,
     },
 })
-export default class AddAttraction extends Vue {
+export default class EditAttraction extends Vue {
     @InjectReactive('tripAttraction')
     private tripAttraction!: tripAttractionType;
 
@@ -52,13 +52,8 @@ export default class AddAttraction extends Vue {
     }
 
     closeDialog(): void {
-        console.log({
+        AttractionService.updateAttraction(this.tripId, {
             ...this.tripAttraction,
-            _id: this.tripId,
-        });
-        AttractionService.updateAttraction({
-            ...this.tripAttraction,
-            _id: this.tripId,
         });
         this.$emit('close-dialog');
     }

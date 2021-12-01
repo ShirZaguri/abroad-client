@@ -7,7 +7,7 @@
             icon
             @click="
                 selectedAttraction = {
-                    details: { date: tripDates[0] },
+                    details: { date: currentDay },
                     attraction: { name: '' },
                 };
                 dialog = true;

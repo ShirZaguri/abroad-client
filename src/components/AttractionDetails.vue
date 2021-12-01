@@ -15,7 +15,7 @@
         <v-row no-gutters>
             <PriceInput
                 class="price"
-                :price.sync="tripAttraction.attraction.price"
+                :price.sync="tripAttraction.details.price"
             ></PriceInput>
             <NavigateButton class="navigate"></NavigateButton>
         </v-row>
