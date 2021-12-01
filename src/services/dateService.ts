@@ -18,9 +18,10 @@ export default class DateService {
         return between;
     }
 
-    static dateInRange(date: string, dates: Date[]): boolean {
+    static dateInRange(date: string | Date, dates: Date[]): boolean {
+        const checkedDate = date instanceof Date ? date : new Date(date);
         return dates.some((tripDate) =>
-            DateService.datesAreOnSameDay(tripDate, new Date(date)),
+            DateService.datesAreOnSameDay(tripDate, checkedDate),
         );
     }
 
@@ -71,7 +72,7 @@ export default class DateService {
 
     static closestForward(
         dateObjets: DateObject[],
-        index = false,
+        returnIndex = false,
     ): string | undefined | number {
         const today = Number(new Date());
         const next: DateObject[] = dateObjets.filter(
@@ -81,7 +82,7 @@ export default class DateService {
         );
         console.log(next[0]);
 
-        return index ? next[0].index : next[0]._id;
+        return returnIndex ? next[0].index : next[0]._id;
     }
 
     static isToday(date: Date): boolean {

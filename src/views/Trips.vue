@@ -64,13 +64,28 @@ export default class Trips extends Vue {
     async created(): Promise<void> {
         this.toggleLoading();
         this.trips = await TripService.getTrips();
-        this.$nextTick(() => {
-            (this.$refs.swiperComponentRef as HTMLFormElement)?.$swiper.slideTo(
-                this.closestTrip(true),
-            );
-        });
+
+        const closestTripId = this.closestTripId;
+        const closestTrip = this.getTripById(closestTripId as string);
+        if (closestTrip) {
+            if (
+                DateService.dateInRange(
+                    new Date(),
+                    DateService.datesBetween(
+                        closestTrip.startDate,
+                        closestTrip.endDate,
+                    ),
+                )
+            ) {
+                this.selectTrip(closestTripId as string);
+            } else {
+                this.$nextTick(() => {
+                    this.slideToTrip(this.closestTrip(true) as number);
+                });
+            }
+        }
+
         this.toggleLoading();
-        // setTimeout(this.toggleLoading, 5000);
     }
 
     data(): {
@@ -94,7 +109,7 @@ export default class Trips extends Vue {
         };
     }
 
-    private closestTrip(index: boolean): string | undefined | number {
+    private closestTrip(returnIndex: boolean): string | undefined | number {
         return DateService.closestForward(
             this.trips.map(
                 (trip, i) =>
@@ -105,7 +120,7 @@ export default class Trips extends Vue {
                         index: i,
                     } as DateObject),
             ),
-            index,
+            returnIndex,
         );
     }
 
@@ -124,6 +139,12 @@ export default class Trips extends Vue {
             name: 'Overview',
             params: { id: id, trip: this.getTripById(id) as any },
         });
+    }
+
+    slideToTrip(index: number): void {
+        (this.$refs.swiperComponentRef as HTMLFormElement)?.$swiper.slideTo(
+            index,
+        );
     }
 }
 </script>
