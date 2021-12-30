@@ -82,7 +82,7 @@ export default class DateService {
         );
         console.log(next[0]);
 
-        return returnIndex ? next[0].index : next[0]._id;
+        return returnIndex ? next[0].index : next[0] ? next[0]._id : 0;
     }
 
     static isToday(date: Date): boolean {
